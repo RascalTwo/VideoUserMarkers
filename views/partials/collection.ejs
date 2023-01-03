@@ -1,0 +1,36 @@
+<div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 xl:w-1/4">
+
+  <article class="overflow-hidden rounded-lg shadow-lg">
+
+    <a href="/collection/<%= collection.id %>">
+      <img alt="<%= collection.entity.title %> thumbnail" class="block h-auto w-full" src="<%= collection.entity.thumbnail %>" />
+    </a>
+
+    <header class="flex items-center justify-between leading-tight p-2">
+      <h1 class="text-lg w-full ">
+        <div class="group flex relative">
+          <a href="/collection/<%= collection.id %>" class="no-underline hover:underline text-black truncate w-full inline-block">
+            <%= collection.entity.title %>
+          </a>
+          <span class="group-hover:inline-block transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2 -translate-x-1/2 -translate-y-[calc(100%+3rem)] m-4 mx-auto text-center w-full hidden">
+            <%= collection.entity.title %>
+          </span>
+        </div>
+      </h1>
+    </header>
+
+    <footer class="flex hover:underline no-underline text-black items-center justify-between leading-none p-2">
+      <a href="/profile/<%= collection.author.username %>" class="w-1/6">
+        <img alt="" class="block rounded-full" src="<%= collection.author.avatarURL %>">
+      </a>
+
+      <a href="/collection/<%= collection.id %>" class="relative inline-flex items-center p-3 text-sm font-medium text-cente">
+        <%= collection.title %>
+        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-amber-700 border-2 border-white rounded-full -top-1 -right-1">
+          <%= collection.markerCount %>
+        </div>
+      </a>
+
+    </footer>
+  </article>
+</div>

@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.toggle-checkbox:checked {
+	background-color: #22c55e;
+}
+
+.toggle-checkbox:checked ~ span:last-child {
+	--tw-translate-x: 1.75rem;
+}
+
+.toggle-checkbox-wide:checked {
+	background-color: red;
+}
+
+.toggle-checkbox-wide:checked ~ span:last-child {
+	--tw-translate-x: 3.5rem;
+	width: 3rem;
+}

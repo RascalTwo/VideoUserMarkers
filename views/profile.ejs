@@ -1,0 +1,6 @@
+<%- await include("partials/header.ejs") %>
+<h1><%= profiling.username %></h1>
+<a href="/auth/logout">Logout</a>
+
+<%- await include("partials/collections.ejs", { collections: profiling.collections }) %>
+<%- await include("partials/footer.ejs") %>

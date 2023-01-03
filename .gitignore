@@ -1,0 +1,4 @@
+node_modules
+public/index.css
+public/*/*.js
+public/*/*.js.map

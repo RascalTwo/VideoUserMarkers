@@ -1,0 +1,35 @@
+<%- await include("../partials/header.ejs") %>
+<form class="flex flex-col p-6 mt-6 bg-white rounded shadow-lg" method="POST">
+  <label class="text-xs font-semibold" for="video">Video ID/URL</label>
+  <input class="flex items-center w-48 h-12 px-4 mt-2 bg-gray-200 rounded md:w-64 focus:outline-none focus:ring-2" type="text" name="video" id="video">
+  <div class="flex justify-between py-1">
+    <label for="public">
+      <span class="mr-3 text-xs font-semibold">Public</span>
+    </label>
+    <label class="relative flex items-center cursor-pointer select-none w-max">
+      <input type="checkbox" id="public" checked name="public" class="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
+      <span class="absolute text-xs font-medium text-white uppercase right-1"> No </span>
+      <span class="absolute text-xs font-medium text-white uppercase right-8"> Yes </span>
+      <span class="absolute transition-transform transform bg-gray-200 rounded-full w-7 h-7 right-7"></span>
+    </label>
+  </div>
+  <div class="flex justify-between py-1">
+    <label for="usingYoutube">
+      <span class="mr-3 text-xs font-semibold">Platform</span>
+    </label>
+    <label class="relative flex items-center cursor-pointer select-none w-max">
+      <input type="checkbox" id="usingYoutube" checked name="usingYoutube" class="transition-colors bg-[#9146FF] rounded-full appearance-none cursor-pointer w-28 toggle-checkbox-wide h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
+      <span class="absolute text-xs font-medium text-white uppercase right-1"> Twitch </span>
+      <span class="absolute text-xs font-medium text-white uppercase right-14"> YouTube </span>
+      <span class="absolute transition-transform transform bg-gray-200 rounded-full w-14 h-7 right-14"></span>
+    </label>
+  </div>
+  <label class="text-xs font-semibold" for="title">Title</label>
+  <input class="flex items-center w-48 h-12 px-4 mt-2 bg-gray-200 rounded md:w-64 focus:outline-none focus:ring-2" type="text" name="title" id="title">
+  <label class="text-xs font-semibold" for="description">Description</label>
+  <textarea class="flex items-center w-48 h-12 px-4 mt-2 bg-gray-200 rounded md:w-64 focus:outline-none focus:ring-2" type="text" name="description" id="description"></textarea>
+  <label class="text-xs font-semibold" for="markers">Markers</label>
+  <textarea class="flex items-center w-48 h-12 px-4 mt-2 bg-gray-200 rounded md:w-64 focus:outline-none focus:ring-2" type="text" name="markers" id="markers"></textarea>
+  <button class="flex items-center justify-center w-48 h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:w-64 hover:bg-blue-700" type="submit">Create</button>
+</form>
+<%- await include("../partials/footer.ejs") %>
