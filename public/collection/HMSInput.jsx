@@ -15,7 +15,7 @@ export default function HMSInput({ defaultValue = 0, ...props }) {
 	}, [value]);
 	return (
 		<input
-			className="flex items-center w-48 h-12 px-4 mt-2 bg-gray-200 rounded md:w-64 focus:outline-none focus:ring-2"
+			className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
 			type="text"
 			ref={ref}
 			value={hmsValue}

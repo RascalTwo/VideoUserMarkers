@@ -19,3 +19,7 @@
 	--tw-translate-x: 3.5rem;
 	width: 3rem;
 }
+
+textarea {
+	resize: both;
+}

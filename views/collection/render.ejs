@@ -1,5 +1,6 @@
 <%- await include("../partials/header.ejs") %>
-<h1 class="pt-3 text-xl text-center"><%= collection.title %> by <a class="no-underline hover:underline" href="/profile/<%= collection.author.username %>"><%= collection.author.username %></a></h1>
+<h1 class="pt-3 text-xl text-center"><a class="no-underline hover:underline" href="/v/<%= collection.entity.id %>"><%= collection.entity.title %></a></h1>
+<h2 class="pt-3 text-xl text-center"><%= collection.title %> by <a class="no-underline hover:underline" href="/profile/<%= collection.author.username %>"><%= collection.author.username %></a></h2>
 <% if (collection.description) { %>
 <p><%= collection.description %></p>
 <% } %>
@@ -10,6 +11,5 @@
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 <script src="/collection/render.js" type="module" data-user="<%= JSON.stringify(user) %>" data-collection="<%= JSON.stringify(collection) %>"></script>
-</iframe>
 
 <%- await include("../partials/footer.ejs") %>

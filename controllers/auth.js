@@ -27,7 +27,7 @@ module.exports.login = async (request, response, next) => {
 	})
 }
 
-module.exports.renderLogin = (request, response) => response.render('auth/login')
+module.exports.renderLogin = (request, response) => response.render('auth/login', { title: 'Log In' })
 
 module.exports.signup = async (request, response, next) => {
 	const { username, password } = request.body
@@ -50,4 +50,4 @@ module.exports.signup = async (request, response, next) => {
 	})
 }
 
-module.exports.renderSignup = (request, response) => response.render('auth/signup')
+module.exports.renderSignup = (request, response) => response.render('auth/signup', { title: 'Sign Up'})

@@ -2,7 +2,28 @@ const Collection = require('../models/Collection');
 const Entity = require('../models/Entity');
 const Marker = require('../models/Marker');
 
-module.exports.renderNewCollection = (_, response) => response.render('collection/new');
+module.exports.renderNewCollection = (_, response) => response.render('collection/new', { title: 'New Collection' });
+
+module.exports.renderEntity = async (request, response) => {
+  const { entityId } = request.params;
+  const refetch = 'refetch' in request.query && request.user.isAdmin;
+  const entity = await Entity.getEntity(entityId, undefined, !refetch);
+  if (!entity)
+    return response.status(404).render('error', {
+      title: 'Entity Not Found',
+      heading: '404',
+      preMessage: "Sorry, we couldn't find the entity with an ID of",
+      message: entityId,
+      postMessage: "Ensure it's valid YouTube/Twitch ID.",
+    });
+  await entity.populate({
+    path: 'collections',
+    populate: {
+      path: 'author entity markerCount',
+    },
+  });
+  return refetch ? response.redirect(`/v/${entityId}`) : response.render('entity', { entity, title: entity.title });
+};
 
 function DHMStoSeconds(parts) {
   // seconds
@@ -23,7 +44,14 @@ module.exports.createCollection = async (request, response) => {
   const entityId = entityInput.split('/').pop().split('?')[0];
 
   const entity = await Entity.getEntity(entityId, type);
-  if (!entity) return response.status(404).send(`Entity not found on ${type}`);
+  if (!entity)
+    return response.status(404).render('error', {
+      title: 'Entity Not Found',
+      heading: '404',
+      preMessage: "Sorry, we couldn't find the entity with an ID of",
+      message: entityId,
+      postMessage: `on ${type}, ensure you have the correct ID & Platform combination.`,
+    });
 
   const collection = await Collection.create({ entity, type, public, title, description, author: request.user._id });
   if (request.body.markers) {
@@ -33,45 +61,95 @@ module.exports.createCollection = async (request, response) => {
       .split('\n')
       .map(line => line.trim())
       .filter(Boolean)) {
-      const [dhms, title, description] = line.split('\t');
+      const [dhms, title, description] = line.split(/\t|  /g);
       const when = DHMStoSeconds(dhms.split(':').map(Number));
       newMarkers.push({ collectionId: collection._id, title, when, description });
     }
     await Marker.create(newMarkers);
   }
-  response.redirect(`/collection/${collection._id}`);
+  response.redirect(`/v/{${entityId}/${collection._id}`);
 };
 
 module.exports.renderCollection = async (request, response) => {
   const { id } = request.params;
   const collection = await Collection.findById(id).populate('author markers entity');
-  if (!collection) return response.status(404).send('Collection not found');
+  if (!collection)
+    return response.status(404).render('error', {
+      title: 'Collection Not Found',
+      heading: '404',
+      preMessage: "Sorry, we couldn't find the collection with an ID of",
+      message: id,
+      postMessage: 'It may have been deleted or marked private.',
+    });
 
-  response.render('collection/render', { collection });
+  response.render('collection/render', { collection, title: collection.title + ' on ' + collection.entity.title });
 };
 
 module.exports.updateCollection = async (request, response) => {
   const { id } = request.params;
-  const { title, description } = request.body;
+  const { title, description, markers } = request.body;
 
-  const collection = await Collection.findById(id);
-  if (!collection) return response.status(404).send('Collection not found');
+  const collection = await Collection.findById(id).populate('markers');
+  if (!collection)
+    return response.status(404).render('error', {
+      title: 'Collection Not Found',
+      heading: '404',
+      preMessage: "Sorry, we couldn't find the collection with an ID of",
+      message: id,
+      postMessage: 'It may have been deleted or marked private.',
+    });
   else if (!request.user.isAdmin && !collection.author.equals(request.user._id))
-    return response.status(403).send('You are not authorized to edit this collection');
+    return response.status(403).render('error', {
+      title: 'Unauthorized',
+      heading: '403',
+      postMessage: "You don't have permission to edit this collection.",
+    });
 
   collection.title = title;
   collection.description = description;
-  await collection.save();
-  response.redirect(`/collection/${collection._id}`);
+  if (markers) {
+    const newMarkers = [];
+    for (const [i, line] of markers
+      .trim()
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean)
+      .entries()) {
+      const [dhms, title = '', description = ''] = line.split(/\t|  /g);
+      const when = DHMStoSeconds(dhms.split(':').map(Number));
+      const oldMarker = collection.markers[i];
+      if (oldMarker) {
+        oldMarker.title = title;
+        oldMarker.when = when;
+        oldMarker.description = description;
+        await oldMarker.save();
+      } else {
+        newMarkers.push({ collectionId: collection._id, title, when, description });
+      }
+    }
+    await Marker.create(newMarkers);
+  }
+  response.redirect(`/v/{${collection.entity}/${collection._id}`);
 };
 
 module.exports.deleteCollection = async (request, response) => {
   const { id } = request.params;
-  const collection = await Collection.findById(id);
-  console.log(collection.author, 'vs', request.user._id);
-  if (!collection) return response.status(404).send('Collection not found');
+  const collection = await Collection.findById(id).populate('markers');
+  if (!collection)
+    return response.status(404).render('error', {
+      title: 'Collection Not Found',
+      heading: '404',
+      preMessage: "Sorry, we couldn't find the collection with an ID of",
+      message: id,
+      postMessage: 'It may have been deleted or marked private.',
+    });
   else if (!request.user.isAdmin && !collection.author.equals(request.user._id))
-    return response.status(403).send('You are not authorized to delete this collection');
+    return response.status(404).render('error', {
+      title: 'Unauthorized',
+      heading: '403',
+      postMessage: "You don't have permission to delete this collection.",
+    });
   await collection.remove();
-  response.redirect('/profile');
+  await Marker.deleteMany({ collectionId: collection._id });
+  response.redirect('/profile/' + request.user.username);
 };

@@ -8,7 +8,7 @@ const passport = require('passport');
 const MongoStore = require('connect-mongo');
 const flash = require('express-flash');
 const { PORT, SESSION_SECRET } = require('./config/constants');
-const { addUserToLocals, addCollectionsGetter } = require('./middlewares');
+const { addURLToLocals, addUserToLocals, addCollectionsGetter, addEJSHelpers } = require('./middlewares');
 
 require('./config/passport')();
 
@@ -60,14 +60,39 @@ require('./config/database')().then(conn => {
 
   app.use(flash());
 
+  app.use(addURLToLocals);
   app.use(addUserToLocals);
   app.use(addCollectionsGetter);
+  app.use(addEJSHelpers);
 
   app.use('/', require('./routes/index'));
+  const collectionRoutes = require('./routes/collection');
+  app.use('/v', collectionRoutes);
   app.use('/auth', require('./routes/auth'));
-  app.use('/collection', require('./routes/collection'));
   app.use('/marker', require('./routes/marker'));
   app.use('/api', require('./routes/api'));
+
+  app.use((request, response) => {
+    response.status(404).render('error', {
+      title: 'Page Not Found',
+      heading: '404',
+      preMessage: "Sorry, we couldn't find the page",
+      message: request.originalUrl,
+      postMessage: "But don't worry, you can find plenty of other things on our homepage.",
+    });
+  });
+
+  app.use((error, _, response, __) => {
+    console.error(error.stack || error.message || error);
+    response.status(error.status || 500);
+    response.render('error', {
+      title: 'Unexpected Error',
+      heading: error.status || 500,
+      preMessage: 'Sorry, something went wrong',
+      message: error.message || error.stack || error,
+      postMessage: "If trying again doesn't work, feel free to contact me with what you've done to get to this page!",
+    });
+  });
 
   app.listen(PORT, () => {
     console.log('Server is running, you better catch it!');
