@@ -3,29 +3,29 @@
   <article class="overflow-hidden rounded-lg shadow-lg">
 
     <div class="relative">
-      <a href="/v/<%= marker.collectionId.entity.id %>/<%= marker.collectionId.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>">
-        <img alt="<%= marker.collectionId.entity.title %> thumbnail" class="block w-full h-auto" src="<%= marker.collectionId.entity.thumbnail %>" />
+      <a href="/v/<%= marker.collectionRef.entity.id %>/<%= marker.collectionRef.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>">
+        <img alt="<%= marker.collectionRef.entity.title %> thumbnail" class="block w-full h-auto" src="<%= marker.collectionRef.entity.thumbnail %>" />
       </a>
       <div class="absolute z-10 font-mono text-white bottom-0 left-0 bg-[rgba(0,0,0,0.85)] rounded-md rounded-bl-none border border-slate-400 px-1" alt="Marker Time" title="Marker Time"><%= secondsToHMS(marker.when) %></div>
-      <% if (marker.collectionId.entity.duration) { %>
-      <div class="absolute z-10 font-mono text-white bottom-0 right-0 bg-[rgba(0,0,0,0.85)] rounded-md rounded-br-none border border-slate-400 px-1" alt="Duration" title="Duration"><%= secondsToHMS(marker.collectionId.entity.duration) %></div>
+      <% if (marker.collectionRef.entity.duration) { %>
+      <div class="absolute z-10 font-mono text-white bottom-0 right-0 bg-[rgba(0,0,0,0.85)] rounded-md rounded-br-none border border-slate-400 px-1" alt="Duration" title="Duration"><%= secondsToHMS(marker.collectionRef.entity.duration) %></div>
       <% } %>
     </div>
 
     <header class="flex flex-col items-center justify-between p-2 leading-tight">
       <h1 class="w-full text-lg">
         <div class="relative flex group">
-          <a href="/v/<%= marker.collectionId.entity.id %>/<%= marker.collectionId.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>" class="inline-block w-full text-black no-underline truncate hover:underline">
-            <%= marker.collectionId.entity.title %>
+          <a href="/v/<%= marker.collectionRef.entity.id %>/<%= marker.collectionRef.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>" class="inline-block w-full text-black no-underline truncate hover:underline">
+            <%= marker.collectionRef.entity.title %>
           </a>
           <span class="group-hover:inline-block bg-gray-800 border border-slate-200 px-1 z-20 text-sm text-gray-100 rounded-md absolute left-1/2 -translate-x-1/2 -translate-y-[calc(100%+4rem)] m-4 mx-auto text-center w-full hidden">
-            <%= marker.collectionId.entity.title %>
+            <%= marker.collectionRef.entity.title %>
           </span>
         </div>
       </h1>
       <h2 class="w-full text-md">
         <div class="relative flex group">
-          <a href="/v/<%= marker.collectionId.entity.id %>/<%= marker.collectionId.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>" class="inline-block w-full text-black no-underline truncate hover:underline">
+          <a href="/v/<%= marker.collectionRef.entity.id %>/<%= marker.collectionRef.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>" class="inline-block w-full text-black no-underline truncate hover:underline">
             <%= marker.title %>
           </a>
           <span class="group-hover:inline-block bg-gray-800 border border-slate-200 px-1 z-20 text-sm text-gray-100 rounded-md absolute left-1/2 -translate-x-1/2 -translate-y-[calc(100%+5.75rem)] m-4 mx-auto text-center w-full hidden">
@@ -36,14 +36,14 @@
     </header>
 
     <footer class="flex items-center justify-between p-2 leading-none text-black no-underline hover:underline">
-      <a href="/profile/<%= marker.collectionId.author.username %>" class="w-1/6">
-        <img alt="" class="block rounded-full" src="<%= marker.collectionId.author.avatarURL %>">
+      <a href="/profile/<%= marker.collectionRef.author.username %>" class="w-1/6">
+        <img alt="" class="block rounded-full" src="<%= marker.collectionRef.author.avatarURL %>">
       </a>
 
-      <a href="/v/<%= marker.collectionId.entity.id %>/<%= marker.collectionId.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>" class="relative inline-flex items-center p-3 text-sm font-medium text-cente">
-        <%= marker.collectionId.title %>
+      <a href="/v/<%= marker.collectionRef.entity.id %>/<%= marker.collectionRef.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>" class="relative inline-flex items-center p-3 text-sm font-medium text-cente">
+        <%= marker.collectionRef.title %>
         <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white border-2 border-white rounded-full bg-amber-700 -top-1 -right-1">
-          <%= marker.collectionId.markerCount %>
+          <%= marker.collectionRef.markerCount %>
         </div>
       </a>
 

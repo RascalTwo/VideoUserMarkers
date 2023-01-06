@@ -29,8 +29,8 @@ module.exports.renderProfile = async (request, response) => {
 };
 
 module.exports.deleteOrphans = async (request, response) => {
-  const markers = await Marker.find().populate('collectionId');
-  const orphanedMarkers = markers.filter(m => !m.collectionId);
+  const markers = await Marker.find().populate('collectionRef');
+  const orphanedMarkers = markers.filter(m => !m.collectionRef);
   await Marker.deleteMany({ _id: { $in: orphanedMarkers.map(m => m._id) } });
 
   const collections = await Collection.find().populate('entity');
@@ -59,7 +59,7 @@ module.exports.search = async (request, response) => {
       await Marker.find({
         $or: [{ title: { $regex: query, $options: 'i' } }, { description: { $regex: query, $options: 'i' } }],
       }).populate({
-        path: 'collectionId',
+        path: 'collectionRef',
         populate: {
           path: 'author entity markerCount',
         },

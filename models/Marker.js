@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const MarkerSchema = new mongoose.Schema({
-	collectionId: {
+	collectionRef: {
 		type: mongoose.Types.ObjectId,
 		ref: 'Collection',
 		required: true,

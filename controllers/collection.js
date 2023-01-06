@@ -63,7 +63,7 @@ module.exports.createCollection = async (request, response) => {
       .filter(Boolean)) {
       const [dhms, title, description] = line.split(/\t|  /g);
       const when = DHMStoSeconds(dhms.split(':').map(Number));
-      newMarkers.push({ collectionId: collection._id, title, when, description });
+      newMarkers.push({ collectionRef: collection._id, title, when, description });
     }
     await Marker.create(newMarkers);
   }
@@ -124,7 +124,7 @@ module.exports.updateCollection = async (request, response) => {
         oldMarker.description = description;
         await oldMarker.save();
       } else {
-        newMarkers.push({ collectionId: collection._id, title, when, description });
+        newMarkers.push({ collectionRef: collection._id, title, when, description });
       }
     }
     await Marker.create(newMarkers);
@@ -150,6 +150,6 @@ module.exports.deleteCollection = async (request, response) => {
       postMessage: "You don't have permission to delete this collection.",
     });
   await collection.remove();
-  await Marker.deleteMany({ collectionId: collection._id });
+  await Marker.deleteMany({ collectionRef: collection._id });
   response.redirect('/profile/' + request.user.username);
 };

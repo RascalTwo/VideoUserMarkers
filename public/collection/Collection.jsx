@@ -287,7 +287,7 @@ export default function Collection({ collection: { _id, entity: { _id: entityId,
 						e.preventDefault();
 						const formData = new FormData(e.target);
 						const marker = {
-							collectionId: _id,
+							collectionRef: _id,
 							when: addingAt,
 							title: formData.get('title'),
 							description: formData.get('description'),

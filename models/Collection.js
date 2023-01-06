@@ -29,12 +29,12 @@ const CollectionSchema = new mongoose.Schema({
 CollectionSchema.virtual('markers', {
 	ref: 'Marker',
 	localField: '_id',
-	foreignField: 'collectionId',
+	foreignField: 'collectionRef',
 })
 CollectionSchema.virtual('markerCount', {
 	ref: 'Marker',
 	localField: '_id',
-	foreignField: 'collectionId',
+	foreignField: 'collectionRef',
 	count: true,
 })
 
