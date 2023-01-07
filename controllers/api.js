@@ -38,12 +38,13 @@ module.exports.getCollections = async (request, response) => {
   const { type, entityId } = request.params;
 
   const user = await getUserFromToken(request);
-  if (!user) {
-    return response.json({ message: 'Bad Credentials' });
-  }
+
+  const query = { type, entity: entityId }
+  if (user) query.$or = [{ author: user._id }, { public: true }]
+  else query.public = true;
 
   return response.json(
-    await Collection.find({ type, entity: entityId, $or: [{ author: user._id }, { public: true }] }).populate(
+    await Collection.find(query).populate(
       'author entity',
     ),
   );
@@ -53,11 +54,12 @@ module.exports.getCollection = async (request, response) => {
   const { id } = request.params;
 
   const user = await getUserFromToken(request);
-  if (!user) {
-    return response.json({ message: 'Bad Credentials' });
-  }
 
-  return response.json(await Collection.findById(id).populate('author markers entity'));
+  const query = { _id: id }
+  if (user) query.$or = [{ author: user._id }, { public: true }]
+  else query.public = true;
+
+  return response.json(await Collection.find(query).populate('author markers entity'));
 };
 
 module.exports.upsertCollection = async (request, response) => {

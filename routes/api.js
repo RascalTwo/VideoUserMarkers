@@ -6,7 +6,7 @@ router.get('/user', controller.getUser);
 
 router.post('/token', controller.generateToken);
 
-router.get('/collections/:type/:entity', controller.getCollections);
+router.get('/collections/:type/:entityId', controller.getCollections);
 
 router.get('/collection/:id', controller.getCollection);
 
