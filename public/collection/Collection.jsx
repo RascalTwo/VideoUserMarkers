@@ -36,7 +36,7 @@ class Player {
 		throw new Error('Not implemented');
 	}
 
-	onPlay(callback) {
+	onFirstPlay(callback) {
 		throw new Error('Not implemented');
 	}
 
@@ -69,8 +69,11 @@ class TwitchPlayer extends Player {
 		this.player._iframe.style.height = `${height}px`;
 	}
 
-	onPlay(callback) {
-		this.player.addEventListener(Twitch.Player.PLAY, callback);
+	onFirstPlay(callback) {
+		this.player.addEventListener(Twitch.Player.PLAY, () => {
+			callback?.();
+			callback = null;
+		});
 	}
 }
 
@@ -110,7 +113,7 @@ class YouTubePlayer extends Player {
 		this.player.setSize(width, height);
 	}
 
-	onPlay(callback) {
+	onFirstPlay(callback) {
 		this.player.addEventListener('onStateChange', event => {
 			if (callback && event.data === YT.PlayerState.PLAYING) {
 				callback();
@@ -142,7 +145,7 @@ export default function Collection({ collection: { _id, entity: { _id: entityId,
 	useEffect(() => {
 		if (!ready) return
 		const player = type === 'YouTube' ? new YouTubePlayer(entityId) : new TwitchPlayer(entityId);
-		player.onPlay(() => {
+		player.onFirstPlay(() => {
 			setPlayer(player);
 			setDuration(player.getDuration())
 			const requestedTime = new URLSearchParams(window.location.search).get('t');
