@@ -39,8 +39,7 @@ app.use(
     { methods: ['POST', 'GET'] },
   ),
 );
-
-app.use(logger(process.env.NODE_ENV === 'development' ? 'dev' : 'common'));
+if (!process.env.DISABLE_MORGAN) app.use(logger(process.env.NODE_ENV === 'development' ? 'dev' : 'common'));
 require('./config/database')().then(conn => {
   app.use(
     session({
