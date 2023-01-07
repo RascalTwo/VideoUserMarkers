@@ -118,7 +118,7 @@ EntitySchema.static('fetchEntityInfo', async function (id, type) {
     return {
       title: ldJSON.name,
       createdAt: new Date(ldJSON.uploadDate),
-      rawThumbnail: ldJSON.thumbnailUrl[0],
+      rawThumbnail: ldJSON.thumbnailUrl[0].includes('404_processing') ? 'https://assets.help.twitch.tv/article/img/000002222-01a.png' : ldJSON.thumbnailUrl[0],
     };
   }
   return null;
