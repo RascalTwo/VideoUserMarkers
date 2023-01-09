@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .toggle-checkbox:checked {
 	background-color: #22c55e;
 }

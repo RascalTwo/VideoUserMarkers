@@ -1,25 +1,28 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const MarkerSchema = new mongoose.Schema({
-	collectionRef: {
-		type: mongoose.Types.ObjectId,
-		ref: 'Collection',
-		required: true,
+const MarkerSchema = new mongoose.Schema(
+	{
+		collectionRef: {
+			type: mongoose.Types.ObjectId,
+			ref: 'Collection',
+			required: true,
+		},
+		when: {
+			type: Number,
+			required: true,
+		},
+		title: {
+			type: String,
+			required: true,
+		},
+		description: {
+			type: String,
+		},
 	},
-	when: {
-		type: Number,
-		required: true,
-	},
-	title: {
-		type: String,
-		required: true,
-	},
-	description: {
-		type: String,
+	{
+		toObject: { virtuals: true },
+		toJSON: { virtuals: true },
 	}
-}, {
-	toObject: { virtuals: true },
-	toJSON: { virtuals: true },
-});
+);
 
-module.exports = mongoose.model('Marker', MarkerSchema)
+module.exports = mongoose.model('Marker', MarkerSchema);

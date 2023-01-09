@@ -1,37 +1,43 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
-const UserSchema = new mongoose.Schema({
-	username: {
-		type: String,
-		required: true,
-		unique: true,
+const UserSchema = new mongoose.Schema(
+	{
+		username: {
+			type: String,
+			required: true,
+			unique: true,
+		},
+		password: {
+			type: String,
+			required: true,
+		},
+		token: String,
+		isAdmin: Boolean,
 	},
-	password: {
-		type: String,
-		required: true,
-	},
-	token: String,
-	isAdmin: Boolean
-}, {
-	toObject: { virtuals: true },
-	toJSON: { virtuals: true },
-})
+	{
+		toObject: { virtuals: true },
+		toJSON: { virtuals: true },
+	}
+);
 UserSchema.virtual('collections', {
 	ref: 'Collection',
 	localField: '_id',
 	foreignField: 'author',
-})
+});
 UserSchema.virtual('avatarURL').get(function () {
-	return `https://ui-avatars.com/api/?background=random&name=` + this.username.split(/[\s-_]+/).join('%20')
-})
+	return (
+		'https://ui-avatars.com/api/?background=random&name=' +
+		this.username.split(/[\s-_]+/).join('%20')
+	);
+});
 
 UserSchema.methods.comparePassword = function (candidatePassword) {
-	return bcrypt.compareSync(candidatePassword, this.password)
-}
+	return bcrypt.compareSync(candidatePassword, this.password);
+};
 
 UserSchema.methods.generateToken = function () {
-	return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
-}
+	return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+};
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('User', UserSchema);

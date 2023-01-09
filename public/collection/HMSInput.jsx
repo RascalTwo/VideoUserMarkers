@@ -11,7 +11,9 @@ export default function HMSInput({ defaultValue = 0, ...props }) {
 		const hours = Math.floor(value / 3600);
 		const minutes = Math.floor((value - hours * 3600) / 60);
 		const seconds = value - hours * 3600 - minutes * 60;
-		return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+		return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
+			.toString()
+			.padStart(2, '0')}`;
 	}, [value]);
 	return (
 		<input

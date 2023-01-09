@@ -1,11 +1,11 @@
 <%- await include("partials/header.ejs") %>
 <h1 class="py-3 text-xl text-center">
   <% if (user?.isAdmin) { %>
-    <a href="/v/<%= entity.id %>?refetch" alt="Refetch Entity" title="Refetch Entity" class="relative inline-flex items-center px-2 bg-white border rounded-full hover:shadow-lg">
-      <div class="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer">
-        <i class="fa fa-refresh"></i>
-      </div>
-    </a>
+  <a href="/v/<%= entity.id %>?refetch" alt="Refetch Entity" title="Refetch Entity" class="relative inline-flex items-center px-2 bg-white border rounded-full hover:shadow-lg">
+    <div class="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer">
+      <i class="fa fa-refresh"></i>
+    </div>
+  </a>
   <% } %>
   <%= entity.title %>
   <a href="/v?video=<%= entity.id %>" alt="Create Collection" title="Create Collection" class="relative inline-flex items-center px-2 bg-white border rounded-full hover:shadow-lg">

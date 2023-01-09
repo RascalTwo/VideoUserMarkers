@@ -1,18 +1,18 @@
 <%- await include("partials/header.ejs") %>
 <h1>
-	<%= profiling.username %>
-	<% if (profiling.id === user?.id) { %>
-		<a href="/auth/logout" alt="Logout" title="Logout" class="relative inline-flex items-center px-2 bg-white border rounded-full hover:shadow-lg">
-			<div class="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer">
-				<i class="fa fa-sign-out"></i>
-			</div>
-		</a>
-		<% if (user.isAdmin) { %>
-			<a href="/admin/delete-orphans" class="flex items-center justify-center w-24 h-12 px-6 mt-8 text-sm font-semibold text-center text-red-100 bg-red-600 rounded md:w-32 hover:bg-red-700">
-				Delete Orphans
-			</a>
-		<% } %>
-		<% } %>
+  <%= profiling.username %>
+  <% if (profiling.id === user?.id) { %>
+  <a href="/auth/logout" alt="Logout" title="Logout" class="relative inline-flex items-center px-2 bg-white border rounded-full hover:shadow-lg">
+    <div class="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer">
+      <i class="fa fa-sign-out"></i>
+    </div>
+  </a>
+  <% if (user.isAdmin) { %>
+  <a href="/admin/delete-orphans" class="flex items-center justify-center w-24 h-12 px-6 mt-8 text-sm font-semibold text-center text-red-100 bg-red-600 rounded md:w-32 hover:bg-red-700">
+    Delete Orphans
+  </a>
+  <% } %>
+  <% } %>
 </h1>
 
 
