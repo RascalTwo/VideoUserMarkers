@@ -1,6 +1,6 @@
 {
 	"name": "video-user-markers-backend",
-	"version": "0.4.3",
+	"version": "0.4.4",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
@@ -9,7 +9,7 @@
 		"start:watch": "nodemon --ignore ./public --ignore ./views index.js",
 		"build": "npm run build:react && npm run build:tailwind",
 		"build:react": "babel public/collection/*.jsx --out-dir public/collection",
-		"build:tailwind": "tailwindcss -i ./index.css -o ./public/index.css",
+		"build:tailwind": "postcss index.css -o public/index.css",
 		"build:watch": "concurrently 'npm run build:react -- --watch' 'npm run build:tailwind -- --watch'",
 		"lint": "prettier . --write && eslint . --ext .js,.jsx --fix && js-beautify views/**/*.ejs --type=html --indent-size=2 -r"
 	},
@@ -38,10 +38,14 @@
 		"@babel/cli": "^7.19.3",
 		"@babel/preset-env": "^7.19.3",
 		"@babel/preset-react": "^7.18.6",
+		"autoprefixer": "^10.4.13",
+		"cssnano": "^5.1.14",
 		"eslint": "^8.28.0",
 		"eslint-plugin-react": "^7.31.11",
 		"js-beautify": "^1.14.7",
 		"nodemon": "^2.0.20",
+		"postcss": "^8.4.21",
+		"postcss-cli": "^10.1.0",
 		"prettier": "^2.8.1",
 		"tailwindcss": "^3.2.4"
 	}
