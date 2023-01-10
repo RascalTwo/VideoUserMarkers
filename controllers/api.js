@@ -55,7 +55,7 @@ module.exports.getCollection = async (request, response) => {
 	if (user) query.$or = [{ author: user._id }, { public: true }];
 	else query.public = true;
 
-	return response.json(await Collection.find(query).populate('author markers entity'));
+	return response.json(await Collection.findOne(query).populate('author markers entity'));
 };
 
 module.exports.upsertCollection = async (request, response) => {
