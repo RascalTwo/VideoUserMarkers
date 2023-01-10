@@ -202,6 +202,7 @@ export default function Collection({
 		markers: initialMarkers,
 	},
 	user,
+	isEmbed,
 }) {
 	const [ready, setReady] = useState(false);
 
@@ -258,6 +259,7 @@ export default function Collection({
 		if (!player) return;
 
 		const resizeListener = () => {
+			if (isEmbed) return player.setDimensions(window.innerWidth, (window.innerWidth * 9) / 16);
 			const ratio = window.innerWidth < window.innerHeight ? 0.85 : 0.75;
 			const maxWidth = window.innerWidth * ratio;
 			player.setDimensions(maxWidth, (maxWidth * 9) / 16);
@@ -497,7 +499,7 @@ export default function Collection({
 			<div className="flex items-center justify-center">
 				<div id="player-embed"></div>
 			</div>
-			<div className="flex justify-between">
+			<div className="flex justify-between mt-2">
 				<span className="font-mono">
 					{secondsToHMS(currentTime, undefined, totalPlaces)} / {secondsToHMS(duration)}
 				</span>

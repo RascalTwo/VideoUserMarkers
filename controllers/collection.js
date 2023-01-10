@@ -85,7 +85,7 @@ module.exports.createCollection = async (request, response) => {
 	response.redirect(`/v/{${entityId}/${collection._id}`);
 };
 
-module.exports.renderCollection = async (request, response) => {
+async function renderCollection(request, response, view) {
 	const { id } = request.params;
 	const collection = await Collection.findById(id).populate('author markers entity');
 	if (!collection)
@@ -97,10 +97,18 @@ module.exports.renderCollection = async (request, response) => {
 			postMessage: 'It may have been deleted or marked private.',
 		});
 
-	response.render('collection/render', {
+	response.render('collection/' + view, {
 		collection,
 		title: collection.title + ' on ' + collection.entity.title,
 	});
+}
+
+module.exports.renderCollection = async (request, response) => {
+	return renderCollection(request, response, 'render');
+};
+
+module.exports.renderCollectionEmbed = async (request, response) => {
+	return renderCollection(request, response, 'embed');
 };
 
 module.exports.updateCollection = async (request, response) => {

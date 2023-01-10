@@ -10,6 +10,8 @@ router
 	.patch(requireAuth('/'), controller.updateCollection)
 	.delete(requireAuth('/'), controller.deleteCollection);
 
+router.route('/:entityId/:id/embed').get(controller.renderCollectionEmbed);
+
 router
 	.route('/', requireAuth('/'))
 	.get(controller.renderNewCollection)
