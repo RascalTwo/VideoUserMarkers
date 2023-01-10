@@ -38,6 +38,30 @@ class Player {
 	onFirstPlay(_callback) {
 		throw new Error('Not implemented');
 	}
+
+	isPlaying() {
+		throw new Error('Not implemented');
+	}
+
+	play() {
+		throw new Error('Not implemented');
+	}
+
+	pause() {
+		throw new Error('Not implemented');
+	}
+
+	isMuted() {
+		throw new Error('Not implemented');
+	}
+
+	mute() {
+		throw new Error('Not implemented');
+	}
+
+	unMute() {
+		throw new Error('Not implemented');
+	}
 }
 
 class TwitchPlayer extends Player {
@@ -72,6 +96,30 @@ class TwitchPlayer extends Player {
 			callback?.();
 			callback = null;
 		});
+	}
+
+	isPlaying() {
+		return !this.player.isPaused();
+	}
+
+	play() {
+		this.player.play();
+	}
+
+	pause() {
+		this.player.pause();
+	}
+
+	isMuted() {
+		return this.player.getMuted();
+	}
+
+	mute() {
+		this.player.setMuted(true);
+	}
+
+	unMute() {
+		this.player.setMuted(false);
 	}
 }
 
@@ -118,6 +166,30 @@ class YouTubePlayer extends Player {
 				callback = null;
 			}
 		});
+	}
+
+	isPlaying() {
+		return this.player.getPlayerState() === YT.PlayerState.PLAYING;
+	}
+
+	play() {
+		this.player.playVideo();
+	}
+
+	pause() {
+		this.player.pauseVideo();
+	}
+
+	isMuted() {
+		return this.player.isMuted();
+	}
+
+	mute() {
+		this.player.mute();
+	}
+
+	unMute() {
+		this.player.unMute();
 	}
 }
 
@@ -171,7 +243,7 @@ export default function Collection({
 
 	useEffect(() => {
 		if (!player) return;
-		const interval = setInterval(() => setCurrentTime(Math.trunc(player.getCurrentTime())), 100);
+		const interval = setInterval(() => setCurrentTime(player.getCurrentTime()), 100);
 		return () => clearInterval(interval);
 	}, [player, setCurrentTime]);
 
@@ -204,6 +276,101 @@ export default function Collection({
 	useEffect(() => {
 		setActiveMarker([...markers].reverse().find(marker => marker.when <= currentTime) ?? null);
 	}, [markers, currentTime]);
+
+	function togglePlayState() {
+		if (!player) return;
+
+		if (player.isPlaying()) player.pause();
+		else player.play();
+	}
+
+	function seekRelativeMarker(change) {
+		if (!player) return;
+
+		setMarkers(markers => {
+			setActiveMarker(activeMarker => {
+				const index = markers.findIndex(marker => marker === activeMarker);
+				if (index === -1) {
+					player.seekTo(markers[0].when);
+					return activeMarker;
+				}
+
+				const newIndex = index + change;
+				if (newIndex < 0 || newIndex >= markers.length) return activeMarker;
+				player.seekTo(markers[newIndex].when);
+				return activeMarker;
+			});
+			return markers;
+		});
+	}
+
+	function seekRelative(change, moveMarker) {
+		if (!player) return;
+
+		setDuration(duration => {
+			setCurrentTime(currentTime => {
+				const newTime = currentTime + change;
+				if (newTime < 0 || newTime > duration) return newTime;
+				setActiveMarker(activeMarker => {
+					if (moveMarker && activeMarker)
+						setMarkers(markers => {
+							const newMarkers = [...markers];
+							const index = newMarkers.findIndex(marker => marker === activeMarker);
+							newMarkers[index] = { ...activeMarker, when: newTime };
+							return newMarkers;
+						});
+
+					return activeMarker;
+				});
+				player.seekTo(newTime);
+				return newTime;
+			});
+			return duration;
+		});
+	}
+
+	function toggleMuteState() {
+		if (!player) return;
+
+		if (player.isMuted()) player.unMute();
+		else player.mute();
+	}
+
+	const [showingKeyboardShortcuts, setShowingKeyboardShortcuts] = useState(false);
+
+	useEffect(() => {
+		if (!player) return;
+
+		const listener = async e => {
+			if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+			const key = e.key.toUpperCase();
+			if (key === 'K' || key === ' ') togglePlayState();
+			else if (key === 'W' || (e.ctrlKey && key === 'ARROWLEFT')) seekRelativeMarker(-1);
+			else if (key === 'S' || (e.ctrlKey && key === 'ARROWRIGHT')) seekRelativeMarker(1);
+			else if (key === 'J') seekRelative(-10, e.shiftKey);
+			else if (key === 'L') seekRelative(10, e.shiftKey);
+			else if (key === 'ARROWLEFT') seekRelative(-5, e.shiftKey);
+			else if (key === 'ARROWRIGHT') seekRelative(5, e.shiftKey);
+			else if (key === ',') seekRelative(-(1 / 30), e.shiftKey);
+			else if (key === '.') seekRelative(1 / 30, e.shiftKey);
+			else if (key === 'Q') seekRelative(-1, e.shiftKey);
+			else if (key === 'E') seekRelative(1, e.shiftKey);
+			else if (key === 'B') setAddingAt(currentTime);
+			else if (key === 'N' || key === 'T')
+				setActiveMarker(activeMarker => {
+					setSelectedMarker(activeMarker);
+					return activeMarker;
+				});
+			else if (key === 'M') toggleMuteState();
+			else if (e.shiftKey && key === '?') setShowingKeyboardShortcuts(true);
+			else return; // Not a key we care about
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			e.stopPropagation();
+		};
+		window.addEventListener('keydown', listener);
+		return () => window.removeEventListener('keydown', listener);
+	}, [player]);
 
 	const markerPlaces = useMemo(
 		() => secondsToHMS(markers[markers.length - 1]?.when ?? 0).split(':').length,
@@ -292,6 +459,40 @@ export default function Collection({
 						</form>
 					</Modal>
 				</div>
+			) : null}
+			{showingKeyboardShortcuts ? (
+				<Modal defaultOpen={true} onClose={() => setShowingKeyboardShortcuts(false)}>
+					<div className="flex flex-col p-6 bg-white rounded shadow-lg cursor-default">
+						<h2 className="text-lg">Keyboard Shortcuts</h2>
+						<ul className="mt-4">
+							{Object.entries({
+								'K / Space': 'Pause/Play',
+								'S / Ctrl + Left Arrow': 'Seek to next marker',
+								'W / Ctrl + Right Arrow': 'Seek to previous marker',
+								J: 'Seek back 10 seconds',
+								L: 'Seek forward 10 seconds',
+								'Left Arrow': 'Seek back 5 seconds',
+								'Right Arrow': 'Seek forward 5 seconds',
+								',': 'Seek back 1 frame',
+								'.': 'Seek forward 1 frame',
+								Q: 'Seek back 1 second',
+								E: 'Seek forward 1 second',
+								B: 'Add marker at current time',
+								N: 'Edit marker title',
+								T: 'Edit marker time',
+								U: 'Open menu',
+								'Shift + ?': 'Show this dialog',
+								'': '',
+								'Holding Shift + Any seek key': 'Seek & update current marker',
+							}).map(([key, value]) => (
+								<li key={key} className="flex items-center gap-2">
+									<span className="font-mono">{key}</span>
+									<span>{value}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				</Modal>
 			) : null}
 			<div className="flex items-center justify-center">
 				<div id="player-embed"></div>
