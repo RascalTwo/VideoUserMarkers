@@ -152,6 +152,7 @@ module.exports.updateCollection = async (request, response) => {
 		}
 		await Marker.create(newMarkers);
 	}
+	await collection.save();
 	response.redirect(`/v/{${collection.entity}/${collection._id}`);
 };
 
