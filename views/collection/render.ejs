@@ -9,7 +9,7 @@
   </a>
 </h2>
 <% if (collection.description) { %>
-<p><%= collection.description %></p>
+<div><%- await markdownToHTML(collection.description) %></div>
 <% } %>
 
 <div id="root" class="px-4"></div>

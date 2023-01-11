@@ -1,3 +1,14 @@
+const marked = require('marked');
+const { JSDOM } = require('jsdom');
+const createDOMPurify = require('dompurify');
+
+const renderer = new marked.Renderer();
+renderer.link = (href, title, text) => {
+	return `<a href="${href}" ${
+		title ? `alt="${title}" title="${title}" ` : ' '
+	}target="_blank" class="underline underline-offset-2 hover:underline-offset-1" rel="noopener noreferrer">${text}</a>`;
+};
+
 module.exports = {
 	secondsToHMS(seconds, delimiters = '::', minimalPlaces = 1) {
 		const h = Math.floor(seconds / 3600);
@@ -18,5 +29,10 @@ module.exports = {
 				console.log(parseInt(string), multiplier, parseInt(string) * multiplier);
 				return seconds + parseInt(string) * multiplier;
 			}, 0);
+	},
+	async markdownToHTML(markdown) {
+		return createDOMPurify(new JSDOM('').window).sanitize(
+			await marked.parse(markdown, { renderer })
+		);
 	},
 };

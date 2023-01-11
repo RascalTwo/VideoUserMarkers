@@ -434,6 +434,12 @@ export default function Collection({
 							</div>
 							<label className="mt-3 text-xs font-semibold" htmlFor="description">
 								Description
+								<img
+									src="https://www.markdownguide.org/favicon.ico"
+									alt="Markdown Compatible"
+									title="Markdown Compatible"
+									className="inline-block pl-1"
+								/>
 							</label>
 							<textarea
 								className="flex items-center h-12 px-4 mt-2 bg-gray-200 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
@@ -591,6 +597,12 @@ export default function Collection({
 							/>
 							<label className="mt-3 text-xs font-semibold" htmlFor="description">
 								Description
+								<img
+									src="https://www.markdownguide.org/favicon.ico"
+									alt="Markdown Compatible"
+									title="Markdown Compatible"
+									className="inline-block pl-1"
+								/>
 							</label>
 							<textarea
 								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
@@ -678,6 +690,12 @@ export default function Collection({
 						<HMSInput defaultValue={selectedMarker.when} id="when" name="when" />
 						<label className="mt-3 text-xs font-semibold" htmlFor="description">
 							Description
+							<img
+								src="https://www.markdownguide.org/favicon.ico"
+								alt="Markdown Compatible"
+								title="Markdown Compatible"
+								className="inline-block pl-1"
+							/>
 						</label>
 						<textarea
 							className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
