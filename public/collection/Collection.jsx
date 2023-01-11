@@ -200,6 +200,7 @@ export default function Collection({
 		title,
 		description,
 		markers: initialMarkers,
+		public: isPublic,
 	},
 	user,
 	isEmbed,
@@ -410,6 +411,27 @@ export default function Collection({
 								id="title"
 								defaultValue={title}
 							/>
+							<div className="flex justify-between py-1">
+								<label htmlFor="public">
+									<span className="mr-3 text-xs font-semibold">Public</span>
+								</label>
+								<label className="relative flex items-center cursor-pointer select-none w-max">
+									<input
+										type="checkbox"
+										id="public"
+										defaultChecked={isPublic}
+										name="public"
+										className="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500"
+									/>
+									<span className="absolute text-xs font-medium text-white uppercase right-1">
+										No
+									</span>
+									<span className="absolute text-xs font-medium text-white uppercase right-8">
+										Yes
+									</span>
+									<span className="absolute transition-transform transform bg-gray-200 rounded-full w-7 h-7 right-7"></span>
+								</label>
+							</div>
 							<label className="mt-3 text-xs font-semibold" htmlFor="description">
 								Description
 							</label>

@@ -113,7 +113,7 @@ module.exports.renderCollectionEmbed = async (request, response) => {
 
 module.exports.updateCollection = async (request, response) => {
 	const { id } = request.params;
-	const { title, description, markers } = request.body;
+	const { title, description, markers, public } = request.body;
 
 	const collection = await Collection.findById(id).populate('markers');
 	if (!collection)
@@ -133,6 +133,10 @@ module.exports.updateCollection = async (request, response) => {
 
 	collection.title = title;
 	collection.description = description;
+
+	if (public) collection.public = true;
+	else collection.public = undefined;
+
 	if (markers) {
 		const newMarkers = [];
 		for (const [i, line] of markers
