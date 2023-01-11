@@ -14,7 +14,7 @@
     <header class="flex items-center justify-between p-2 leading-tight">
       <h1 class="w-full text-lg ">
         <div class="relative flex group">
-          <a href="/v/<%= collection.entity.id %>/<%= collection.id %>" class="inline-block w-full text-black no-underline truncate hover:underline">
+          <a href="/v/<%= collection.entity.id %>/<%= collection.id %>" class="inline-block w-full text-black underline truncate underline-offset-2 hover:underline-offset-1">
             <% if (!collection.public) { %> <i class="fa fa-lock" alt="Private" title="Private"></i> <% } %>
             <%= collection.entity.title %>
           </a>
@@ -25,7 +25,7 @@
       </h1>
     </header>
 
-    <footer class="flex items-center justify-between p-2 leading-none text-black no-underline hover:underline">
+    <footer class="flex items-center justify-between p-2 leading-none text-black underline underline-offset-2 hover:underline-offset-1">
       <a href="/profile/<%= collection.author.username %>" class="w-1/6">
         <img alt="" class="block rounded-full" src="<%= collection.author.avatarURL %>">
       </a>

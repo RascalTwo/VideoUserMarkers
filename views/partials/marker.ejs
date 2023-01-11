@@ -15,7 +15,7 @@
     <header class="flex flex-col items-center justify-between p-2 leading-tight">
       <h1 class="w-full text-lg">
         <div class="relative flex group">
-          <a href="/v/<%= marker.collectionRef.entity.id %>/<%= marker.collectionRef.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>" class="inline-block w-full text-black no-underline truncate hover:underline">
+          <a href="/v/<%= marker.collectionRef.entity.id %>/<%= marker.collectionRef.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>" class="inline-block w-full text-black underline truncate underline-offset-2 hover:underline-offset-1">
             <% if (!marker.collectionRef.public) { %> <i class="fa fa-lock" alt="Private" title="Private"></i> <% } %>
             <%= marker.collectionRef.entity.title %>
           </a>
@@ -26,7 +26,7 @@
       </h1>
       <h2 class="w-full text-md">
         <div class="relative flex group">
-          <a href="/v/<%= marker.collectionRef.entity.id %>/<%= marker.collectionRef.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>" class="inline-block w-full text-black no-underline truncate hover:underline">
+          <a href="/v/<%= marker.collectionRef.entity.id %>/<%= marker.collectionRef.id %>?t=<%= secondsToHMS(marker.when, 'hms') %>" class="inline-block w-full text-black underline truncate underline-offset-2 hover:underline-offset-1">
             <%= marker.title %>
           </a>
           <span class="group-hover:inline-block bg-gray-800 border border-slate-200 px-1 z-20 text-sm text-gray-100 rounded-md absolute left-1/2 -translate-x-1/2 -translate-y-[calc(100%+5.75rem)] m-4 mx-auto text-center w-full hidden">
@@ -36,7 +36,7 @@
       </h2>
     </header>
 
-    <footer class="flex items-center justify-between p-2 leading-none text-black no-underline hover:underline">
+    <footer class="flex items-center justify-between p-2 leading-none text-black underline underline-offset-2 hover:underline-offset-1">
       <a href="/profile/<%= marker.collectionRef.author.username %>" class="w-1/6">
         <img alt="" class="block rounded-full" src="<%= marker.collectionRef.author.avatarURL %>">
       </a>
