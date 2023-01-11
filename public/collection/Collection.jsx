@@ -411,9 +411,9 @@ export default function Collection({
 								id="title"
 								defaultValue={title}
 							/>
-							<div className="flex justify-between py-1">
+							<div className="flex justify-between mt-3">
 								<label htmlFor="public">
-									<span className="mr-3 text-xs font-semibold">Public</span>
+									<span className="text-xs font-semibold">Public</span>
 								</label>
 								<label className="relative flex items-center cursor-pointer select-none w-max">
 									<input
@@ -451,7 +451,7 @@ export default function Collection({
 								Markers (H:M:S Title Description)
 							</label>
 							<textarea
-								className="flex items-center min-w-[12rem] px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] lg:w-80 focus:outline-none focus:ring-2"
+								className="flex items-center min-w-[12rem] pr-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] lg:w-80 focus:outline-none focus:ring-2"
 								name="markers"
 								id="markers"
 								defaultValue={markersAsText}
@@ -684,7 +684,7 @@ export default function Collection({
 							id="title"
 							defaultValue={selectedMarker.title}
 						/>
-						<label className="text-xs font-semibold" htmlFor="title">
+						<label className="mt-3 text-xs font-semibold" htmlFor="title">
 							When
 						</label>
 						<HMSInput defaultValue={selectedMarker.when} id="when" name="when" />
