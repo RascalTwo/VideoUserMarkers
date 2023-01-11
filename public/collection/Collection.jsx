@@ -563,9 +563,12 @@ export default function Collection({
 							onSubmit={e => {
 								e.preventDefault();
 								const formData = new FormData(e.target);
+								const whenHMS = formData.get('when');
+								const [hours, minutes, seconds] = whenHMS.split(':');
+								const when = (hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0) * 1;
 								const marker = {
 									collectionRef: _id,
-									when: addingAt,
+									when,
 									title: formData.get('title'),
 									description: formData.get('description'),
 								};
@@ -594,6 +597,15 @@ export default function Collection({
 								type="text"
 								name="title"
 								id="title"
+							/>
+							<label className="mt-3 text-xs font-semibold" htmlFor="title">
+								When
+							</label>
+							<HMSInput
+								defaultValue={addingAt}
+								id="when"
+								name="when"
+								onValueChange={newValue => setAddingAt(newValue)}
 							/>
 							<label className="mt-3 text-xs font-semibold" htmlFor="description">
 								Description

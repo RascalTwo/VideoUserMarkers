@@ -1,6 +1,6 @@
 const { useState, useMemo, useRef, useEffect } = React;
 
-export default function HMSInput({ defaultValue = 0, ...props }) {
+export default function HMSInput({ defaultValue = 0, onValueChange, ...props }) {
 	const [value, setValue] = useState(defaultValue);
 	const [caret, setCaret] = useState(0);
 	const ref = useRef();
@@ -24,7 +24,9 @@ export default function HMSInput({ defaultValue = 0, ...props }) {
 			onChange={e => {
 				const [hours, minutes, seconds] = e.target.value.split(':');
 				setCaret(e.target.selectionStart);
-				setValue((hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0) * 1);
+				const newValue = (hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0) * 1;
+				setValue(newValue);
+				onValueChange?.(newValue);
 			}}
 			{...props}
 		/>
