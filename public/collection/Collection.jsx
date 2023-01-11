@@ -690,7 +690,7 @@ export default function Collection({
 						key={marker._id}
 						onClick={e => {
 							e.preventDefault();
-							player.seekTo(marker.when);
+							player?.seekTo(marker.when);
 						}}
 						onContextMenu={e => {
 							e.preventDefault();
