@@ -102,8 +102,8 @@ module.exports.upsertCollection = async (request, response) => {
 	collection.type = type;
 	collection.title = title;
 	collection.description = description;
-	if (public) collection.public = public;
-	else delete collection.public;
+	if (public) collection.public = true;
+	else collection.public = undefined;
 
 	const deletingMarkerIDs = [];
 	for (const marker of collection.markers) {
