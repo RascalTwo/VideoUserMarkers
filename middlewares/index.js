@@ -22,6 +22,7 @@ module.exports.addUserToLocals = (request, response, next) => {
 
 module.exports.addEJSHelpers = (request, response, next) => {
 	Object.assign(response.locals, ejsHelpers);
+	response.locals.NODE_ENV = process.env.NODE_ENV || 'development';
 	next();
 };
 
