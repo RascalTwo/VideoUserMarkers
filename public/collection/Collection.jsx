@@ -442,7 +442,7 @@ export default function Collection({
 								defaultValue={description}
 							/>
 							<label className="mt-3 text-xs font-semibold" htmlFor="markers">
-								Markers
+								Markers (H:M:S Title Description)
 							</label>
 							<textarea
 								className="flex items-center min-w-[12rem] px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] lg:w-80 focus:outline-none focus:ring-2"

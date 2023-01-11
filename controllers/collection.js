@@ -71,7 +71,14 @@ module.exports.createCollection = async (request, response) => {
 			.split('\n')
 			.map(line => line.trim())
 			.filter(Boolean)) {
-			const [dhms, title, description] = line.split(/\t| {2}/g);
+			let [dhms, title = '', description = ''] = line.split(/\t| {2}/g);
+			if (!title) {
+				let titleParts = [];
+				[dhms, ...titleParts] = line.split(' ');
+				title = titleParts.join(' ');
+			}
+			if (!title) title = 'Untitled';
+
 			const when = DHMStoSeconds(dhms.split(':').map(Number));
 			newMarkers.push({
 				collectionRef: collection._id,
@@ -145,7 +152,14 @@ module.exports.updateCollection = async (request, response) => {
 			.map(line => line.trim())
 			.filter(Boolean)
 			.entries()) {
-			const [dhms, title = '', description = ''] = line.split(/\t| {2}/g);
+			let [dhms, title = '', description = ''] = line.split(/\t| {2}/g);
+			if (!title) {
+				let titleParts = [];
+				[dhms, ...titleParts] = line.split(' ');
+				title = titleParts.join(' ');
+			}
+			if (!title) title = 'Untitled';
+
 			const when = DHMStoSeconds(dhms.split(':').map(Number));
 			const oldMarker = collection.markers[i];
 			if (oldMarker) {
