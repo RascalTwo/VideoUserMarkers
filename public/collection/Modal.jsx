@@ -14,6 +14,7 @@ export default function Modal({ buttonContent, defaultOpen = false, onClose, chi
 			if (e.key === 'Escape') close();
 		};
 
+		window.addEventListener('keydown', listener);
 		return () => window.removeEventListener('keydown', listener);
 	}, [open]);
 	return (
@@ -32,7 +33,7 @@ export default function Modal({ buttonContent, defaultOpen = false, onClose, chi
 					<button className="absolute top-2 right-2" onClick={() => close()}>
 						<i className="fa fa-times-circle" alt="Close Modal" title="Close Modal"></i>
 					</button>
-					{children}
+					{open ? children : null}
 				</div>
 			</div>
 		</>
