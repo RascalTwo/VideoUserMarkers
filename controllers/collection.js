@@ -61,7 +61,7 @@ module.exports.createCollection = async (request, response) => {
 		type,
 		public,
 		title,
-		description,
+		description: description || undefined,
 		author: request.user._id,
 	});
 	if (request.body.markers) {
@@ -71,7 +71,7 @@ module.exports.createCollection = async (request, response) => {
 			.split('\n')
 			.map(line => line.trim())
 			.filter(Boolean)) {
-			let [dhms, title = '', description = ''] = line.split(/\t| {2}/g);
+			let [dhms, title = '', description] = line.split(/\t| {2}/g);
 			if (!title) {
 				let titleParts = [];
 				[dhms, ...titleParts] = line.split(' ');
@@ -84,7 +84,7 @@ module.exports.createCollection = async (request, response) => {
 				collectionRef: collection._id,
 				title,
 				when,
-				description,
+				description: description || undefined,
 			});
 		}
 		await Marker.create(newMarkers);
@@ -139,7 +139,7 @@ module.exports.updateCollection = async (request, response) => {
 		});
 
 	collection.title = title;
-	collection.description = description;
+	collection.description = description || undefined;
 
 	if (public) collection.public = true;
 	else collection.public = undefined;
@@ -152,7 +152,7 @@ module.exports.updateCollection = async (request, response) => {
 			.map(line => line.trim())
 			.filter(Boolean)
 			.entries()) {
-			let [dhms, title = '', description = ''] = line.split(/\t| {2}/g);
+			let [dhms, title = '', description] = line.split(/\t| {2}/g);
 			if (!title) {
 				let titleParts = [];
 				[dhms, ...titleParts] = line.split(' ');
@@ -165,14 +165,14 @@ module.exports.updateCollection = async (request, response) => {
 			if (oldMarker) {
 				oldMarker.title = title;
 				oldMarker.when = when;
-				oldMarker.description = description;
+				oldMarker.description = description || undefined;
 				await oldMarker.save();
 			} else {
 				newMarkers.push({
 					collectionRef: collection._id,
 					title,
 					when,
-					description,
+					description: description || undefined,
 				});
 			}
 		}

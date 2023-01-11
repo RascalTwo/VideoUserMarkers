@@ -384,7 +384,9 @@ export default function Collection({
 		const lines = [];
 		for (const marker of markers) {
 			const dhms = secondsToHMS(marker.when, undefined, markerPlaces);
-			lines.push([dhms, marker.title, marker.description].filter(Boolean).join('\t'));
+			const values = [dhms, marker.title, marker.description];
+			if (marker.description) values.push(marker.description);
+			lines.push(values.filter(Boolean).join('\t'));
 		}
 		return lines.join('\n');
 	}, [markers, markerPlaces]);

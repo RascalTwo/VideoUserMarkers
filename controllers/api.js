@@ -85,7 +85,7 @@ module.exports.upsertCollection = async (request, response) => {
 			entity,
 			author: user,
 			title,
-			description,
+			description: description || undefined,
 			public,
 		});
 		await newCollection.save();
@@ -101,7 +101,7 @@ module.exports.upsertCollection = async (request, response) => {
 	collection.entity = entity;
 	collection.type = type;
 	collection.title = title;
-	collection.description = description;
+	collection.description = description || undefined;
 	if (public) collection.public = true;
 	else collection.public = undefined;
 
@@ -136,7 +136,7 @@ module.exports.upsertCollection = async (request, response) => {
 
 		existingMarker.when = marker.when;
 		existingMarker.title = marker.title;
-		existingMarker.description = marker.description;
+		existingMarker.description = marker.description || undefined;
 		await existingMarker.save();
 	}
 
