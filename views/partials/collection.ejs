@@ -15,6 +15,7 @@
       <h1 class="w-full text-lg ">
         <div class="relative flex group">
           <a href="/v/<%= collection.entity.id %>/<%= collection.id %>" class="inline-block w-full text-black no-underline truncate hover:underline">
+            <% if (!collection.public) { %> <i class="fa fa-lock" alt="Private" title="Private"></i> <% } %>
             <%= collection.entity.title %>
           </a>
           <span class="group-hover:inline-block bg-gray-800 px-1 z-20 border border-slate-200 text-sm text-gray-100 rounded-md absolute left-1/2 -translate-x-1/2 -translate-y-[calc(100%+4rem)] m-4 mx-auto text-center w-full hidden">

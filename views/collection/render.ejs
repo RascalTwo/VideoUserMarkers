@@ -1,6 +1,13 @@
 <%- await include("../partials/header.ejs") %>
 <h1 class="pt-3 text-xl text-center"><a class="no-underline hover:underline" href="/v/<%= collection.entity.id %>"><%= collection.entity.title %></a></h1>
-<h2 class="pt-3 text-xl text-center"><%= collection.title %> by <a class="no-underline hover:underline" href="/profile/<%= collection.author.username %>"><%= collection.author.username %></a></h2>
+<h2 class="pt-3 text-xl text-center">
+  <% if (!collection.public) { %> <i class="fa fa-lock" alt="Private" title="Private"></i> <% } %>
+  <%= collection.title %>
+  by
+  <a class="no-underline hover:underline" href="/profile/<%= collection.author.username %>">
+    <%= collection.author.username %>
+  </a>
+</h2>
 <% if (collection.description) { %>
 <p><%= collection.description %></p>
 <% } %>
