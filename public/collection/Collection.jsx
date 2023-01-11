@@ -684,7 +684,7 @@ export default function Collection({
 			<ul className="border border-slate-900">
 				{markers.map(marker => (
 					<li
-						className={`flex justify-between p-2 border-b border-gray-800 cursor-pointer hover:bg-gray-100 hover:text-black ${
+						className={`flex group justify-between p-2 border-b border-gray-800 cursor-pointer hover:bg-gray-100 hover:text-black ${
 							activeMarker?._id === marker._id ? 'bg-slate-900 text-slate-200' : ''
 						}`}
 						key={marker._id}
@@ -700,6 +700,13 @@ export default function Collection({
 						<span className="text-left">{marker.title}</span>
 						<span className="font-mono text-right">
 							{secondsToHMS(marker.when, undefined, markerPlaces)}
+
+							<button
+								className="hidden pl-1 hoverless:inline group-hover:inline"
+								onClick={() => setSelectedMarker(marker)}
+							>
+								<i className="fa fa-gear" />
+							</button>
 						</span>
 					</li>
 				))}

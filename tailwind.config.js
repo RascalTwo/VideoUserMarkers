@@ -2,7 +2,11 @@
 module.exports = {
 	content: ['./views/**/*.ejs', './public/**/*.js'],
 	theme: {
-		extend: {},
+		extend: {
+			screens: {
+				hoverless: { raw: '(hover: none)' },
+			},
+		},
 	},
 	plugins: [],
 };
