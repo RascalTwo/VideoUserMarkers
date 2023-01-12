@@ -22,6 +22,7 @@
 		"linebreak-style": ["error", "unix"],
 		"quotes": ["error", "single", { "avoidEscape": true }],
 		"semi": ["error", "always"],
-		"arrow-parens": ["error", "as-needed"]
+		"arrow-parens": ["error", "as-needed"],
+		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"]
 	}
 }
