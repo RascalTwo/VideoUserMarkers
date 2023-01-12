@@ -196,7 +196,7 @@ class YouTubePlayer extends Player {
 export default function Collection({
 	collection: {
 		_id,
-		entity: { _id: entityId, type },
+		entity: { _id: entityId, type, ...entity },
 		title,
 		description,
 		markers: initialMarkers,
@@ -765,6 +765,31 @@ export default function Collection({
 					</li>
 				))}
 			</ul>
+			<button
+				onClick={() =>
+					navigator.clipboard
+						.writeText(
+							`${window.location.origin}/v/${entityId}/${window.btoa(
+								JSON.stringify({
+									_id: Date.now(),
+									entity: { _id: entityId, type, title: entity.title },
+									title,
+									description,
+									markers: markers.map(({ when, title, description }, i) => ({
+										_id: i,
+										when,
+										title,
+										description: description || undefined,
+									})),
+									public: isPublic,
+								})
+							)}`
+						)
+						.then(() => alert('Encoded URL copied to clipboard'))
+				}
+			>
+				<i className="fa fa-share" alt="Export as URL" title="Export as URL"></i>
+			</button>
 		</>
 	);
 }

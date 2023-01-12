@@ -93,16 +93,19 @@ module.exports.createCollection = async (request, response) => {
 };
 
 async function renderCollection(request, response, view) {
-	const { id } = request.params;
-	const collection = await Collection.findById(id).populate('author markers entity');
-	if (!collection)
-		return response.status(404).render('error', {
-			title: 'Collection Not Found',
-			heading: '404',
-			preMessage: "Sorry, we couldn't find the collection with an ID of",
-			message: id,
-			postMessage: 'It may have been deleted or marked private.',
-		});
+	const { idOrBase64 } = request.params;
+	let collection;
+	if (idOrBase64.length === 24) {
+		collection = await Collection.findById(idOrBase64).populate('author markers entity');
+		if (!collection)
+			return response.status(404).render('error', {
+				title: 'Collection Not Found',
+				heading: '404',
+				preMessage: "Sorry, we couldn't find the collection with an ID of",
+				message: idOrBase64,
+				postMessage: 'It may have been deleted or marked private.',
+			});
+	} else collection = JSON.parse(Buffer.from(idOrBase64, 'base64').toString('utf-8'));
 
 	response.render('collection/' + view, {
 		collection,

@@ -1,12 +1,14 @@
 <%- await include("../partials/header.ejs") %>
-<h1 class="pt-3 text-xl text-center"><a class="underline underline-offset-2 hover:underline-offset-1" href="/v/<%= collection.entity.id %>"><%= collection.entity.title %></a></h1>
+<h1 class="pt-3 text-xl text-center"><a class="underline underline-offset-2 hover:underline-offset-1" href="/v/<%= collection.entity._id %>"><%= collection.entity.title %></a></h1>
 <h2 class="pt-3 text-xl text-center">
   <% if (!collection.public) { %> <i class="fa fa-lock" alt="Private" title="Private"></i> <% } %>
   <%= collection.title %>
+  <% if (collection.author) { %>
   by
   <a class="underline underline-offset-2 hover:underline-offset-1" href="/profile/<%= collection.author.username %>">
     <%= collection.author.username %>
   </a>
+  <% } %>
 </h2>
 <% if (collection.description) { %>
 <div><%- await markdownToHTML(collection.description) %></div>
