@@ -1,3 +1,4 @@
+const { NODE_ENV } = require('../config/constants');
 const Collection = require('../models/Collection');
 const ejsHelpers = require('../views/helpers');
 
@@ -21,7 +22,7 @@ module.exports.addUserToLocals = (request, response, next) => {
 };
 
 module.exports.addEJSHelpers = (request, response, next) => {
-	Object.assign(response.locals, ejsHelpers);
+	response.locals.NODE_ENV = NODE_ENV;
 	response.locals.NODE_ENV = process.env.NODE_ENV || 'development';
 	next();
 };

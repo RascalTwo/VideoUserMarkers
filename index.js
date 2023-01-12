@@ -7,7 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
 const flash = require('express-flash');
-const { PORT, SESSION_SECRET } = require('./config/constants');
+const { PORT, SESSION_SECRET, DISABLE_MORGAN, NODE_ENV } = require('./config/constants');
 const {
 	addURLToLocals,
 	addUserToLocals,
@@ -46,8 +46,7 @@ app.use(
 		{ methods: ['POST', 'GET'] }
 	)
 );
-if (!process.env.DISABLE_MORGAN)
-	app.use(logger(process.env.NODE_ENV === 'development' ? 'dev' : 'common'));
+if (!DISABLE_MORGAN) app.use(logger(NODE_ENV === 'development' ? 'dev' : 'common'));
 require('./config/database')().then(conn => {
 	app.use(
 		session({

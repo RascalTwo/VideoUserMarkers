@@ -1,7 +1,9 @@
+const { NODE_ENV } = require('./config/constants.js');
+
 module.exports = {
 	plugins: {
 		tailwindcss: {},
 		autoprefixer: {},
-		...(process.env.NODE_ENV === 'production' ? { cssnano: {} } : {}),
+		...(NODE_ENV === 'production' ? { cssnano: {} } : {}),
 	},
 };

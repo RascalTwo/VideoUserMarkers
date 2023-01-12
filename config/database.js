@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+const { DB_STRING } = require('./constants');
 
 module.exports = async function connectToDB() {
 	try {
-		const conn = await mongoose.connect(process.env.DB_STRING, {
+		const conn = await mongoose.connect(DB_STRING, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		});

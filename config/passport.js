@@ -2,7 +2,7 @@ const TwitchStrategy = require('passport-twitch-new').Strategy;
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const passport = require('passport');
 const User = require('../models/User');
-const { TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET } = require('./constants');
+const { TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET, SESSION_SECRET } = require('./constants');
 
 module.exports = function setupPassport() {
 	passport.use(
@@ -52,7 +52,7 @@ module.exports = function setupPassport() {
 					ExtractJwt.fromBodyField('token'),
 					ExtractJwt.fromUrlQueryParameter('token'),
 				]),
-				secretOrKey: process.env.SESSION_SECRET,
+				secretOrKey: SESSION_SECRET,
 			},
 			function verifyJWT(jwt_payload, done) {
 				User.findById(jwt_payload.sub, function handleJWTFoundUser(err, user) {
