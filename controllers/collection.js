@@ -123,7 +123,8 @@ module.exports.renderCollectionEmbed = async (request, response) => {
 
 module.exports.updateCollection = async (request, response) => {
 	const { id } = request.params;
-	const { title, description, markers, public } = request.body;
+	const { entity: entityInput, title, description, public, usingYoutube, markers } = request.body;
+	const type = usingYoutube ? 'YouTube' : 'Twitch';
 
 	const collection = await Collection.findById(id).populate('markers');
 	if (!collection)
@@ -140,6 +141,20 @@ module.exports.updateCollection = async (request, response) => {
 			heading: '403',
 			postMessage: "You don't have permission to edit this collection.",
 		});
+
+	const entityId = entityInput.split('/').pop().split('?')[0];
+
+	const entity = await Entity.getEntity(entityId, type);
+	if (!entity)
+		return response.status(404).render('error', {
+			title: 'Entity Not Found',
+			heading: '404',
+			preMessage: "Sorry, we couldn't find the entity with an ID of",
+			message: entityId,
+			postMessage: `on ${type}, ensure you have the correct ID & Platform combination.`,
+		});
+
+	collection.entity = entity;
 
 	collection.title = title;
 	collection.description = description || undefined;
@@ -182,7 +197,7 @@ module.exports.updateCollection = async (request, response) => {
 		await Marker.create(newMarkers);
 	}
 	await collection.save();
-	response.redirect(`/v/{${collection.entity}/${collection._id}`);
+	response.redirect(`/v/${collection.entity.id}/${collection._id}`);
 };
 
 module.exports.deleteCollection = async (request, response) => {

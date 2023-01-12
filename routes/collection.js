@@ -4,9 +4,10 @@ const { requireAuth } = require('../middlewares/index');
 
 router.get('/:entityId', controller.renderEntity);
 
+router.get('/:entityId/:idOrBase64', controller.renderCollection);
+
 router
-	.route('/:entityId/:idOrBase64')
-	.get(controller.renderCollection)
+	.route('/:entityId/:id')
 	.patch(requireAuth('/'), controller.updateCollection)
 	.delete(requireAuth('/'), controller.deleteCollection);
 

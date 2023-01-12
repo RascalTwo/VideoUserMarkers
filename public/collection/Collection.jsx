@@ -403,6 +403,16 @@ export default function Collection({
 							method="POST"
 						>
 							<input type="hidden" name="_method" value="PATCH" />
+							<label className="text-xs font-semibold" htmlFor="entity">
+								Video ID/URL
+							</label>
+							<input
+								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
+								type="text"
+								name="entity"
+								id="entity"
+								defaultValue={entityId}
+							/>
 							<label className="text-xs font-semibold" htmlFor="title">
 								Title
 							</label>
@@ -432,6 +442,27 @@ export default function Collection({
 										Yes
 									</span>
 									<span className="absolute transition-transform transform bg-gray-200 rounded-full w-7 h-7 right-7"></span>
+								</label>
+							</div>
+							<div className="flex justify-between mt-3">
+								<label htmlFor="usingYoutube">
+									<span className="text-xs font-semibold">Platform</span>
+								</label>
+								<label className="relative flex items-center cursor-pointer select-none w-max">
+									<input
+										type="checkbox"
+										id="usingYoutube"
+										name="usingYoutube"
+										defaultChecked={entityId.length !== 10}
+										className="transition-colors bg-[#9146FF] rounded-full appearance-none cursor-pointer w-28 toggle-checkbox-wide h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500"
+									/>
+									<span className="absolute text-xs font-medium text-white uppercase right-1">
+										Twitch
+									</span>
+									<span className="absolute text-xs font-medium text-white uppercase right-14">
+										YouTube
+									</span>
+									<span className="absolute transition-transform transform bg-gray-200 rounded-full w-14 h-7 right-14"></span>
 								</label>
 							</div>
 							<label className="mt-3 text-xs font-semibold" htmlFor="description">
