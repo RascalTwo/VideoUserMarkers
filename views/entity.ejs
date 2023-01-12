@@ -18,9 +18,9 @@
 
 
 <% if (entity.type === 'YouTube') { %>
-<iframe class="w-10/12 aspect-video" src="https://www.youtube.com/embed/<%= entity._id %>?start=<%= query.t ? hmsToSeconds(query.t) : '0' %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe class="w-10/12 m-auto aspect-video" src="https://www.youtube.com/embed/<%= entity._id %>?start=<%= query.t ? hmsToSeconds(query.t) : '0' %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 <% } else {  %>
-<iframe class="w-10/12 aspect-video" src="https://player.twitch.tv/?video=<%= entity._id %>&time=<%= query.t %>&parent=example.com" allowfullscreen></iframe>
+<iframe class="w-10/12 m-auto aspect-video" src="https://player.twitch.tv/?video=<%= entity._id %>&time=<%= query.t %>&parent=example.com" allowfullscreen></iframe>
 <% } %>
 
 <%- await include("partials/collections.ejs", { collections: entity.collections }) %>
