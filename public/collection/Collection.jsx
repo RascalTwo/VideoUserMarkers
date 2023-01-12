@@ -796,31 +796,50 @@ export default function Collection({
 					</li>
 				))}
 			</ul>
-			<button
-				onClick={() =>
-					navigator.clipboard
-						.writeText(
-							`${window.location.origin}/v/${entityId}/${window.btoa(
-								JSON.stringify({
-									_id: Date.now(),
-									entity: { _id: entityId, type, title: entity.title },
-									title,
-									description,
-									markers: markers.map(({ when, title, description }, i) => ({
-										_id: i,
-										when,
+
+			<div className="flex justify-between mt-2">
+				<button
+					onClick={() =>
+						navigator.clipboard
+							.writeText(
+								`${window.location.origin}/v/${entityId}/${window.btoa(
+									JSON.stringify({
+										_id: Date.now(),
+										entity: { _id: entityId, type, title: entity.title },
 										title,
-										description: description || undefined,
-									})),
-									public: isPublic,
-								})
-							)}`
-						)
-						.then(() => alert('Encoded URL copied to clipboard'))
-				}
-			>
-				<i className="fa fa-share" alt="Export as URL" title="Export as URL"></i>
-			</button>
+										description,
+										markers: markers.map(({ when, title, description }, i) => ({
+											_id: i,
+											when,
+											title,
+											description: description || undefined,
+										})),
+										public: isPublic,
+									})
+								)}`
+							)
+							.then(() => alert('Encoded URL copied to clipboard'))
+					}
+				>
+					<i className="fa fa-share" alt="Export as URL" title="Export as URL"></i>
+				</button>
+				{user ? (
+					<button
+						onClick={() => {
+							const url = new URL(window.location.origin + '/v');
+							url.searchParams.set('entity', entityId);
+							url.searchParams.set('public', isPublic);
+							url.searchParams.set('usingYoutube', type === 'YouTube');
+							url.searchParams.set('title', title + ' (Copy)');
+							url.searchParams.set('description', description);
+							url.searchParams.set('markers', markersAsText);
+							window.location.href = url.toString();
+						}}
+					>
+						<i className="fa fa-files-o" alt="Clone Collection" title="Clone Collection"></i>
+					</button>
+				) : null}
+			</div>
 		</>
 	);
 }

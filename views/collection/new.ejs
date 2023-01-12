@@ -1,13 +1,13 @@
 <%- await include("../partials/header.ejs") %>
 <form class="flex flex-col p-6 mt-6 bg-white rounded shadow-lg" method="POST">
   <label class="text-xs font-semibold" for="entity">Video ID/URL</label>
-  <input class="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2" type="text" name="entity" id="entity" value="<%= query.video %>" <%= query.video ? '' : 'autofocus' %>>
+  <input class="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2" type="text" name="entity" id="entity" value="<%= query.entity %>">
   <div class="flex justify-between mt-3">
     <label for="public">
       <span class="text-xs font-semibold">Public</span>
     </label>
     <label class="relative flex items-center cursor-pointer select-none w-max">
-      <input type="checkbox" id="public" checked name="public" class="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
+      <input type="checkbox" id="public" <%= !query.public || query.public === 'true' ? 'checked' : '' %> name="public" class="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
       <span class="absolute text-xs font-medium text-white uppercase right-1"> No </span>
       <span class="absolute text-xs font-medium text-white uppercase right-8"> Yes </span>
       <span class="absolute transition-transform transform bg-gray-200 rounded-full w-7 h-7 right-7"></span>
@@ -18,21 +18,21 @@
       <span class="text-xs font-semibold">Platform</span>
     </label>
     <label class="relative flex items-center cursor-pointer select-none w-max">
-      <input type="checkbox" id="usingYoutube" <%= query.video && query.video.length === 10 ? '' : 'checked' %> name="usingYoutube" class="transition-colors bg-[#9146FF] rounded-full appearance-none cursor-pointer w-28 toggle-checkbox-wide h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
+      <input type="checkbox" id="usingYoutube" <%= query.usingYoutube === 'true' ? 'checked' : query.entity && query.entity.length === 10 ? '' : 'checked' %> name="usingYoutube" class="transition-colors bg-[#9146FF] rounded-full appearance-none cursor-pointer w-28 toggle-checkbox-wide h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
       <span class="absolute text-xs font-medium text-white uppercase right-1"> Twitch </span>
       <span class="absolute text-xs font-medium text-white uppercase right-14"> YouTube </span>
       <span class="absolute transition-transform transform bg-gray-200 rounded-full w-14 h-7 right-14"></span>
     </label>
   </div>
   <label class="mt-3 text-xs font-semibold" for="title">Title</label>
-  <input class="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2" type="text" name="title" id="title" <%= query.video ? 'autofocus' : '' %>>
+  <input class="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2" type="text" name="title" id="title" value="<%= query.title %>">
   <label class="mt-3 text-xs font-semibold" for="description">
     Description
     <img src="https://www.markdownguide.org/favicon.ico" alt="Markdown Compatible" title="Markdown Compatible" class="inline-block pl-1" />
   </label>
-  <textarea class="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2" type="text" name="description" id="description"></textarea>
+  <textarea class="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2" type="text" name="description" id="description"><%= query.description %></textarea>
   <label class="mt-3 text-xs font-semibold" for="markers">Markers (H:M:S Title Description)</label>
-  <textarea class="flex items-center min-w-[12rem] h-12 pr-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2" type="text" name="markers" id="markers"></textarea>
+  <textarea class="flex items-center min-w-[12rem] h-12 pr-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2" type="text" name="markers" id="markers"><%= query.markers %></textarea>
   <button class="flex items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700" type="submit">Create</button>
 </form>
 <%- await include("../partials/footer.ejs") %>
