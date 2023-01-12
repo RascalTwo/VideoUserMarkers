@@ -42,7 +42,7 @@ function DHMStoSeconds(parts) {
 module.exports.createCollection = async (request, response) => {
 	const { entity: entityInput, usingYoutube, title, description } = request.body;
 	const type = usingYoutube ? 'YouTube' : 'Twitch';
-	const public = request.body.public === true ? true : undefined;
+	const public = request.body.public === 'on' ? true : undefined;
 
 	const entityId = entityInput.split('/').pop().split('?')[0];
 
