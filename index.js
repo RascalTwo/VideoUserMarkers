@@ -9,6 +9,8 @@ const MongoStore = require('connect-mongo');
 const flash = require('express-flash');
 const { PORT, SESSION_SECRET, DISABLE_MORGAN, NODE_ENV } = require('./config/constants');
 const {
+	addNodeEnvToLocals,
+	addHeadersToLocals,
 	addURLToLocals,
 	addUserToLocals,
 	addCollectionsGetter,
@@ -66,6 +68,8 @@ require('./config/database')().then(conn => {
 
 	app.use(flash());
 
+	app.use(addNodeEnvToLocals);
+	app.use(addHeadersToLocals);
 	app.use(addURLToLocals);
 	app.use(addUserToLocals);
 	app.use(addCollectionsGetter);
@@ -77,6 +81,7 @@ require('./config/database')().then(conn => {
 	app.use('/auth', require('./routes/auth'));
 	app.use('/marker', require('./routes/marker'));
 	app.use('/api', require('./routes/api'));
+	app.use('/oembed', require('./routes/oembed'));
 
 	app.use((request, response) => {
 		response.status(404).render('error', {

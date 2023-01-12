@@ -1,6 +1,7 @@
 const Collection = require('../models/Collection');
 const Entity = require('../models/Entity');
 const Marker = require('../models/Marker');
+const { conditionalS, getTotalMarkers, listToDescription, secondsToHMS } = require('../utils');
 
 module.exports.renderNewCollection = (_, response) =>
 	response.render('collection/new', { title: 'New Collection' });
@@ -25,7 +26,23 @@ module.exports.renderEntity = async (request, response) => {
 	});
 	return refetch
 		? response.redirect(`/v/${entityId}`)
-		: response.render('entity', { entity, title: entity.title });
+		: response.render('entity', {
+			entity,
+			title: entity.title,
+			meta: {
+				image: entity.thumbnail,
+				description:
+						`${entity.collections.length} collection${conditionalS(
+							entity.collections
+						)} totaling ${getTotalMarkers(entity.collections)} markers` +
+						listToDescription(
+							entity.collections.map(
+								collection => `${collection.title} (${collection.markerCount} markers)`
+							),
+							response.locals.isDiscordbot
+						),
+			},
+		  });
 };
 
 function DHMStoSeconds(parts) {
@@ -96,7 +113,16 @@ async function renderCollection(request, response, view) {
 	const { idOrBase64 } = request.params;
 	let collection;
 	if (idOrBase64.length === 24) {
-		collection = await Collection.findById(idOrBase64).populate('author markers entity');
+		collection = await Collection.findById(idOrBase64)
+			.populate('author entity')
+			.populate({
+				path: 'markers',
+				options: {
+					sort: {
+						when: 1,
+					},
+				},
+			});
 		if (!collection)
 			return response.status(404).render('error', {
 				title: 'Collection Not Found',
@@ -107,9 +133,24 @@ async function renderCollection(request, response, view) {
 			});
 	} else collection = JSON.parse(Buffer.from(idOrBase64, 'base64').toString('utf-8'));
 
+	const places = secondsToHMS(collection.markers.at(-1).when).split(':').length;
+
 	response.render('collection/' + view, {
 		collection,
 		title: collection.title + ' on ' + collection.entity.title,
+		meta: {
+			image: collection.entity.thumbnail,
+			description:
+				`${collection.description} \n\n ${collection.markers.length} marker${conditionalS(
+					collection.markers
+				)}` +
+				listToDescription(
+					collection.markers.map(
+						marker => `${marker.title}\t@\t${secondsToHMS(marker.when, undefined, places)}`
+					),
+					response.locals.isDiscordbot
+				),
+		},
 	});
 }
 

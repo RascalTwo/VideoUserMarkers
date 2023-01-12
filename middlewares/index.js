@@ -22,12 +22,23 @@ module.exports.addUserToLocals = (request, response, next) => {
 };
 
 module.exports.addEJSHelpers = (request, response, next) => {
+	Object.assign(response.locals, ejsHelpers);
+	next();
+};
+
+module.exports.addNodeEnvToLocals = (request, response, next) => {
 	response.locals.NODE_ENV = NODE_ENV;
-	response.locals.NODE_ENV = process.env.NODE_ENV || 'development';
+	next();
+};
+
+module.exports.addHeadersToLocals = (request, response, next) => {
+	response.locals.isDiscordbot = request.headers['user-agent'].includes('Discordbot');
+	response.locals.origin = `http${request.secure ? 's' : ''}://${request.headers['host']}`;
 	next();
 };
 
 module.exports.addURLToLocals = (request, response, next) => {
+	response.locals.path = request.path;
 	response.locals.url = request.originalUrl;
 	response.locals.query = request.query;
 	response.locals.params = request.params;

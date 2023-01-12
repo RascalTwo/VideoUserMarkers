@@ -1,0 +1,31 @@
+<% if (isDiscordbot) { %>
+<meta property="og:title" content="<%= title %>" />
+<meta property="og:description" content="<%= description %>" />
+<% if (locals.image) { %>
+<meta property="og:image" content="<%= image %>" />
+<% } %>
+<meta name="twitter:card" content="summary_large_image">
+</meta>
+<% } else { %>
+<meta name="description" content="<%= description %>" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="<%= title %>" />
+<meta property="og:description" content="<%= description %>" />
+<meta property="og:url" content="<%= origin %>" />
+<% if (locals.image) { %>
+<meta name="image" property="og:image" content="<%= image %>" />
+<meta property="og:image:secure_url" content="<%= image %>" />
+<% } %>
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:domain" content="<%= origin %>" />
+<meta name="twitter:title" content="<%= title %>" />
+<meta name="twitter:description" content="<%= description %>" />
+<% if (locals.image) { %>
+<meta name="twitter:image" content="<%= image %>" />
+<% } %>
+<meta name="twitter:site" content="@RealRascalTwo" />
+<meta name="twitter:creator" content="@RealRascalTwo" />
+<% } %>
+
+<link type="application/json+oembed" href="<%= origin %>/oembed<%= path %>">

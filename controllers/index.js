@@ -28,7 +28,13 @@ module.exports.renderProfile = async (request, response) => {
 		});
 	response.render('profile', {
 		profiling,
-		title: profiling.username + ' Profile',
+		title: profiling.username + "'s Profile",
+		meta: {
+			image: profiling.avatarURL,
+			description: `Author of ${profiling.collections.length.toLocaleString()} collections totaling ${profiling.collections
+				.reduce((count, collection) => count + collection.markerCount, 0)
+				.toLocaleString()} markers.`,
+		},
 	});
 };
 
@@ -55,41 +61,46 @@ module.exports.deleteOrphans = async (request, response) => {
 };
 
 module.exports.search = async (request, response) => {
-	const query = request.query.search;
+	const search = request.query.search;
+	const collections = await Collection.find({
+		$or: [
+			{ title: { $regex: search, $options: 'i' } },
+			{ description: { $regex: search, $options: 'i' } },
+		],
+	}).populate({
+		path: 'author entity markerCount',
+	});
+	const markers = await Marker.find({
+		$or: [
+			{ title: { $regex: search, $options: 'i' } },
+			{ description: { $regex: search, $options: 'i' } },
+		],
+	}).populate({
+		path: 'collectionRef',
+		populate: {
+			path: 'author entity markerCount',
+		},
+	});
 	const matches = [
-		...(
-			await Collection.find({
-				$or: [
-					{ title: { $regex: query, $options: 'i' } },
-					{ description: { $regex: query, $options: 'i' } },
-				],
-			}).populate({
-				path: 'author entity markerCount',
-			})
-		).map(e => ({ ...e.toObject(), type: 'collection' })),
-		...(
-			await Marker.find({
-				$or: [
-					{ title: { $regex: query, $options: 'i' } },
-					{ description: { $regex: query, $options: 'i' } },
-				],
-			}).populate({
-				path: 'collectionRef',
-				populate: {
-					path: 'author entity markerCount',
-				},
-			})
-		).map(e => ({ ...e.toObject(), type: 'marker' })),
+		...collections.map(e => ({ ...e.toObject(), type: 'collection' })),
+		...markers.map(e => ({ ...e.toObject(), type: 'marker' })),
 	].sort((a, b) => {
 		const aRatio =
-			(a.title.match(new RegExp(query, 'gi'))?.length || 0) +
-			(a.description?.match(new RegExp(query, 'gi'))?.length || 0) /
+			(a.title.match(new RegExp(search, 'gi'))?.length || 0) +
+			(a.description?.match(new RegExp(search, 'gi'))?.length || 0) /
 				(a.title.length + a.description?.length ?? 0);
 		const bRatio =
-			(b.title.match(new RegExp(query, 'gi'))?.length || 0) +
-			(b.description?.match(new RegExp(query, 'gi'))?.length || 0) /
+			(b.title.match(new RegExp(search, 'gi'))?.length || 0) +
+			(b.description?.match(new RegExp(search, 'gi'))?.length || 0) /
 				(b.title.length + b.description?.length ?? 0);
 		return bRatio - aRatio;
 	});
-	response.render('search', { query, matches, title: 'Search for ' + query });
+	response.render('search', {
+		search,
+		matches,
+		title: `Search for "${search}"`,
+		meta: {
+			description: `Found ${collections.length} collections and ${markers.length} markers searching for "${search}"`,
+		},
+	});
 };
