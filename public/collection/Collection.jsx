@@ -201,7 +201,10 @@ export default function Collection({
 		description,
 		markers: initialMarkers,
 		public: isPublic,
+		createdAt,
+		updatedAt,
 	},
+	setCollection,
 	user,
 	isEmbed,
 }) {
@@ -613,12 +616,20 @@ export default function Collection({
 									body: JSON.stringify(marker),
 								})
 									.then(res => res.json())
-									.then(({ _id, message }) => {
+									.then(({ markerId, collectionUpdatedAt, message }) => {
 										if (message) return alert(message);
-										marker._id = _id;
-										setAddingAt(null);
-										setMarkers(markers => [...markers, marker].sort((a, b) => a.when - b.when));
+										marker._id = markerId;
+										setMarkers(markers => {
+											const newMarkers = [...markers, marker].sort((a, b) => a.when - b.when);
+											setCollection(collection => ({
+												...collection,
+												updatedAt: collectionUpdatedAt,
+												markers: newMarkers,
+											}));
+											return newMarkers;
+										});
 										e.target.closest('[data-test-id="modal-backdrop"]').click();
+										setAddingAt(null);
 									});
 							}}
 						>
@@ -681,11 +692,20 @@ export default function Collection({
 									method: 'DELETE',
 								})
 									.then(res => res.json())
-									.then(({ message }) => {
+									.then(({ collectionUpdatedAt, message }) => {
 										if (message) return alert(message);
-										setMarkers(markers =>
-											markers.filter(marker => marker._id !== selectedMarker._id)
-										);
+
+										setMarkers(markers => {
+											const newMarkers = markers.filter(
+												marker => marker._id !== selectedMarker._id
+											);
+											setCollection(collection => ({
+												...collection,
+												updatedAt: collectionUpdatedAt,
+												markers: newMarkers,
+											}));
+											return newMarkers;
+										});
 										setSelectedMarker(null);
 									});
 							}
@@ -707,14 +727,20 @@ export default function Collection({
 								body: JSON.stringify(newMarker),
 							})
 								.then(res => res.json())
-								.then(({ message }) => {
+								.then(({ marker: updatedMarker, collectionUpdatedAt, message }) => {
 									if (message) return alert(message);
-									setMarkers(markers =>
-										markers.map(marker =>
-											marker._id === selectedMarker._id ? newMarker : marker
-										)
-									);
-									setSelectedMarker(newMarker);
+									setMarkers(markers => {
+										const newMarkers = markers.map(marker =>
+											marker._id === selectedMarker._id ? updatedMarker : marker
+										);
+										setCollection(collection => ({
+											...collection,
+											updatedAt: collectionUpdatedAt,
+											markers: newMarkers,
+										}));
+										return newMarkers;
+									});
+									setSelectedMarker(updatedMarker);
 									e.target.closest('[data-test-id="modal-backdrop"]').click();
 								});
 						}}
@@ -766,6 +792,22 @@ export default function Collection({
 					</form>
 				</Modal>
 			) : null}
+			<div className="flex flex-row gap-1">
+				<time
+					dateTime={createdAt}
+					alt={`Created at ${createdAt}`}
+					title={`Created at ${createdAt}`}
+				>
+					<i className="fa fa-calendar-o"></i>
+				</time>
+				<time
+					dateTime={updatedAt}
+					alt={`Updated at ${updatedAt}`}
+					title={`Updated at ${updatedAt}`}
+				>
+					<i className="fa fa-calendar"></i>
+				</time>
+			</div>
 			<ul className="border border-slate-900">
 				{markers.map(marker => (
 					<li

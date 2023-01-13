@@ -128,17 +128,21 @@ module.exports.upsertCollection = async (request, response) => {
 		newMarkers.push(newMarker);
 	}
 
+	let updatedMarker = false;
 	for (const marker of markers) {
 		const existingMarker = collection.markers.find(t => t.id === marker._id);
 		if (!existingMarker) {
 			continue;
 		}
 
+		updatedMarker = true;
 		existingMarker.when = marker.when;
 		existingMarker.title = marker.title;
 		existingMarker.description = marker.description || undefined;
 		await existingMarker.save();
 	}
+
+	if (updatedMarker || newMarkers.length) collection.updatedAt = new Date();
 
 	await collection.save();
 
