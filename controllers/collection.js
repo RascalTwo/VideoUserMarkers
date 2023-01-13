@@ -141,7 +141,9 @@ async function renderCollection(request, response, view) {
 			});
 	} else collection = JSON.parse(Buffer.from(idOrBase64, 'base64').toString('utf-8'));
 
-	const places = secondsToHMS(collection.markers.at(-1).when).split(':').length;
+	const places = collection.markers.length
+		? secondsToHMS(collection.markers.at(-1).when).split(':').length
+		: 0;
 
 	response.render('collection/' + view, {
 		collection,
