@@ -126,5 +126,20 @@ EntitySchema.static('fetchEntityInfo', async function (id, type) {
 	}
 	return null;
 });
+EntitySchema.method('fetchInitialMarkers', async function () {
+	if (this.type === 'Twitch') return [];
+	const response = await fetch(`https://www.youtube.com/watch?v=${this._id}`);
+	const html = await response.text();
+	const ytInitialData = JSON.parse(html.split('ytInitialData = ')[1].split(';</script>')[0]);
+	const rawChapters =
+		ytInitialData?.playerOverlays?.playerOverlayRenderer?.decoratedPlayerBarRenderer?.decoratedPlayerBarRenderer?.playerBar?.multiMarkersPlayerBarRenderer?.markersMap?.find(
+			map => map.key === 'DESCRIPTION_CHAPTERS'
+		)?.value?.chapters ?? [];
+	const markers = rawChapters.map(({ chapterRenderer }) => ({
+		when: chapterRenderer.timeRangeStartMillis / 1000,
+		title: chapterRenderer.title.simpleText,
+	}));
+	return markers;
+});
 
 module.exports = mongoose.model('Entity', EntitySchema);

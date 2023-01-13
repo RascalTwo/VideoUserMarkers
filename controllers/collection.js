@@ -59,6 +59,7 @@ function DHMStoSeconds(parts) {
 module.exports.createCollection = async (request, response) => {
 	const { entity: entityInput, usingYoutube, title, description } = request.body;
 	const type = usingYoutube ? 'YouTube' : 'Twitch';
+	const attemptImport = request.body.attemptImport === 'on';
 	const public = request.body.public === 'on' ? true : undefined;
 
 	const entityId = entityInput.split('/').pop().split('?')[0];
@@ -105,6 +106,13 @@ module.exports.createCollection = async (request, response) => {
 			});
 		}
 		await Marker.create(newMarkers);
+	} else if (attemptImport) {
+		const initialMarkers = await entity.fetchInitialMarkers(entity);
+		const markers = initialMarkers.map(marker => ({
+			...marker,
+			collectionRef: collection._id,
+		}));
+		await Marker.create(markers);
 	}
 	response.redirect(`/v/{${entityId}/${collection._id}`);
 };
