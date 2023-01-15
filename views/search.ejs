@@ -1,7 +1,8 @@
 <%- await include("partials/header.ejs") %>
+<%- await include("partials/sorting.ejs", { fields: { matchRatio: 'Total Match', title: 'Title', createdAt: 'Created', updatedAt: 'Updated' }, values: { search: query.search }}) %>
 <div class="container px-4 mx-auto my-12 md:px-12">
   <div class="flex flex-wrap -mx-1 lg:-mx-4">
-    <% for (const match of matches) { %>
+    <% for (const match of sortArrayBy(matches, query.sort, query.descending)) { %>
     <%- match.type === 'collection' ? await include("partials/collection.ejs", { collection: match, search }) : await include("partials/marker.ejs", { marker: match, search }) %>
     <% } %>
   </div>

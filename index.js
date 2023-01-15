@@ -13,7 +13,6 @@ const {
 	addHeadersToLocals,
 	addURLToLocals,
 	addUserToLocals,
-	addCollectionsGetter,
 	addEJSHelpers,
 } = require('./middlewares');
 
@@ -72,7 +71,6 @@ require('./config/database')().then(conn => {
 	app.use(addHeadersToLocals);
 	app.use(addURLToLocals);
 	app.use(addUserToLocals);
-	app.use(addCollectionsGetter);
 	app.use(addEJSHelpers);
 
 	app.use('/', require('./routes/index'));

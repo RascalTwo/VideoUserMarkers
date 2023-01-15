@@ -1,5 +1,4 @@
 const { NODE_ENV } = require('../config/constants');
-const Collection = require('../models/Collection');
 const ejsHelpers = require('../views/helpers');
 
 module.exports.requireAuth = redirectTo => (request, response, next) => {
@@ -45,19 +44,13 @@ module.exports.addURLToLocals = (request, response, next) => {
 	next();
 };
 
-module.exports.addCollectionsGetter = (request, response, next) => {
-	let collections;
-	response.locals.collections = () => {
-		if (collections) return Promise.resolve(collections);
-		return Collection.find({
-			$or: [{ public: true }, ...(request.user ? [{ author: request.user._id }] : [])],
-		})
-			.populate('author entity markerCount')
-			.sort({ createdAt: -1 })
-			.then(found => {
-				collections = found;
-				return collections;
-			});
-	};
-	next();
-};
+module.exports.setDefaultSorting =
+	(sort = 'createdAt', descending = false) =>
+		(request, _, next) => {
+			if (request.query.sort === undefined) {
+				request.query.sort = sort;
+				// As descending can be undefined by user-choice, only change if no sorting is happening at all
+				request.query.descending = descending;
+			}
+			next();
+		};

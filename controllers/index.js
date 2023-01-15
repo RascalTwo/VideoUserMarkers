@@ -3,7 +3,15 @@ const Collection = require('../models/Collection');
 const Marker = require('../models/Marker');
 const Entity = require('../models/Entity');
 
-module.exports.renderHomepage = (_, response) => response.render('index', { title: 'Home' });
+module.exports.renderHomepage = async (request, response) => {
+	const collections = await Collection.find({
+		$or: [{ public: true }, ...(request.user ? [{ author: request.user._id }] : [])],
+	})
+		.populate('author entity markerCount')
+		.sort({ createdAt: -1 });
+
+	response.render('index', { title: 'Home', collections });
+};
 
 module.exports.renderProfile = async (request, response) => {
 	const username = request.params.username || request.user?.username;
@@ -84,17 +92,13 @@ module.exports.search = async (request, response) => {
 	const matches = [
 		...collections.map(e => ({ ...e.toObject(), type: 'collection' })),
 		...markers.map(e => ({ ...e.toObject(), type: 'marker' })),
-	].sort((a, b) => {
-		const aRatio =
-			(a.title.match(new RegExp(search, 'gi'))?.length || 0) +
-			(a.description?.match(new RegExp(search, 'gi'))?.length || 0) /
-				(a.title.length + a.description?.length ?? 0);
-		const bRatio =
-			(b.title.match(new RegExp(search, 'gi'))?.length || 0) +
-			(b.description?.match(new RegExp(search, 'gi'))?.length || 0) /
-				(b.title.length + b.description?.length ?? 0);
-		return bRatio - aRatio;
-	});
+	].map(match => ({
+		...match,
+		matchRatio:
+			((match.title.match(new RegExp(search, 'gi'))?.length || 0) +
+				(match.description?.match(new RegExp(search, 'gi'))?.length || 0)) /
+			(match.title.length + match.description?.length ?? 0),
+	}));
 	response.render('search', {
 		search,
 		matches,

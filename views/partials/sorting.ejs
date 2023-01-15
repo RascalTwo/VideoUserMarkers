@@ -1,0 +1,35 @@
+<details class="absolute z-20 self-start group">
+  <summary class="inline-block p-1 list-none bg-white cursor-pointer w-max rounded-br-md group-open:rounded-br-none"><i class="fa fa-random" alt="Sorting" title="Sorting"></i></summary>
+
+  <form class="flex flex-col w-56 p-6 ml-4 bg-white shadow-lg md:w-64 rounded-tr-md rounded-br-md rounded-bl-md">
+    <% Object.entries(locals.values || {}).map(([key, value]) => { %>
+    <input type="hidden" name="<%= key %>" value="<%= value %>" />
+    <% }) %>
+    <div class="flex justify-between">
+      <label for="sort">
+        <span class="text-xs font-semibold">Sort by</span>
+      </label>
+      <select id="sort" name="sort" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-1/2">
+        <% Object.entries(fields).map(([value, text]) => { %>
+        <option value="<%= value %>" <%= query.sort === value ? 'selected' : '' %>><%= text %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="flex justify-between mt-3">
+      <label for="descending">
+        <span class="text-xs font-semibold">Direction</span>
+      </label>
+      <label class="relative flex items-center cursor-pointer select-none w-max">
+        <input type="checkbox" id="descending" <%= query.descending ? 'checked' : '' %> name="descending" class="transition-colors bg-[#0000ff] rounded-full appearance-none cursor-pointer w-28 toggle-checkbox-wide checked:bg-red-500 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
+        <span class="absolute text-xs font-medium text-white uppercase right-1"> Ascend </span>
+        <span class="absolute text-xs font-medium text-white uppercase right-14"> Descend </span>
+        <span class="absolute transition-transform transform bg-gray-200 rounded-full w-14 h-7 right-14"></span>
+      </label>
+    </div>
+    <div>
+      <button type="submit" class="flex items-center justify-center w-full h-12 px-6 mt-3 text-sm font-semibold text-center text-white bg-[#9146FF] rounded hover:bg-[#9106FF]">
+        Resort
+      </button>
+    </div>
+  </form>
+</details>

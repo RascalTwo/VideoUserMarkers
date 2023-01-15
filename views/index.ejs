@@ -1,3 +1,4 @@
 <%- await include("partials/header.ejs") %>
-<%- await include("partials/collections.ejs", { collections: await collections() }) %>
+<%- await include("partials/sorting.ejs", { fields: { title: 'Title', createdAt: 'Created', updatedAt: 'Updated' }}) %>
+<%- await include("partials/collections.ejs", { collections }) %>
 <%- await include("partials/footer.ejs") %>

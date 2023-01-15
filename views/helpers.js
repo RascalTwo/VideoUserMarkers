@@ -28,4 +28,20 @@ module.exports = {
 			await marked.parse(markdown, { renderer })
 		);
 	},
+	sortArrayBy: (array, key, descending = false) => {
+		if (!key) return array;
+		const sorted = array.sort((a, b) => {
+			const aValue = a[key];
+			const bValue = b[key];
+			const hasAValue = aValue !== undefined && aValue !== null;
+			const hasBValue = bValue !== undefined && bValue !== null;
+			if (!hasAValue && !hasBValue) return 0;
+			if (!hasAValue) return 1;
+			if (!hasBValue) return -1;
+			if (typeof aValue === 'number' && typeof bValue === 'number') return aValue - bValue;
+			return aValue.toString().localeCompare(bValue.toString());
+		});
+		if (descending) sorted.reverse();
+		return sorted;
+	},
 };

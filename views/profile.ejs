@@ -15,6 +15,6 @@
   <% } %>
 </h1>
 
-
+<%- await include("partials/sorting.ejs", { fields: { title: 'Title', createdAt: 'Created', updatedAt: 'Updated' }}) %>
 <%- await include("partials/collections.ejs", { collections: profiling.collections }) %>
 <%- await include("partials/footer.ejs") %>

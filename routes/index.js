@@ -1,12 +1,12 @@
 const router = require('express-promise-router')();
 const controller = require('../controllers/index');
-const { requireAdmin } = require('../middlewares/index');
+const { requireAdmin, setDefaultSorting } = require('../middlewares/index');
 
-router.get('/', controller.renderHomepage);
+router.get('/', setDefaultSorting('createdAt', true), controller.renderHomepage);
 
-router.get('/profile/:username?', controller.renderProfile);
+router.get('/profile/:username?', setDefaultSorting('updatedAt', true), controller.renderProfile);
 
-router.get('/search', controller.search);
+router.get('/search', setDefaultSorting('matchRatio', true), controller.search);
 
 router.get('/admin/delete-orphans', requireAdmin, controller.deleteOrphans);
 
