@@ -24,6 +24,11 @@
 <% } else {  %>
 <iframe class="w-10/12 m-auto aspect-video" src="https://player.twitch.tv/?video=<%= entity._id %>&time=<%= query.t %>&parent=example.com" allowfullscreen></iframe>
 <% } %>
+<div class="flex flex-row w-10/12 gap-1">
+  <time datetime="<%= entity.createdAt %>" alt="<%= entity.createdAt %>" title="<%= entity.createdAt %>">
+    <i class="fa fa-calendar-o"></i>
+  </time>
+</div>
 
 <%- await include("partials/collections.ejs", { collections: entity.collections }) %>
 
