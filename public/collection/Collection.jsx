@@ -804,13 +804,15 @@ export default function Collection({
 				>
 					<i className="fa fa-calendar-o"></i>
 				</time>
-				<time
-					dateTime={updatedAt}
-					alt={`Updated at ${updatedAt}`}
-					title={`Updated at ${updatedAt}`}
-				>
-					<i className="fa fa-calendar"></i>
-				</time>
+				{updatedAt !== createdAt && (
+					<time
+						dateTime={updatedAt}
+						alt={`Updated at ${updatedAt}`}
+						title={`Updated at ${updatedAt}`}
+					>
+						<i className="fa fa-calendar"></i>
+					</time>
+				)}
 			</div>
 			<ul className="border border-slate-900">
 				{markers.map(marker => (
