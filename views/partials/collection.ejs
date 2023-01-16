@@ -7,7 +7,7 @@
         <img alt="<%= collection.entity.title %> thumbnail" class="block w-full h-auto" src="<%= collection.entity.thumbnail %>" />
       </a>
       <% if (collection.entity.duration) { %>
-      <div class="absolute z-10 font-mono text-white bottom-0 right-0 bg-[rgba(0,0,0,0.85)] rounded-md rounded-br-none border border-slate-400 px-1" alt="Duration" title="Duration"><%= secondsToHMS(collection.entity.duration) %></div>
+      <time datetime="PT<%= secondsToPTDuration(collection.entity.duration) %>" class="absolute z-10 font-mono text-white bottom-0 right-0 bg-[rgba(0,0,0,0.85)] rounded-md rounded-br-none border border-slate-400 px-1" alt="<%= secondsToHuman(collection.entity.duration) %>" title="<%= secondsToHuman(collection.entity.duration) %>"><%= secondsToHMS(collection.entity.duration) %></time>
       <% } %>
     </div>
 

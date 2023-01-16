@@ -565,7 +565,11 @@ export default function Collection({
 			</div>
 			<div className="flex justify-between mt-2">
 				<span className="font-mono">
-					{secondsToHMS(currentTime, undefined, totalPlaces)} / {secondsToHMS(duration)}
+					<time dateTime={secondsToHMS(currentTime)}>
+						{secondsToHMS(currentTime, undefined, totalPlaces)}
+					</time>
+					{' / '}
+					<time dateTime={'PT' + secondsToHMS(duration, 'HMS')}>{secondsToHMS(duration)}</time>
 				</span>
 				{activeMarker ? (
 					<span
@@ -826,7 +830,9 @@ export default function Collection({
 					>
 						<span className="text-left">{marker.title}</span>
 						<span className="font-mono text-right">
-							{secondsToHMS(marker.when, undefined, markerPlaces)}
+							<time dateTime={secondsToHMS(marker.when)}>
+								{secondsToHMS(marker.when, undefined, markerPlaces)}
+							</time>
 
 							<button
 								className="hidden pl-1 hoverless:inline group-hover:inline"

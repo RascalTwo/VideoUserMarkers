@@ -13,6 +13,12 @@ renderer.link = (href, title, text) => {
 
 module.exports = {
 	secondsToHMS,
+	secondsToPTDuration(seconds) {
+		return `PT${secondsToHMS(seconds, 'HMS')}`;
+	},
+	secondsToHuman(seconds) {
+		return secondsToHMS(seconds, [' hours ', ' minutes ', ' seconds ']);
+	},
 	hmsToSeconds(hms) {
 		return hms
 			.split(/(\d+[a-z]+)/i)

@@ -19,5 +19,5 @@ module.exports.secondsToHMS = (seconds, delimiters = '::', minimalPlaces = 1) =>
 		(h > 0 || minimalPlaces >= 3 ? h.toString().padStart(2, '0') + delimiters[0] : '') +
 		(m > 0 || minimalPlaces >= 2 ? m.toString().padStart(2, '0') + delimiters[1] : '') +
 		(s.toString().padStart(2, '0') + (delimiters[2] || ''))
-	);
+	).trim();
 };
