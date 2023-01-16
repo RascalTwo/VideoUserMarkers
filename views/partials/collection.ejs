@@ -1,11 +1,21 @@
 <div class="w-full px-1 my-1 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 xl:w-1/4">
 
-  <article class="overflow-hidden rounded-lg shadow-lg bg-slate-200">
+  <article class="overflow-hidden rounded-lg shadow-lg bg-slate-200 hover:bg-slate-300 outline-1 outline-slate-400 outline hover:outline-slate-900">
 
-    <div class="relative">
+    <div class="relative group">
       <a href="/v/<%= collection.entity.id %>/<%= collection.id %>">
         <img alt="<%= collection.entity.title %> thumbnail" class="block w-full h-auto" src="<%= collection.entity.thumbnail %>" />
       </a>
+      <div class="absolute top-0 left-0 z-10 flex-row hidden gap-1 px-1 bg-white group-hover:flex rounded-br-md">
+        <time datetime="<%= collection.entity.createdAt %>" alt="Created at <%= collection.entity.createdAt %>" title="Created at <%= collection.entity.createdAt %>">
+          <i class="fa fa-calendar-o"></i>
+        </time>
+        <% if (collection.entity.updatedAt !== collection.entity.createdAt) { %>
+        <time datetime="<%= collection.entity.updatedAt %>" alt="Updated at <%= collection.entity.updatedAt %>" title="Updated at <%= collection.entity.updatedAt %>">
+          <i class="fa fa-calendar"></i>
+        </time>
+        <% } %>
+      </div>
       <% if (collection.entity.duration) { %>
       <time datetime="PT<%= secondsToPTDuration(collection.entity.duration) %>" class="absolute z-10 font-mono text-white bottom-0 right-0 bg-[rgba(0,0,0,0.85)] rounded-md rounded-br-none border border-slate-400 px-1" alt="<%= secondsToHuman(collection.entity.duration) %>" title="<%= secondsToHuman(collection.entity.duration) %>"><%= secondsToHMS(collection.entity.duration) %></time>
       <% } %>
