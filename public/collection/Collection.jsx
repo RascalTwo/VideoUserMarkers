@@ -207,6 +207,7 @@ export default function Collection({
 	setCollection,
 	user,
 	isEmbed,
+	canEdit,
 }) {
 	const [ready, setReady] = useState(false);
 
@@ -398,7 +399,7 @@ export default function Collection({
 
 	return (
 		<>
-			{user ? (
+			{canEdit ? (
 				<div className="flex justify-between">
 					<Modal buttonContent={<i className="fa fa-edit" alt="Update" title="Update"></i>}>
 						<form
@@ -587,7 +588,7 @@ export default function Collection({
 					</span>
 				) : null}
 
-				{user ? (
+				{canEdit ? (
 					<Modal
 						buttonContent={
 							<i
