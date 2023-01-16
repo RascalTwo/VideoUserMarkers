@@ -1,10 +1,14 @@
 const { NODE_ENV } = require('../config/constants');
 const ejsHelpers = require('../views/helpers');
 
-module.exports.requireAuth = redirectTo => (request, response, next) => {
-	if (!request.isAuthenticated()) return response.redirect(redirectTo);
-	else next();
-};
+module.exports.requireAuth =
+	(redirectTo, errorMessage = 'You must be logged in to view this page') =>
+		(request, response, next) => {
+			if (request.isAuthenticated()) return next();
+
+			if (errorMessage) request.flash('error', errorMessage);
+			return response.redirect(redirectTo);
+		};
 
 module.exports.requireAdmin = (request, response, next) => {
 	if (!request.user?.isAdmin)

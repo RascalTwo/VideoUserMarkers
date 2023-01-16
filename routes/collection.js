@@ -8,14 +8,26 @@ router.get('/:entityId/:idOrBase64', controller.renderCollection);
 
 router
 	.route('/:entityId/:id')
-	.patch(requireAuth('/'), controller.updateCollection)
-	.delete(requireAuth('/'), controller.deleteCollection);
+	.patch(
+		requireAuth('/', 'You must be logged in to update collections'),
+		controller.updateCollection
+	)
+	.delete(
+		requireAuth('/', 'You must be logged in to delete collections'),
+		controller.deleteCollection
+	);
 
 router.route('/:entityId/:idOrBase64/embed').get(controller.renderCollectionEmbed);
 
 router
-	.route('/', requireAuth('/'))
-	.get(controller.renderNewCollection)
-	.post(controller.createCollection);
+	.route('/')
+	.get(
+		requireAuth('/', 'You must be logged in to create collections'),
+		controller.renderNewCollection
+	)
+	.post(
+		requireAuth('/', 'You must be logged in to create collections'),
+		controller.createCollection
+	);
 
 module.exports = router;
