@@ -796,23 +796,32 @@ export default function Collection({
 					</form>
 				</Modal>
 			) : null}
-			<div className="flex flex-row gap-1">
+			<div className="flex flex-row justify-between gap-1">
+				<div className="flex gap-1">
+					<time
+						dateTime={createdAt}
+						alt={`Collection created at ${createdAt}`}
+						title={`Collection created at ${createdAt}`}
+					>
+						<i className="fa fa-calendar-o"></i>
+					</time>
+					{updatedAt !== createdAt && (
+						<time
+							dateTime={updatedAt}
+							alt={`Collection updated at ${updatedAt}`}
+							title={`Collection updated at ${updatedAt}`}
+						>
+							<i className="fa fa-calendar"></i>
+						</time>
+					)}
+				</div>
 				<time
-					dateTime={createdAt}
-					alt={`Created at ${createdAt}`}
-					title={`Created at ${createdAt}`}
+					dateTime={entity.createdAt}
+					alt={`Entity created at ${entity.createdAt}`}
+					title={`Entity created at ${entity.createdAt}`}
 				>
 					<i className="fa fa-calendar-o"></i>
 				</time>
-				{updatedAt !== createdAt && (
-					<time
-						dateTime={updatedAt}
-						alt={`Updated at ${updatedAt}`}
-						title={`Updated at ${updatedAt}`}
-					>
-						<i className="fa fa-calendar"></i>
-					</time>
-				)}
 			</div>
 			<ul className="border border-slate-900">
 				{markers.map(marker => (
