@@ -7,7 +7,7 @@
       <span class="text-xs font-semibold">Public</span>
     </label>
     <label class="relative flex items-center cursor-pointer select-none w-max">
-      <input type="checkbox" id="public" <%= !query.public || query.public === 'true' ? 'checked' : '' %> name="public" class="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
+      <input type="checkbox" id="public" <%= !query.public || query.public === 'true' ? 'checked' : '' %> name="public" class="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox checked:bg-green-500 w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
       <span class="absolute text-xs font-medium text-white uppercase right-1"> No </span>
       <span class="absolute text-xs font-medium text-white uppercase right-8"> Yes </span>
       <span class="absolute transition-transform transform bg-gray-200 rounded-full w-7 h-7 right-7"></span>
@@ -18,7 +18,7 @@
       <span class="text-xs font-semibold">Platform</span>
     </label>
     <label class="relative flex items-center cursor-pointer select-none w-max">
-      <input type="checkbox" id="usingYoutube" <%= query.usingYoutube === 'true' ? 'checked' : query.entity && query.entity.length === 10 ? '' : 'checked' %> name="usingYoutube" class="transition-colors bg-[#9146FF] rounded-full appearance-none cursor-pointer w-28 toggle-checkbox-wide h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
+      <input type="checkbox" id="usingYoutube" <%= query.usingYoutube === 'true' ? 'checked' : query.entity && query.entity.length === 10 ? '' : 'checked' %> name="usingYoutube" class="transition-colors bg-[#9146FF] rounded-full appearance-none cursor-pointer w-28 toggle-checkbox-wide checked:bg-red-500 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
       <span class="absolute text-xs font-medium text-white uppercase right-1"> Twitch </span>
       <span class="absolute text-xs font-medium text-white uppercase right-14"> YouTube </span>
       <span class="absolute transition-transform transform bg-gray-200 rounded-full w-14 h-7 right-14"></span>
@@ -29,7 +29,7 @@
       <span class="text-xs font-semibold">Attempt Import</span>
     </label>
     <label class="relative flex items-center cursor-pointer select-none w-max">
-      <input type="checkbox" id="attemptImport" <%= !query.attemptImport || query.attemptImport === 'true' ? 'checked' : '' %> name="attemptImport" class="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
+      <input type="checkbox" id="attemptImport" <%= !query.attemptImport || query.attemptImport === 'true' ? 'checked' : '' %> name="attemptImport" class="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox checked:bg-green-500 w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500" />
       <span class="absolute text-xs font-medium text-white uppercase right-1"> No </span>
       <span class="absolute text-xs font-medium text-white uppercase right-8"> Yes </span>
       <span class="absolute transition-transform transform bg-gray-200 rounded-full w-7 h-7 right-7"></span>
