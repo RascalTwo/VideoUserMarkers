@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema(
 	},
 	{
 		toObject: { virtuals: true },
-		toJSON: { virtuals: true },
+		toJSON: { virtuals: true, versionKey: false },
 	}
 );
 UserSchema.virtual('collections', {

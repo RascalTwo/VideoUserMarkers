@@ -21,7 +21,7 @@ const MarkerSchema = new mongoose.Schema(
 	},
 	{
 		toObject: { virtuals: true },
-		toJSON: { virtuals: true },
+		toJSON: { virtuals: true, versionKey: false },
 	}
 );
 

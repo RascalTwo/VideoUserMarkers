@@ -31,7 +31,7 @@ const EntitySchema = new mongoose.Schema(
 	},
 	{
 		toObject: { virtuals: true },
-		toJSON: { virtuals: true },
+		toJSON: { virtuals: true, versionKey: false },
 		timestamps: { createdAt: false },
 	}
 );
