@@ -1,7 +1,7 @@
 <%- await include("partials/header.ejs") %>
 <h1 class="py-3 text-xl text-center">
   <% if (user?.isAdmin) { %>
-  <a href="/v/<%= entity.id %>?refetch" alt="Refetch Entity" title="Refetch Entity" class="relative inline-flex items-center px-2 bg-white border rounded-full hover:shadow-lg">
+  <a href="/v/<%= entity.id %>?refetch" alt="Refetch Entity" title="Refetch Entity" class="relative inline-flex items-center px-2 border rounded-full dark:bg-slate-900 bg-slate-50 hover:shadow-lg dark:hover:shadow-slate-700 dark:border-slate-700">
     <div class="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer">
       <i class="fa fa-refresh"></i>
     </div>
@@ -9,7 +9,7 @@
   <% } %>
   <%= entity.title %>
   <% if (user) { %>
-  <a href="/v?entity=<%= entity.id %>" alt="Create Collection" title="Create Collection" class="relative inline-flex items-center px-2 bg-white border rounded-full hover:shadow-lg">
+  <a href="/v?entity=<%= entity.id %>" alt="Create Collection" title="Create Collection" class="relative inline-flex items-center px-2 border rounded-full dark:border-slate-700 bg-slate-50 dark:bg-slate-900 hover:shadow-lg dark:hover:shadow-slate-700">
     <div class="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer">
       <i class="fa fa-plus"></i>
     </div>

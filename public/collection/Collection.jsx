@@ -403,7 +403,7 @@ export default function Collection({
 				<div className="flex justify-between">
 					<Modal buttonContent={<i className="fa fa-edit" alt="Update" title="Update"></i>}>
 						<form
-							className="flex flex-col p-6 bg-white rounded shadow-lg cursor-default"
+							className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
 							method="POST"
 						>
 							<input type="hidden" name="_method" value="PATCH" />
@@ -411,7 +411,7 @@ export default function Collection({
 								Video ID/URL
 							</label>
 							<input
-								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
+								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
 								type="text"
 								name="entity"
 								id="entity"
@@ -421,7 +421,7 @@ export default function Collection({
 								Title
 							</label>
 							<input
-								className="flex items-center h-12 px-4 mt-2 bg-gray-200 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
+								className="flex items-center h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
 								type="text"
 								name="title"
 								id="title"
@@ -445,7 +445,7 @@ export default function Collection({
 									<span className="absolute text-xs font-medium text-white uppercase right-8">
 										Yes
 									</span>
-									<span className="absolute transition-transform transform bg-gray-200 rounded-full w-7 h-7 right-7"></span>
+									<span className="absolute transition-transform transform bg-gray-200 rounded-full dark:bg-gray-800 dark:bg-gray-700 w-7 h-7 right-7"></span>
 								</label>
 							</div>
 							<div className="flex justify-between mt-3">
@@ -466,7 +466,7 @@ export default function Collection({
 									<span className="absolute text-xs font-medium text-white uppercase right-14">
 										YouTube
 									</span>
-									<span className="absolute transition-transform transform bg-gray-200 rounded-full w-14 h-7 right-14"></span>
+									<span className="absolute transition-transform transform bg-gray-200 rounded-full dark:bg-gray-800 dark:bg-gray-700 w-14 h-7 right-14"></span>
 								</label>
 							</div>
 							<label className="mt-3 text-xs font-semibold" htmlFor="description">
@@ -479,7 +479,7 @@ export default function Collection({
 								/>
 							</label>
 							<textarea
-								className="flex items-center h-12 px-4 mt-2 bg-gray-200 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
+								className="flex items-center h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
 								name="description"
 								id="description"
 								defaultValue={description}
@@ -488,7 +488,7 @@ export default function Collection({
 								Markers (H:M:S Title Description)
 							</label>
 							<textarea
-								className="flex items-center min-w-[12rem] pr-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] lg:w-80 focus:outline-none focus:ring-2"
+								className="flex items-center min-w-[12rem] pr-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] lg:w-80 focus:outline-none focus:ring-2"
 								name="markers"
 								id="markers"
 								defaultValue={markersAsText}
@@ -507,7 +507,7 @@ export default function Collection({
 					</Modal>
 					<Modal buttonContent={<i className="fa fa-trash" alt="Delete" title="Delete"></i>}>
 						<form
-							className="flex flex-col p-6 bg-white rounded shadow-lg cursor-default"
+							className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
 							method="POST"
 						>
 							<input type="hidden" name="_method" value="DELETE" />
@@ -529,7 +529,7 @@ export default function Collection({
 			) : null}
 			{showingKeyboardShortcuts ? (
 				<Modal defaultOpen={true} onClose={() => setShowingKeyboardShortcuts(false)}>
-					<div className="flex flex-col p-6 bg-white rounded shadow-lg cursor-default">
+					<div className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900">
 						<h2 className="text-lg">Keyboard Shortcuts</h2>
 						<ul className="mt-4">
 							{Object.entries({
@@ -600,7 +600,7 @@ export default function Collection({
 						}
 					>
 						<form
-							className="flex flex-col p-6 bg-white rounded shadow-lg cursor-default"
+							className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
 							onSubmit={e => {
 								e.preventDefault();
 								const formData = new FormData(e.target);
@@ -642,7 +642,7 @@ export default function Collection({
 								Title
 							</label>
 							<input
-								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
+								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
 								type="text"
 								name="title"
 								id="title"
@@ -666,7 +666,7 @@ export default function Collection({
 								/>
 							</label>
 							<textarea
-								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
+								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
 								name="description"
 								id="description"
 							/>
@@ -686,7 +686,7 @@ export default function Collection({
 			{selectedMarker ? (
 				<Modal defaultOpen={true} onClose={() => setSelectedMarker(null)}>
 					<form
-						className="flex flex-col p-6 bg-white rounded shadow-lg cursor-default"
+						className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
 						onSubmit={e => {
 							e.preventDefault();
 							if (
@@ -754,7 +754,7 @@ export default function Collection({
 							Title
 						</label>
 						<input
-							className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
+							className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
 							type="text"
 							name="title"
 							id="title"
@@ -774,7 +774,7 @@ export default function Collection({
 							/>
 						</label>
 						<textarea
-							className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
+							className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
 							name="description"
 							id="description"
 							defaultValue={selectedMarker.description}
@@ -827,8 +827,10 @@ export default function Collection({
 			<ul className="border border-slate-900">
 				{markers.map(marker => (
 					<li
-						className={`flex group justify-between p-2 border-b border-gray-800 cursor-pointer hover:bg-gray-100 hover:text-black ${
-							activeMarker?._id === marker._id ? 'bg-slate-900 text-slate-200' : ''
+						className={`flex group justify-between p-2 border-b border-gray-800 dark:border-gray-200 cursor-pointer hover:bg-gray-500 hover:text-black ${
+							activeMarker?._id === marker._id
+								? 'bg-slate-900 text-slate-200 dark:bg-slate-700 dark:text-slate-400'
+								: ''
 						}`}
 						key={marker._id}
 						onClick={e => {

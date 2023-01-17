@@ -1,16 +1,16 @@
 <%- await include("partials/header.ejs") %>
-<section class="flex items-center p-16 dark:bg-gray-900 dark:text-gray-100">
+<section class="flex items-center p-16">
   <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
     <div class="max-w-md text-center">
-      <h2 class="mb-8 font-extrabold text-9xl dark:text-gray-600">
+      <h2 class="mb-8 font-extrabold text-9xl dark:text-slate-600">
         <span class="sr-only">Error</span><%= heading %>
       </h2>
       <% if (locals.preMessage) { %>
       <p class="text-2xl font-semibold md:text-3xl"><%= preMessage %>:</p>
       <% } %>
       <pre><code><%= locals.message || '' %></code></pre>
-      <p class="mt-4 mb-8 dark:text-gray-400"><%= postMessage || '' %></p>
-      <a rel="noopener noreferrer" href="/" class="px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900">Back to homepage</a>
+      <p class="mt-4 mb-8 dark:text-slate-400"><%= postMessage || '' %></p>
+      <a rel="noopener noreferrer" href="/" class="px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-slate-900">Back to homepage</a>
     </div>
   </div>
 </section>
