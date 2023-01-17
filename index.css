@@ -6,6 +6,45 @@ textarea {
 	resize: both;
 }
 
+main {
+	background-color: hsl(218, 41%, 65%);
+	background-image: radial-gradient(
+			650px circle at 0% 0%,
+			hsl(218, 41%, 85%) 15%,
+			hsl(218, 41%, 80%) 35%,
+			hsl(218, 41%, 70%) 75%,
+			hsl(218, 41%, 69%) 80%,
+			transparent 100%
+		),
+		radial-gradient(
+			1250px circle at 100% 100%,
+			hsl(218, 41%, 85%) 15%,
+			hsl(218, 41%, 80%) 35%,
+			hsl(218, 41%, 70%) 75%,
+			hsl(218, 41%, 69%) 80%,
+			transparent 100%
+		);
+}
+.dark main {
+	background-color: hsl(218, 41%, 15%);
+	background: radial-gradient(
+			650px circle at 0% 0%,
+			hsl(218, 41%, 35%) 15%,
+			hsl(218, 41%, 30%) 35%,
+			hsl(218, 41%, 20%) 75%,
+			hsl(218, 41%, 19%) 80%,
+			transparent 100%
+		),
+		radial-gradient(
+			1250px circle at 100% 100%,
+			hsl(218, 41%, 35%) 15%,
+			hsl(218, 41%, 30%) 35%,
+			hsl(218, 41%, 20%) 75%,
+			hsl(218, 41%, 19%) 80%,
+			transparent 100%
+		);
+}
+
 @layer components {
 	.toggle-checkbox:checked ~ span:last-child {
 		--tw-translate-x: 1.75rem;
