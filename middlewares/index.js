@@ -48,6 +48,11 @@ module.exports.addURLToLocals = (request, response, next) => {
 	next();
 };
 
+module.exports.addHeroImageSrc = (_, response, next) => {
+	response.locals.heroImageSrc = process.env.HERO_IMAGE_SRC || 'https://placekitten.com/500';
+	next();
+};
+
 module.exports.setDefaultSorting =
 	(sort = 'createdAt', descending = false) =>
 		(request, _, next) => {
