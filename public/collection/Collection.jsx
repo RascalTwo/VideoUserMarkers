@@ -317,6 +317,32 @@ export default function Collection({
 		});
 	}
 
+	function updateMarker(newMarker) {
+		return fetch('/marker/' + newMarker._id, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(newMarker),
+		})
+			.then(res => res.json())
+			.then(({ marker: updatedMarker, collectionUpdatedAt, message }) => {
+				if (message) return alert(message);
+				setMarkers(markers => {
+					const newMarkers = markers.map(marker =>
+						marker._id === newMarker._id ? updatedMarker : marker
+					);
+					setCollection(collection => ({
+						...collection,
+						updatedAt: collectionUpdatedAt,
+						markers: newMarkers,
+					}));
+					return newMarkers;
+				});
+				return { marker: updatedMarker, collectionUpdatedAt };
+			});
+	}
+
 	function seekRelative(change, moveMarker) {
 		if (!player) return;
 
@@ -325,15 +351,12 @@ export default function Collection({
 				const newTime = currentTime + change;
 				if (newTime < 0 || newTime > duration) return newTime;
 				setActiveMarker(activeMarker => {
-					if (moveMarker && activeMarker)
-						setMarkers(markers => {
-							const newMarkers = [...markers];
-							const index = newMarkers.findIndex(marker => marker === activeMarker);
-							newMarkers[index] = { ...activeMarker, when: newTime };
-							return newMarkers;
-						});
+					if (!moveMarker) return activeMarker;
 
-					return activeMarker;
+					const newActiveMarker = { ...activeMarker, when: newTime };
+					updateMarker(newActiveMarker);
+
+					return newActiveMarker;
 				});
 				player.seekTo(newTime);
 				return newTime;
@@ -732,30 +755,10 @@ export default function Collection({
 								description: formData.get('description'),
 								when,
 							};
-							return fetch('/marker/' + selectedMarker._id, {
-								method: 'PUT',
-								headers: {
-									'Content-Type': 'application/json',
-								},
-								body: JSON.stringify(newMarker),
-							})
-								.then(res => res.json())
-								.then(({ marker: updatedMarker, collectionUpdatedAt, message }) => {
-									if (message) return alert(message);
-									setMarkers(markers => {
-										const newMarkers = markers.map(marker =>
-											marker._id === selectedMarker._id ? updatedMarker : marker
-										);
-										setCollection(collection => ({
-											...collection,
-											updatedAt: collectionUpdatedAt,
-											markers: newMarkers,
-										}));
-										return newMarkers;
-									});
-									setSelectedMarker(updatedMarker);
-									e.target.closest('[data-test-id="modal-backdrop"]').click();
-								});
+							return updateMarker(newMarker).then(({ marker: updatedMarker }) => {
+								setSelectedMarker(updatedMarker);
+								e.target.closest('[data-test-id="modal-backdrop"]').click();
+							});
 						}}
 					>
 						<label className="text-xs font-semibold" htmlFor="title">
