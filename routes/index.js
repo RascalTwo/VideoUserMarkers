@@ -10,4 +10,6 @@ router.get('/search', setDefaultSorting('matchRatio', true), controller.search);
 
 router.get('/admin/delete-orphans', requireAdmin, controller.deleteOrphans);
 
+router.get('/quickstart', controller.renderQuickstart);
+
 module.exports = router;

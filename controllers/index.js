@@ -13,6 +13,9 @@ module.exports.renderHomepage = async (request, response) => {
 	response.render('index', { title: 'Home', collections });
 };
 
+module.exports.renderQuickstart = (_, response) =>
+	response.render('quickstart', { title: 'Quickstart' });
+
 module.exports.renderProfile = async (request, response) => {
 	const username = request.params.username || request.user?.username;
 	if (!username) return response.redirect('/auth/login');
