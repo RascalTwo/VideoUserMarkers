@@ -6,7 +6,7 @@ textarea {
 	resize: both;
 }
 
-main {
+html {
 	background-color: hsl(218, 41%, 65%);
 	background-image: radial-gradient(
 			650px circle at 0% 0%,
@@ -25,9 +25,9 @@ main {
 			transparent 100%
 		);
 }
-.dark main {
+html.dark {
 	background-color: hsl(218, 41%, 15%);
-	background: radial-gradient(
+	background-image: radial-gradient(
 			650px circle at 0% 0%,
 			hsl(218, 41%, 35%) 15%,
 			hsl(218, 41%, 30%) 35%,
