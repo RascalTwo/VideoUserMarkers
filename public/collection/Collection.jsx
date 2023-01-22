@@ -896,6 +896,9 @@ export default function Collection({
 				>
 					<i className="fa fa-share" alt="Export as URL" title="Export as URL"></i>
 				</button>
+				<button onClick={() => setShowingKeyboardShortcuts(true)}>
+					<i className="fa fa-keyboard-o" alt="Keyboard Shortcuts" title="Keyboard Shortcuts"></i>
+				</button>
 				{user ? (
 					<button
 						onClick={() => {
