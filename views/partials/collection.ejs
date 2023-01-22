@@ -7,11 +7,11 @@
         <img alt="<%= collection.entity.title %> thumbnail" class="block w-full h-auto" src="<%= collection.entity.thumbnail %>" />
       </a>
       <div class="absolute top-0 left-0 z-10 flex-row hidden gap-1 px-1 bg-slate-50 group-hover:flex rounded-br-md dark:text-black">
-        <time datetime="<%= collection.entity.createdAt %>" alt="Created at <%= collection.entity.createdAt %>" title="Created at <%= collection.entity.createdAt %>">
+        <time datetime="<%= collection.createdAt %>" alt="Created at <%= collection.createdAt %>" title="Created at <%= collection.createdAt %>">
           <i class="fa fa-calendar-o"></i>
         </time>
-        <% if (collection.entity.updatedAt !== collection.entity.createdAt) { %>
-        <time datetime="<%= collection.entity.updatedAt %>" alt="Updated at <%= collection.entity.updatedAt %>" title="Updated at <%= collection.entity.updatedAt %>">
+        <% if (collection.updatedAt !== collection.createdAt) { %>
+        <time datetime="<%= collection.updatedAt %>" alt="Updated at <%= collection.updatedAt %>" title="Updated at <%= collection.updatedAt %>">
           <i class="fa fa-calendar"></i>
         </time>
         <% } %>

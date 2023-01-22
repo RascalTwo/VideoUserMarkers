@@ -45,6 +45,7 @@ module.exports = {
 			if (!hasAValue) return 1;
 			if (!hasBValue) return -1;
 			if (typeof aValue === 'number' && typeof bValue === 'number') return aValue - bValue;
+			if (aValue instanceof Date && bValue instanceof Date) return aValue - bValue;
 			return aValue.toString().localeCompare(bValue.toString());
 		});
 		if (descending) sorted.reverse();
