@@ -276,6 +276,12 @@ export default function Collection({
 	}, [player]);
 
 	const [addingAt, setAddingAt] = useState(null);
+	useEffect(() => {
+		if (!player) return;
+
+		if (player.isPlaying() && addingAt) player.pause();
+		else if (!player.isPlaying() && !addingAt) player.play();
+	}, [player, addingAt, setAddingAt]);
 
 	const [selectedMarker, setSelectedMarker] = useState(null);
 
@@ -362,7 +368,7 @@ export default function Collection({
 			else if (key === '.') seekRelative(1 / 30, e.shiftKey);
 			else if (key === 'Q') seekRelative(-1, e.shiftKey);
 			else if (key === 'E') seekRelative(1, e.shiftKey);
-			else if (key === 'B') setAddingAt(currentTime);
+			else if (key === 'B') document.querySelector('#add-marker-button').click();
 			else if (key === 'N' || key === 'T')
 				setActiveMarker(activeMarker => {
 					setSelectedMarker(activeMarker);
@@ -595,9 +601,11 @@ export default function Collection({
 								className="fa fa-plus"
 								alt="Add Marker"
 								title="Add Marker"
+								id="add-marker-button"
 								onClick={() => setAddingAt(currentTime)}
 							/>
 						}
+						onClose={() => setAddingAt(null)}
 					>
 						<form
 							className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
