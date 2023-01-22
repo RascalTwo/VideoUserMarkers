@@ -6,7 +6,7 @@
       <a href="/v/<%= collection.entity.id %>/<%= collection.id %>">
         <img alt="<%= collection.entity.title %> thumbnail" class="block w-full h-auto" src="<%= collection.entity.thumbnail %>" />
       </a>
-      <div class="absolute top-0 left-0 z-10 flex-row hidden gap-1 px-1 bg-slate-50 group-hover:flex rounded-br-md">
+      <div class="absolute top-0 left-0 z-10 flex-row hidden gap-1 px-1 bg-slate-50 group-hover:flex rounded-br-md dark:text-black">
         <time datetime="<%= collection.entity.createdAt %>" alt="Created at <%= collection.entity.createdAt %>" title="Created at <%= collection.entity.createdAt %>">
           <i class="fa fa-calendar-o"></i>
         </time>
