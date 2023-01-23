@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const { jsonStripper } = require('./helpers');
 
 const UserSchema = new mongoose.Schema(
 	{
@@ -17,7 +18,11 @@ const UserSchema = new mongoose.Schema(
 	},
 	{
 		toObject: { virtuals: true },
-		toJSON: { virtuals: true, versionKey: false },
+		toJSON: {
+			virtuals: true,
+			versionKey: false,
+			transform: jsonStripper('id', 'password', 'token'),
+		},
 	}
 );
 UserSchema.virtual('collections', {

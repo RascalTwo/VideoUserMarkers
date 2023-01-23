@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { jsonStripper } = require('./helpers');
 
 const MarkerSchema = new mongoose.Schema(
 	{
@@ -21,7 +22,7 @@ const MarkerSchema = new mongoose.Schema(
 	},
 	{
 		toObject: { virtuals: true },
-		toJSON: { virtuals: true, versionKey: false },
+		toJSON: { virtuals: true, versionKey: false, transform: jsonStripper('id') },
 	}
 );
 

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { jsonStripper } = require('./helpers');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const EntitySchema = new mongoose.Schema(
@@ -31,7 +32,7 @@ const EntitySchema = new mongoose.Schema(
 	},
 	{
 		toObject: { virtuals: true },
-		toJSON: { virtuals: true, versionKey: false },
+		toJSON: { virtuals: true, versionKey: false, transform: jsonStripper('id') },
 		timestamps: { createdAt: false },
 	}
 );
