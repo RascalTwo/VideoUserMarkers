@@ -9,3 +9,4 @@ module.exports.TWITCH_CLIENT_ID = process.env.TWITCH_CLIENT_ID;
 module.exports.TWITCH_CLIENT_SECRET = process.env.TWITCH_CLIENT_SECRET;
 module.exports.NODE_ENV = process.env.NODE_ENV || 'development';
 module.exports.DISABLE_MORGAN = process.env.DISABLE_MORGAN || false;
+module.exports.NPM_PACKAGE_VERSION = process.env.npm_package_version;

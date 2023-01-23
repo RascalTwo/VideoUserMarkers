@@ -1,4 +1,4 @@
-const { NODE_ENV } = require('../config/constants');
+const { NODE_ENV, NPM_PACKAGE_VERSION } = require('../config/constants');
 const ejsHelpers = require('../views/helpers');
 
 module.exports.requireAuth =
@@ -21,6 +21,11 @@ module.exports.requireAdmin = (request, response, next) => {
 
 module.exports.addUserToLocals = (request, response, next) => {
 	response.locals.user = request.user;
+	next();
+};
+
+module.exports.addVersionToLocals = (request, response, next) => {
+	response.locals.version = NPM_PACKAGE_VERSION;
 	next();
 };
 

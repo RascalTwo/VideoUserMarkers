@@ -15,6 +15,7 @@ const {
 	addUserToLocals,
 	addEJSHelpers,
 	addHeroImageSrc,
+	addVersionToLocals,
 } = require('./middlewares');
 
 require('./config/passport')();
@@ -74,6 +75,7 @@ require('./config/database')().then(conn => {
 	app.use(addUserToLocals);
 	app.use(addEJSHelpers);
 	app.use(addHeroImageSrc);
+	app.use(addVersionToLocals);
 
 	app.use('/', require('./routes/index'));
 	const collectionRoutes = require('./routes/collection');
