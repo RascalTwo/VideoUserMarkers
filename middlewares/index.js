@@ -1,5 +1,5 @@
 const { NODE_ENV, NPM_PACKAGE_VERSION } = require('../config/constants');
-const ejsHelpers = require('../views/helpers');
+const viewHelpers = require('../views/helpers');
 
 module.exports.requireAuth =
 	(redirectTo, errorMessage = 'You must be logged in to view this page') =>
@@ -29,8 +29,8 @@ module.exports.addVersionToLocals = (request, response, next) => {
 	next();
 };
 
-module.exports.addEJSHelpers = (request, response, next) => {
-	Object.assign(response.locals, ejsHelpers);
+module.exports.addViewHelpers = (request, response, next) => {
+	Object.assign(response.locals, viewHelpers);
 	next();
 };
 

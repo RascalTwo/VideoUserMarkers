@@ -2,6 +2,7 @@ const Collection = require('../models/Collection');
 const Entity = require('../models/Entity');
 const Marker = require('../models/Marker');
 const { conditionalS, getTotalMarkers, listToDescription, secondsToHMS } = require('../utils');
+const { markdownToHTML } = require('../views/helpers');
 
 module.exports.renderNewCollection = (_, response) =>
 	response.render('collection/new', { title: 'New Collection' });
@@ -60,7 +61,7 @@ module.exports.createCollection = async (request, response) => {
 	const { entity: entityInput, usingYoutube, title, description } = request.body;
 	const type = usingYoutube ? 'YouTube' : 'Twitch';
 	const attemptImport = request.body.attemptImport === 'on';
-	const public = request.body.public === 'on' ? true : undefined;
+	const isPublic = request.body.public === 'on' ? true : undefined;
 
 	const entityId = entityInput.split('/').pop().split('?')[0];
 
@@ -77,7 +78,7 @@ module.exports.createCollection = async (request, response) => {
 	const collection = await Collection.create({
 		entity,
 		type,
-		public,
+		public: isPublic,
 		title,
 		description: description || undefined,
 		author: request.user._id,
@@ -161,6 +162,13 @@ async function renderCollection(request, response, view) {
 					response.locals.isDiscordbot
 				),
 		},
+		html: {
+			collection: {
+				description: collection.description
+					? await markdownToHTML(collection.description)
+					: undefined,
+			},
+		},
 	});
 }
 
@@ -174,7 +182,14 @@ module.exports.renderCollectionEmbed = async (request, response) => {
 
 module.exports.updateCollection = async (request, response) => {
 	const { id } = request.params;
-	const { entity: entityInput, title, description, public, usingYoutube, markers } = request.body;
+	const {
+		entity: entityInput,
+		title,
+		description,
+		public: isPublic,
+		usingYoutube,
+		markers,
+	} = request.body;
 	const type = usingYoutube ? 'YouTube' : 'Twitch';
 
 	const collection = await Collection.findById(id).populate('markers');
@@ -210,7 +225,7 @@ module.exports.updateCollection = async (request, response) => {
 	collection.title = title;
 	collection.description = description || undefined;
 
-	if (public) collection.public = true;
+	if (isPublic) collection.public = true;
 	else collection.public = undefined;
 
 	if (markers) {

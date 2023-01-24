@@ -1,14 +1,24 @@
 {
+	"settings": {
+		"react": {
+			"version": "16.14.0"
+		}
+	},
 	"env": {
 		"commonjs": true,
 		"es2021": true,
 		"node": true
 	},
-	"extends": "eslint:recommended",
+	"extends": ["plugin:react/recommended", "eslint:recommended"],
 	"overrides": [],
 	"parserOptions": {
-		"ecmaVersion": "latest"
+		"ecmaVersion": "latest",
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
 	},
+	"plugins": ["react"],
 	"rules": {
 		"indent": ["error", "tab"],
 		"no-unused-vars": [
@@ -23,6 +33,13 @@
 		"quotes": ["error", "single", { "avoidEscape": true }],
 		"semi": ["error", "always"],
 		"arrow-parens": ["error", "as-needed"],
-		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"]
+		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+		"react/prop-types": "off",
+		"sort-imports": [
+			"error",
+			{
+				"ignoreDeclarationSort": true
+			}
+		]
 	}
 }

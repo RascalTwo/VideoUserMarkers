@@ -1,5 +1,5 @@
-import Modal from './Modal.js';
 import HMSInput from './HMSInput.js';
+import Modal from './Modal.js';
 
 const { useEffect, useState, useMemo } = React;
 

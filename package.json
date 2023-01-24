@@ -1,6 +1,6 @@
 {
 	"name": "video-user-markers-backend",
-	"version": "0.29.2",
+	"version": "0.29.3",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
@@ -11,7 +11,7 @@
 		"build:react": "babel public/collection/*.jsx --out-dir public/collection",
 		"build:tailwind": "postcss index.css -o public/index.css",
 		"build:watch": "concurrently 'npm run build:react -- --watch' 'npm run build:tailwind -- --watch'",
-		"lint": "prettier . --write && eslint . --ext .js,.jsx --fix && js-beautify views/**/*.ejs --type=html --indent-size=2 -r",
+		"lint": "prettier . --write && eslint . --ext .js,.jsx --fix",
 		"check-version": "node scripts/ensure-package-json-version-updated.js"
 	},
 	"pre-commit": [
@@ -27,10 +27,10 @@
 		"cors": "^2.8.5",
 		"dompurify": "^2.4.3",
 		"dotenv": "^16.0.2",
-		"ejs": "^3.1.8",
 		"express": "^4.18.1",
 		"express-flash": "^0.0.2",
 		"express-promise-router": "^4.1.1",
+		"express-react-views": "^0.11.0",
 		"express-session": "^1.17.3",
 		"jsdom": "^21.0.0",
 		"marked": "^4.2.5",
@@ -40,7 +40,9 @@
 		"node-fetch": "^3.3.0",
 		"passport": "^0.6.0",
 		"passport-jwt": "^4.0.0",
-		"passport-twitch-new": "^0.0.2"
+		"passport-twitch-new": "^0.0.2",
+		"react": "^16.14.0",
+		"react-dom": "^16.14.0"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.19.3",
@@ -49,8 +51,7 @@
 		"autoprefixer": "^10.4.13",
 		"cssnano": "^5.1.14",
 		"eslint": "^8.28.0",
-		"eslint-plugin-react": "^7.31.11",
-		"js-beautify": "^1.14.7",
+		"eslint-plugin-react": "^7.32.0",
 		"nodemon": "^2.0.20",
 		"postcss": "^8.4.21",
 		"postcss-cli": "^10.1.0",

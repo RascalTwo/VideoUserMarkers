@@ -70,7 +70,7 @@ module.exports.upsertCollection = async (request, response) => {
 		entity: { _id: entityId, type },
 		title,
 		description,
-		public,
+		public: isPublic,
 		markers,
 	} = request.body;
 
@@ -86,7 +86,7 @@ module.exports.upsertCollection = async (request, response) => {
 			author: user,
 			title,
 			description: description || undefined,
-			public,
+			public: isPublic,
 		});
 		await newCollection.save();
 
@@ -102,7 +102,7 @@ module.exports.upsertCollection = async (request, response) => {
 	collection.type = type;
 	collection.title = title;
 	collection.description = description || undefined;
-	if (public) collection.public = true;
+	if (isPublic) collection.public = true;
 	else collection.public = undefined;
 
 	const deletingMarkerIDs = [];

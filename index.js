@@ -1,5 +1,5 @@
 const express = require('express');
-const ejs = require('ejs');
+const { createEngine } = require('express-react-views');
 const cors = require('cors');
 const methodOverride = require('method-override');
 const logger = require('morgan');
@@ -13,7 +13,7 @@ const {
 	addHeadersToLocals,
 	addURLToLocals,
 	addUserToLocals,
-	addEJSHelpers,
+	addViewHelpers,
 	addHeroImageSrc,
 	addVersionToLocals,
 } = require('./middlewares');
@@ -23,10 +23,8 @@ require('./config/passport')();
 const app = express();
 
 app.set('trust proxy', true);
-app.set('view engine', 'ejs');
-app.engine('ejs', (path, data, cb) =>
-	ejs.renderFile(path, data, { async: true }).then(html => cb(null, html), cb)
-);
+app.set('view engine', 'jsx');
+app.engine('jsx', createEngine({ beautify: NODE_ENV !== 'production' }));
 
 app.use(express.static('public'));
 
@@ -73,7 +71,7 @@ require('./config/database')().then(conn => {
 	app.use(addHeadersToLocals);
 	app.use(addURLToLocals);
 	app.use(addUserToLocals);
-	app.use(addEJSHelpers);
+	app.use(addViewHelpers);
 	app.use(addHeroImageSrc);
 	app.use(addVersionToLocals);
 

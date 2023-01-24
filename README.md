@@ -6,7 +6,7 @@ Do you wish you, average Twitch/YouTube user, could add markers to Twitch/YouTub
 
 ## How It's Made
 
-**Tech Used:** JavaScript, HTML, Tailwind CSS, EJS, React, Node.js, Express.js, MongoDB, Mongoose, YouTube API, Twitch API
+**Tech Used:** JavaScript, HTML, Tailwind CSS, React, Node.js, Express.js, MongoDB, Mongoose, YouTube API, Twitch API
 
 Using both YouTube and Twitch APIs to collect entity information, and allowing users to manage their collection of timestamps for videos, this application allows users to add timestamps to videos, or view those of others.
 
