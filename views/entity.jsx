@@ -36,7 +36,7 @@ function Entity({ user, entity, query }) {
 
 			{entity.type === 'YouTube' ? (
 				<iframe
-					className="w-10/12 m-auto aspect-video"
+					className="w-10/12 m-auto max-h-[75vh] aspect-video"
 					src={`https://www.youtube.com/embed/${entity._id}?start=${
 						query.t ? hmsToSeconds(query.t) : '0'
 					}`}
@@ -47,12 +47,12 @@ function Entity({ user, entity, query }) {
 				></iframe>
 			) : (
 				<iframe
-					className="w-10/12 m-auto aspect-video"
+					className="w-10/12 m-auto max-h-[75vh] aspect-video"
 					src={`https://player.twitch.tv/?video=${entity._id}&time=${query.t}&parent=example.com`}
 					allowFullScreen
 				></iframe>
 			)}
-			<div className="flex flex-row w-10/12 gap-1">
+			<div className="flex flex-row w-8/12 max-h-[75vh] gap-1">
 				<time dateTime={entity.createdAt} alt={entity.createdAt} title={entity.createdAt}>
 					<i className="fa fa-calendar-o"></i>
 				</time>
