@@ -27,12 +27,16 @@ module.exports.listToDescription = (lines, isDiscord) =>
 		: ':' + (isDiscord ? '\n\n - ' : '') + lines.join(isDiscord ? '\n - ' : ', ');
 
 module.exports.secondsToHMS = (seconds, delimiters = '::', minimalPlaces = 1) => {
+	delimiters = [...delimiters];
 	const h = Math.floor(seconds / 3600);
 	const m = Math.floor((seconds % 3600) / 60);
 	const s = Math.floor((seconds % 3600) % 60);
-	return (
-		(h > 0 || minimalPlaces >= 3 ? h.toString().padStart(2, '0') + delimiters[0] : '') +
-		(m > 0 || minimalPlaces >= 2 ? m.toString().padStart(2, '0') + delimiters[1] : '') +
-		(s.toString().padStart(2, '0') + (delimiters[2] || ''))
-	).trim();
+	const parts = [h, m, s];
+	while (parts[0] === 0 && parts.length > minimalPlaces) {
+		parts.shift();
+		delimiters.shift();
+	}
+	return parts
+		.map(part => part.toString().padStart(2, '0') + (delimiters.shift() || ''))
+		.join('');
 };
