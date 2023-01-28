@@ -96,7 +96,7 @@ function New({ query }) {
 					src="https://www.markdownguide.org/favicon.ico"
 					alt="Markdown Compatible"
 					title="Markdown Compatible"
-					className="inline-block pl-1"
+					className="inline-block pl-1 dark:invert"
 				/>
 			</label>
 			<textarea

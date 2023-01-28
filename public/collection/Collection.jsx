@@ -504,7 +504,7 @@ export default function Collection({
 									src="https://www.markdownguide.org/favicon.ico"
 									alt="Markdown Compatible"
 									title="Markdown Compatible"
-									className="inline-block pl-1"
+									className="inline-block pl-1 invert dark:invert"
 								/>
 							</label>
 							<textarea
@@ -693,7 +693,7 @@ export default function Collection({
 									src="https://www.markdownguide.org/favicon.ico"
 									alt="Markdown Compatible"
 									title="Markdown Compatible"
-									className="inline-block pl-1"
+									className="inline-block pl-1 dark:invert"
 								/>
 							</label>
 							<textarea
@@ -781,7 +781,7 @@ export default function Collection({
 								src="https://www.markdownguide.org/favicon.ico"
 								alt="Markdown Compatible"
 								title="Markdown Compatible"
-								className="inline-block pl-1"
+								className="inline-block pl-1 dark:invert"
 							/>
 						</label>
 						<textarea
