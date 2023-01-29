@@ -12,7 +12,7 @@ function Entity({ user, entity, query }) {
 						href={`/v/${encodeURIComponent(entity._id)}?refetch`}
 						alt="Refetch Entity"
 						title="Refetch Entity"
-						className="relative inline-flex items-center px-2 border rounded-full dark:bg-slate-900 bg-slate-50 hover:shadow-lg dark:hover:shadow-slate-700 dark:border-slate-700"
+						className="relative inline-flex items-center px-2 mr-1 border rounded-full dark:bg-slate-900 bg-slate-50 hover:shadow-lg dark:hover:shadow-slate-700 dark:border-slate-700"
 					>
 						<div className="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer">
 							<i className="fa fa-refresh"></i>
@@ -25,7 +25,7 @@ function Entity({ user, entity, query }) {
 						href={`/v?entity=${encodeURIComponent(entity._id)}`}
 						alt="Create Collection"
 						title="Create Collection"
-						className="relative inline-flex items-center px-2 border rounded-full dark:border-slate-700 bg-slate-50 dark:bg-slate-900 hover:shadow-lg dark:hover:shadow-slate-700"
+						className="relative inline-flex items-center px-2 ml-1 border rounded-full dark:border-slate-700 bg-slate-50 dark:bg-slate-900 hover:shadow-lg dark:hover:shadow-slate-700"
 					>
 						<div className="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer">
 							<i className="fa fa-plus"></i>
