@@ -3,17 +3,19 @@ import { secondsToHMS, secondsToHuman, secondsToPTDuration } from '../helpers';
 
 export default function Card({ collection, entity, marker, type }) {
 	const urlSuffix = type === 'marker' ? `?t=${secondsToHMS(marker.when, 'hms')}` : '';
-	const directURL = `/v/${entity._id}/${collection._id}${urlSuffix}`;
-	const entityURL = `/v/${entity._id}${urlSuffix}`;
+	const directURL = `/v/${encodeURIComponent(entity._id)}/${collection._id}${urlSuffix}`;
+	const entityURL = `/v/${encodeURIComponent(entity._id)}${urlSuffix}`;
+	const ThumbnailElement = entity.type === 'File' ? 'video' : 'img';
 	return (
 		<div className="w-full px-1 my-1 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 xl:w-1/4">
 			<article className="overflow-hidden rounded-lg shadow-lg dark:shadow-slate-600 bg-slate-200 hover:bg-slate-400 outline-1 outline-slate-400 outline hover:outline-slate-900 dark:bg-slate-800 dark:hover:outline-slate-100 dark:hover:bg-slate-600 dark:text-slate-50">
 				<div className="relative group">
 					<a href={directURL}>
-						<img
+						<ThumbnailElement
 							alt={`${entity.title} thumbnail`}
 							className="block w-full h-auto"
 							src={entity.thumbnail}
+							preload="metadata"
 						/>
 					</a>
 					{marker ? (
@@ -67,7 +69,7 @@ export default function Card({ collection, entity, marker, type }) {
 								className="inline-block w-full underline truncate underline-offset-2 hover:underline-offset-1"
 							>
 								{!collection.public ? (
-									<i className="fa fa-lock" alt="Private" title="Private"></i>
+									<i className="pr-1 fa fa-lock" alt="Private" title="Private"></i>
 								) : null}
 								{entity.title}
 							</a>

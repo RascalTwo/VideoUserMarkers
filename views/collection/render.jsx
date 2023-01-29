@@ -7,13 +7,15 @@ function Render({ collection, html, user, NODE_ENV }) {
 			<h1 className="pt-3 text-xl text-center">
 				<a
 					className="underline underline-offset-2 hover:underline-offset-1"
-					href={`/v/${collection.entity._id}`}
+					href={`/v/${encodeURIComponent(collection.entity._id)}`}
 				>
 					{collection.entity.title}
 				</a>
 			</h1>
 			<h2 className="pt-3 text-xl text-center">
-				{!collection.public ? <i className="fa fa-lock" alt="Private" title="Private"></i> : null}
+				{!collection.public ? (
+					<i className="pr-1 fa fa-lock" alt="Private" title="Private"></i>
+				) : null}
 				{collection.title}
 				{collection.author ? (
 					<>

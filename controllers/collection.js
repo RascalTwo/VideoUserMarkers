@@ -26,7 +26,7 @@ module.exports.renderEntity = async (request, response) => {
 		},
 	});
 	return refetch
-		? response.redirect(`/v/${entityId}`)
+		? response.redirect(`/v/${encodeURIComponent(entityId)}`)
 		: response.render('entity', {
 			entity,
 			title: entity.title,
@@ -58,12 +58,11 @@ function DHMStoSeconds(parts) {
 }
 
 module.exports.createCollection = async (request, response) => {
-	const { entity: entityInput, usingYoutube, title, description } = request.body;
-	const type = usingYoutube ? 'YouTube' : 'Twitch';
+	const { entity: entityInput, type, title, description } = request.body;
 	const attemptImport = request.body.attemptImport === 'on';
 	const isPublic = request.body.public === 'on' ? true : undefined;
 
-	const entityId = entityInput.split('/').pop().split('?')[0];
+	const entityId = type !== 'File' ? entityInput.split('/').pop().split('?')[0] : entityInput;
 
 	const entity = await Entity.getEntity(entityId, type);
 	if (!entity)
@@ -72,7 +71,7 @@ module.exports.createCollection = async (request, response) => {
 			heading: '404',
 			preMessage: "Sorry, we couldn't find the entity with an ID of",
 			message: entityId,
-			postMessage: `on ${type}, ensure you have the correct ID & Platform combination.`,
+			postMessage: `on ${type}, ensure you have the correct ID & Type combination.`,
 		});
 
 	const collection = await Collection.create({
@@ -115,7 +114,7 @@ module.exports.createCollection = async (request, response) => {
 		}));
 		await Marker.create(markers);
 	}
-	response.redirect(`/v/{${entityId}/${collection._id}`);
+	response.redirect(`/v/${encodeURIComponent(entityId)}/${collection._id}`);
 };
 
 async function renderCollection(request, response, view) {
@@ -182,15 +181,7 @@ module.exports.renderCollectionEmbed = async (request, response) => {
 
 module.exports.updateCollection = async (request, response) => {
 	const { id } = request.params;
-	const {
-		entity: entityInput,
-		title,
-		description,
-		public: isPublic,
-		usingYoutube,
-		markers,
-	} = request.body;
-	const type = usingYoutube ? 'YouTube' : 'Twitch';
+	const { entity: entityInput, title, description, public: isPublic, type, markers } = request.body;
 
 	const collection = await Collection.findById(id).populate('markers');
 	if (!collection)
@@ -208,7 +199,7 @@ module.exports.updateCollection = async (request, response) => {
 			postMessage: "You don't have permission to edit this collection.",
 		});
 
-	const entityId = entityInput.split('/').pop().split('?')[0];
+	const entityId = type !== 'File' ? entityInput.split('/').pop().split('?')[0] : entityInput;
 
 	const entity = await Entity.getEntity(entityId, type);
 	if (!entity)
@@ -217,7 +208,7 @@ module.exports.updateCollection = async (request, response) => {
 			heading: '404',
 			preMessage: "Sorry, we couldn't find the entity with an ID of",
 			message: entityId,
-			postMessage: `on ${type}, ensure you have the correct ID & Platform combination.`,
+			postMessage: `on ${type}, ensure you have the correct ID & Type combination.`,
 		});
 
 	collection.entity = entity;
@@ -263,7 +254,7 @@ module.exports.updateCollection = async (request, response) => {
 		await Marker.create(newMarkers);
 	}
 	await collection.save();
-	response.redirect(`/v/${collection.entity.id}/${collection._id}`);
+	response.redirect(`/v/${encodeURIComponent(collection.entity._id)}/${collection._id}`);
 };
 
 module.exports.deleteCollection = async (request, response) => {

@@ -10,7 +10,7 @@ const EntitySchema = new mongoose.Schema(
 		},
 		type: {
 			type: String,
-			enum: ['YouTube', 'Twitch'],
+			enum: ['YouTube', 'Twitch', 'File'],
 			required: true,
 		},
 		rawThumbnail: {
@@ -23,7 +23,7 @@ const EntitySchema = new mongoose.Schema(
 		},
 		createdAt: {
 			type: Date,
-			required: true,
+			required: false,
 		},
 		duration: {
 			type: Number,
@@ -49,12 +49,13 @@ EntitySchema.virtual('collectionCount', {
 });
 EntitySchema.virtual('thumbnail').get(function () {
 	if (this.type === 'YouTube') return `https://img.youtube.com/vi/${this._id}/maxresdefault.jpg`;
+	if (this.type === 'File') return this.id;
 	return this.rawThumbnail || null;
 });
 EntitySchema.static('typeFromID', function (id) {
 	if (id.length === 10) return 'Twitch';
 	else if (id.length === 11) return 'YouTube';
-	return null;
+	return 'File';
 });
 EntitySchema.static('doesEntityExist', async function (id, type) {
 	if (type === 'YouTube') {
@@ -68,6 +69,9 @@ EntitySchema.static('doesEntityExist', async function (id, type) {
 		const response = await fetch(url);
 		const html = await response.text();
 		return html.includes('<meta property="og:video"');
+	} else if (type === 'File') {
+		const response = await fetch(id);
+		return response.ok;
 	}
 	return null;
 });
@@ -124,11 +128,14 @@ EntitySchema.static('fetchEntityInfo', async function (id, type) {
 				? 'https://assets.help.twitch.tv/article/img/000002222-01a.png'
 				: ldJSON.thumbnailUrl[0],
 		};
-	}
+	} else if (type === 'File')
+		return {
+			title: id.split('/').pop().split('?')[0],
+		};
 	return null;
 });
 EntitySchema.method('fetchInitialMarkers', async function () {
-	if (this.type === 'Twitch') return [];
+	if (this.type !== 'YouTube') return [];
 	const response = await fetch(`https://www.youtube.com/watch?v=${this._id}`);
 	const html = await response.text();
 	const ytInitialData = JSON.parse(html.split('ytInitialData = ')[1].split(';</script>')[0]);

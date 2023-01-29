@@ -9,7 +9,7 @@ function Entity({ user, entity, query }) {
 			<h1 className="py-3 text-xl text-center">
 				{user.isAdmin ? (
 					<a
-						href={`/v/${entity.id}?refetch`}
+						href={`/v/${encodeURIComponent(entity._id)}?refetch`}
 						alt="Refetch Entity"
 						title="Refetch Entity"
 						className="relative inline-flex items-center px-2 border rounded-full dark:bg-slate-900 bg-slate-50 hover:shadow-lg dark:hover:shadow-slate-700 dark:border-slate-700"
@@ -22,7 +22,7 @@ function Entity({ user, entity, query }) {
 				{entity.title}
 				{user ? (
 					<a
-						href={`/v?entity=${entity.id}`}
+						href={`/v?entity=${encodeURIComponent(entity._id)}`}
 						alt="Create Collection"
 						title="Create Collection"
 						className="relative inline-flex items-center px-2 border rounded-full dark:border-slate-700 bg-slate-50 dark:bg-slate-900 hover:shadow-lg dark:hover:shadow-slate-700"
@@ -45,18 +45,22 @@ function Entity({ user, entity, query }) {
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 					allowFullScreen
 				></iframe>
-			) : (
+			) : entity.type === 'Twitch' ? (
 				<iframe
 					className="w-10/12 m-auto max-h-[75vh] aspect-video"
 					src={`https://player.twitch.tv/?video=${entity._id}&time=${query.t}&parent=example.com`}
 					allowFullScreen
 				></iframe>
+			) : (
+				<video src={entity._id} controls playsInline preload="metadata"></video>
 			)}
-			<div className="flex flex-row w-8/12 max-h-[75vh] gap-1">
-				<time dateTime={entity.createdAt} alt={entity.createdAt} title={entity.createdAt}>
-					<i className="fa fa-calendar-o"></i>
-				</time>
-			</div>
+			{entity.createdAt ? (
+				<div className="flex flex-row w-8/12 max-h-[75vh] gap-1">
+					<time dateTime={entity.createdAt} alt={entity.createdAt} title={entity.createdAt}>
+						<i className="fa fa-calendar-o"></i>
+					</time>
+				</div>
+			) : null}
 			<Collections collections={entity.collections} query={query} />
 		</>
 	);
