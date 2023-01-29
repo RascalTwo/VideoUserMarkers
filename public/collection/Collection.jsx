@@ -421,7 +421,7 @@ export default function Collection({
 		const lines = [];
 		for (const marker of markers) {
 			const dhms = secondsToHMS(marker.when, undefined, markerPlaces);
-			const values = [dhms, marker.title, marker.description];
+			const values = [dhms, marker.title];
 			if (marker.description) values.push(marker.description);
 			lines.push(values.filter(Boolean).join('\t'));
 		}
@@ -429,6 +429,36 @@ export default function Collection({
 	}, [markers, markerPlaces]);
 
 	const totalPlaces = useMemo(() => secondsToHMS(duration).split(':').length, [duration]);
+
+	const encodedCollection = useMemo(
+		() =>
+			`${window.location.origin}/v/${entityId}/${window.btoa(
+				JSON.stringify({
+					_id: Date.now(),
+					entity: { _id: entityId, type, title: entity.title },
+					title,
+					description,
+					markers: markers.map(({ when, title, description }, i) => ({
+						_id: i,
+						when,
+						title,
+						description: description || undefined,
+					})),
+					public: isPublic,
+				})
+			)}`,
+		[entityId, type, entity, title, description, markers, isPublic]
+	);
+
+	const markersAsCommentText = useMemo(() => {
+		const lines = [];
+		for (const marker of markers) {
+			const dhms = secondsToHMS(marker.when, undefined, markerPlaces);
+			const values = [dhms, marker.title];
+			lines.push(values.filter(Boolean).join('\t'));
+		}
+		return lines.join('\n');
+	}, [markers, markerPlaces]);
 
 	return (
 		<>
@@ -875,31 +905,62 @@ export default function Collection({
 			</ul>
 
 			<div className="flex justify-between mt-2">
-				<button
-					onClick={() =>
-						navigator.clipboard
-							.writeText(
-								`${window.location.origin}/v/${entityId}/${window.btoa(
-									JSON.stringify({
-										_id: Date.now(),
-										entity: { _id: entityId, type, title: entity.title },
-										title,
-										description,
-										markers: markers.map(({ when, title, description }, i) => ({
-											_id: i,
-											when,
-											title,
-											description: description || undefined,
-										})),
-										public: isPublic,
-									})
-								)}`
-							)
-							.then(() => alert('Encoded URL copied to clipboard'))
-					}
-				>
-					<i className="fa fa-share" alt="Export as URL" title="Export as URL"></i>
-				</button>
+				<Modal buttonContent={<i className="fa fa-share" alt="Export" title="Export"></i>}>
+					<div className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900 w-[75vw]">
+						<div>
+							<label className="mt-3 text-xs font-semibold">
+								Encoded URL
+								<button
+									className="float-right"
+									onClick={() =>
+										navigator.clipboard
+											.writeText(encodedCollection)
+											.then(() => alert('Encoded URL copied to clipboard'))
+									}
+								>
+									<i
+										className="fa fa-clipboard"
+										alt="Copy Encoded URL to Clipboard"
+										title="Copy Encoded URL to Clipboard"
+									></i>
+								</button>
+							</label>
+							<a
+								href={encodedCollection}
+								target="_blank"
+								rel="noreferrer"
+								className="inline-block w-full underline truncate underline-offset-2 hover:underline-offset-1"
+							>
+								{encodedCollection}
+							</a>
+						</div>
+						<div>
+							<label className="mt-3 text-xs font-semibold" htmlFor="markersAsCommentText">
+								Markers as Text
+								<button
+									className="float-right"
+									onClick={() =>
+										navigator.clipboard
+											.writeText(document.querySelector('#markersAsCommentText').value)
+											.then(() => alert('Markers Text copied to clipboard'))
+									}
+								>
+									<i
+										className="fa fa-clipboard"
+										alt="Export as Textual Comment"
+										title="Export as Text"
+									></i>
+								</button>
+							</label>
+							<textarea
+								className="flex items-center w-full px-4 mt-2 bg-gray-200 rounded dark:bg-gray-800 focus:outline-none focus:ring-2"
+								id="markersAsCommentText"
+								defaultValue={markersAsCommentText}
+								rows={5}
+							/>
+						</div>
+					</div>
+				</Modal>
 				<button onClick={() => setShowingKeyboardShortcuts(true)}>
 					<i className="fa fa-keyboard-o" alt="Keyboard Shortcuts" title="Keyboard Shortcuts"></i>
 				</button>
