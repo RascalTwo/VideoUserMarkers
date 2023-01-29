@@ -17,7 +17,7 @@ module.exports.conditionalS = array => (array.length === 1 ? '' : 's');
 
 module.exports.getTotalMarkers = collections =>
 	collections.reduce(
-		(total, collection) => total + (collection.markerCount || collection.markers.length),
+		(total, collection) => total + (collection.markerCount ?? collection.markers.length),
 		0
 	);
 

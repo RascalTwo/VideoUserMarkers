@@ -104,7 +104,7 @@ export default function Card({ collection, entity, marker, type }) {
 					>
 						{collection.title}
 						<div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white border-2 rounded-full border-slate-200 dark:border-slate-800 bg-amber-700 -top-1 -right-1">
-							{collection.markerCount || collection.markers.length}
+							{collection.markerCount ?? collection.markers.length}
 						</div>
 					</a>
 				</footer>
