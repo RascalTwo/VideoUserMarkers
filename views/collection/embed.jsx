@@ -16,13 +16,13 @@ export default function Embed({ collection, NODE_ENV }) {
 				src={`https://unpkg.com/react@18/umd/react.${
 					NODE_ENV === 'production' ? 'production.min' : 'development'
 				}.js`}
-				crossOrigin
+				crossOrigin="true"
 			></script>
 			<script
 				src={`https://unpkg.com/react-dom@18/umd/react-dom.${
 					NODE_ENV === 'production' ? 'production.min' : 'development'
 				}.js`}
-				crossOrigin
+				crossOrigin="true"
 			></script>
 			<script
 				src="/collection/render.js"
