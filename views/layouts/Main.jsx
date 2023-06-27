@@ -43,7 +43,7 @@ export default function Main(props) {
 			<body className="flex flex-col w-screen h-screen">
 				<nav className="relative z-30 flex items-center justify-between w-full h-13 px-8 mx-auto shadow-md shadow-slate-400 dark:shadow-slate-600 bg-slate-100/75 dark:bg-gray-900/75 dark:text-slate-50 text-slate-900">
 					<div className="inline-flex">
-						<a href="/">
+						<a href="/" className="hover:animate-pulse ">
 							<img src="/favicon.svg" alt="Logo" className="h-8" />
 						</a>
 					</div>
@@ -62,7 +62,10 @@ export default function Main(props) {
 										placeholder="Search"
 										value={query.search}
 									/>
-									<button type="submit" className="absolute top-0 right-0 mt-5 mr-2">
+									<button
+										type="submit"
+										className="absolute hover:animate-pulse top-0 right-0 mt-5 mr-2"
+									>
 										<svg
 											className="w-4 h-4 text-gray-600 fill-current dark:text-gray-400"
 											xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +96,7 @@ export default function Main(props) {
 										href="/v"
 										alt="Create Collection"
 										title="Create Collection"
-										className="relative inline-flex items-center px-2 border rounded-full hover:shadow-lg dark:border-slate-700 dark:hover:shadow-slate-700"
+										className="relative hover:animate-pulse inline-flex items-center px-2 border rounded-full hover:shadow-lg dark:border-slate-700 dark:hover:shadow-slate-700"
 									>
 										<div className="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer">
 											<i className="fa fa-plus"></i>
@@ -103,7 +106,7 @@ export default function Main(props) {
 										href={`/profile/${user.username}`}
 										alt="View Profile"
 										title="View Profile"
-										className="relative inline-flex items-center px-2 border rounded-full dark:border-slate-700 hover:shadow-lg dark:hover:shadow-slate-700"
+										className="relative hover:animate-pulse inline-flex items-center px-2 border rounded-full dark:border-slate-700 hover:shadow-lg dark:hover:shadow-slate-700"
 									>
 										<div className="flex items-center flex-grow-0 flex-shrink-0 h-10">
 											<img alt="" src={user.avatarURL} className="h-8 rounded-full" />
@@ -113,7 +116,7 @@ export default function Main(props) {
 							) : (
 								<div className="flex items-center mr-4">
 									<a
-										className="inline-block px-3 py-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800"
+										className="inline-block hover:animate-pulse px-3 py-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800"
 										href="/auth/login"
 									>
 										<span className="relative flex items-center cursor-pointer whitespace-nowrap">

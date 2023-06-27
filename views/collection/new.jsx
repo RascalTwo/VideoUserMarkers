@@ -203,7 +203,7 @@ function New({ query }) {
 				{query.markers}
 			</textarea>
 			<button
-				className="flex items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
+				className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
 				type="submit"
 			>
 				Create

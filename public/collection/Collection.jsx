@@ -707,7 +707,7 @@ export default function Collection({
 
 							<div className="flex justify-center gap-2 text-xs">
 								<button
-									className="flex items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
+									className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
 									type="submit"
 								>
 									Update
@@ -727,7 +727,7 @@ export default function Collection({
 							</h2>
 							<div className="flex justify-center gap-2 text-xs">
 								<button
-									className="flex items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-red-100 bg-red-600 rounded md:min-w-[16rem] hover:bg-red-700"
+									className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-red-100 bg-red-600 rounded md:min-w-[16rem] hover:bg-red-700"
 									type="submit"
 								>
 									Delete
@@ -893,7 +893,7 @@ export default function Collection({
 
 							<div className="flex justify-center gap-2 text-xs">
 								<button
-									className="flex items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
+									className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
 									type="submit"
 								>
 									Create
@@ -982,13 +982,13 @@ export default function Collection({
 
 						<div className="flex justify-center gap-2 text-xs">
 							<button
-								className="flex items-center justify-center w-24 h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:w-32 hover:bg-blue-700"
+								className="flex hover:animate-pulse items-center justify-center w-24 h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:w-32 hover:bg-blue-700"
 								type="submit"
 							>
 								Update
 							</button>
 							<button
-								className="flex items-center justify-center w-24 h-12 px-6 mt-8 text-sm font-semibold text-red-100 bg-red-600 rounded md:w-32 hover:bg-red-700"
+								className="flex hover:animate-pulse items-center justify-center w-24 h-12 px-6 mt-8 text-sm font-semibold text-red-100 bg-red-600 rounded md:w-32 hover:bg-red-700"
 								value="delete"
 							>
 								Delete
@@ -1056,7 +1056,7 @@ export default function Collection({
 
 							{canEdit ? (
 								<button
-									className="invisible pl-1 hoverless:visible group-hover:visible"
+									className="invisible pl-1 hoverless:visible group-hover:visible hover:animate-pulse"
 									onClick={() => setSelectedMarker(marker)}
 								>
 									<i className="fa fa-gear" />
@@ -1074,7 +1074,7 @@ export default function Collection({
 							<label className="mt-3 text-xs font-semibold">
 								Encoded URL
 								<button
-									className="float-right"
+									className="float-right hover:animate-pulse"
 									onClick={() =>
 										navigator.clipboard
 											.writeText(encodedCollection)
@@ -1092,7 +1092,7 @@ export default function Collection({
 								href={encodedCollection}
 								target="_blank"
 								rel="noreferrer"
-								className="inline-block w-full underline truncate underline-offset-2 hover:underline-offset-1"
+								className="inline-block hover:animate-pulse w-full underline truncate underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
 							>
 								{encodedCollection}
 							</a>
@@ -1101,7 +1101,7 @@ export default function Collection({
 							<label className="mt-3 text-xs font-semibold" htmlFor="markersAsCommentText">
 								Markers as Text
 								<button
-									className="float-right"
+									className="float-right hover:animate-pulse"
 									onClick={() =>
 										navigator.clipboard
 											.writeText(document.querySelector('#markersAsCommentText').value)
@@ -1124,11 +1124,12 @@ export default function Collection({
 						</div>
 					</div>
 				</Modal>
-				<button onClick={() => setShowingKeyboardShortcuts(true)}>
+				<button className="hover:animate-pulse" onClick={() => setShowingKeyboardShortcuts(true)}>
 					<i className="fa fa-keyboard-o" alt="Keyboard Shortcuts" title="Keyboard Shortcuts"></i>
 				</button>
 				{user ? (
 					<button
+						className="hover:animate-pulse"
 						onClick={() => {
 							const url = new URL(window.location.origin + '/v');
 							url.searchParams.set('entity', entityId);

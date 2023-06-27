@@ -6,7 +6,7 @@ function Render({ collection, html, user, NODE_ENV }) {
 		<>
 			<h1 className="pt-3 text-xl text-center">
 				<a
-					className="underline underline-offset-2 hover:underline-offset-1"
+					className="underline underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
 					href={`/v/${encodeURIComponent(collection.entity._id)}`}
 				>
 					{collection.entity.title}
@@ -21,7 +21,7 @@ function Render({ collection, html, user, NODE_ENV }) {
 					<>
 						{' by '}
 						<a
-							className="underline underline-offset-2 hover:underline-offset-1"
+							className="underline underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
 							href={`/profile/${collection.author.username}`}
 						>
 							{collection.author.username}

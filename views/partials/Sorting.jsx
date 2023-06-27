@@ -3,7 +3,7 @@ import React from 'react';
 export default function Sorting({ values, fields, query }) {
 	return (
 		<details className="absolute z-20 self-start group">
-			<summary className="inline-block p-1 list-none cursor-pointer bg-slate-50 dark:bg-slate-900 w-max rounded-br-md group-open:rounded-br-none">
+			<summary className="inline-block hover:animate-pulse p-1 list-none cursor-pointer bg-slate-50 dark:bg-slate-900 w-max rounded-br-md group-open:rounded-br-none">
 				<i className="fa fa-random" alt="Sorting" title="Sorting"></i>
 			</summary>
 
@@ -57,7 +57,7 @@ export default function Sorting({ values, fields, query }) {
 				<div>
 					<button
 						type="submit"
-						className="flex items-center justify-center w-full h-12 px-6 mt-3 text-sm font-semibold text-center text-white bg-[#9146FF] rounded hover:bg-[#9106FF]"
+						className="flex hover:animate-pulse items-center justify-center w-full h-12 px-6 mt-3 text-sm font-semibold text-center text-white bg-[#9146FF] rounded hover:bg-[#9106FF]"
 					>
 						Resort
 					</button>

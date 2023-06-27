@@ -19,7 +19,11 @@ export default function Modal({ buttonContent, defaultOpen = false, onClose, chi
 	}, [open]);
 	return (
 		<>
-			{buttonContent ? <button onClick={() => setOpen(true)}>{buttonContent}</button> : null}
+			{buttonContent ? (
+				<button className="hover:animate-pulse" onClick={() => setOpen(true)}>
+					{buttonContent}
+				</button>
+			) : null}
 			<div
 				data-test-id="modal-backdrop"
 				className={`${
@@ -30,7 +34,7 @@ export default function Modal({ buttonContent, defaultOpen = false, onClose, chi
 				}}
 			>
 				<div className="relative">
-					<button className="absolute top-2 right-2" onClick={() => close()}>
+					<button className="absolute top-2 right-2 hover:animate-pulse" onClick={() => close()}>
 						<i className="fa fa-times-circle" alt="Close Modal" title="Close Modal"></i>
 					</button>
 					{open ? children : null}

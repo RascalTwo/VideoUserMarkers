@@ -20,7 +20,7 @@ function Index({ user, collections, heroImageSrc, ...props }) {
 								</p>
 								<br />
 								<a
-									className="inline-block py-3 mr-2 text-sm font-medium leading-snug text-gray-700 uppercase transition duration-150 ease-in-out bg-gray-200 rounded shadow-md dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 px-7 hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 dark:focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 dark:active:bg-gray-600 active:shadow-lg"
+									className="inline-block hover:animate-pulse py-3 mr-2 text-sm font-medium leading-snug text-gray-700 uppercase transition duration-150 ease-in-out bg-gray-200 rounded shadow-md dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 px-7 hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 dark:focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 dark:active:bg-gray-600 active:shadow-lg"
 									data-mdb-ripple="true"
 									data-mdb-ripple-color="light"
 									href="/quickstart"
@@ -29,7 +29,7 @@ function Index({ user, collections, heroImageSrc, ...props }) {
 									Quickstart
 								</a>
 								<a
-									className="inline-block py-3 mr-2 text-sm font-medium leading-snug text-gray-700 uppercase transition duration-150 ease-in-out bg-gray-200 rounded shadow-md dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 px-7 hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 dark:focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 dark:active:bg-gray-600 active:shadow-lg"
+									className="inline-block hover:animate-pulse py-3 mr-2 text-sm font-medium leading-snug text-gray-700 uppercase transition duration-150 ease-in-out bg-gray-200 rounded shadow-md dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 px-7 hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 dark:focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 dark:active:bg-gray-600 active:shadow-lg"
 									data-mdb-ripple="true"
 									data-mdb-ripple-color="light"
 									href={user ? '/v' : '/auth/signup'}

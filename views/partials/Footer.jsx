@@ -26,15 +26,21 @@ export default function Footer({ version }) {
 			`,
 				}}
 			></script>
-			<a href="https://github.com/RascalTwo/VideoUserMarkers">
+			<a className="hover:animate-pulse " href="https://github.com/RascalTwo/VideoUserMarkers">
 				<img
 					alt={`Version ${version} icon`}
 					src={`https://img.shields.io/badge/VERSION-${version}-blue?style=for-the-badge&logo=github`}
 				/>
 			</a>
 			<p>
-				Copyright © 2022 <a href="https://josephmilliken.com">Joseph Milliken</a>. All rights
-				reserved
+				Copyright © 2022{' '}
+				<a
+					className="hover:animate-pulse underline underline-offset-2 hover:underline-offset-1"
+					href="https://josephmilliken.com"
+				>
+					Joseph Milliken
+				</a>
+				. All rights reserved
 			</p>
 		</footer>
 	);

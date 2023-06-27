@@ -6,7 +6,7 @@ const renderer = new marked.Renderer();
 renderer.link = (href, title, text) => {
 	return `<a href="${href}" ${
 		title ? `alt="${title}" title="${title}" ` : ' '
-	}target="_blank" class="underline underline-offset-2 hover:underline-offset-1" rel="noopener noreferrer">${text}</a>`;
+	}target="_blank" class="underline underline-offset-2 hover:underline-offset-1 hover:animate-pulse" rel="noopener noreferrer">${text}</a>`;
 };
 
 module.exports.markdownToHTML = async markdown => {

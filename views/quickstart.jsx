@@ -9,7 +9,7 @@ function Quickstart() {
 			<p className="p-2">
 				Getting started is easy, first go ahead and{' '}
 				<a
-					className="inline w-full underline truncate underline-offset-2 hover:underline-offset-1"
+					className="inline hover:animate-pulse w-full underline truncate underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
 					href="/auth/signup"
 				>
 					create an account
@@ -31,7 +31,7 @@ function Quickstart() {
 								<br />
 								You can find the installation instructions for both{' '}
 								<a
-									className="inline w-full underline truncate underline-offset-2 hover:underline-offset-1"
+									className="inline hover:animate-pulse w-full underline truncate underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
 									href="https://github.com/RascalTwo/VideoUserMarkersUserscriptExtension#installation"
 								>
 									here
@@ -66,7 +66,7 @@ function Quickstart() {
 								First manually find the video you want to add markers to, and copy it&apos;s URL,
 								then take that URL over to the{' '}
 								<a
-									className="inline w-full underline truncate underline-offset-2 hover:underline-offset-1"
+									className="inline hover:animate-pulse w-full underline truncate underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
 									href="/v"
 								>
 									new collection form

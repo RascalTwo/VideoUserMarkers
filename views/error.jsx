@@ -18,7 +18,7 @@ function Error({ heading, preMessage, message, postMessage }) {
 					<a
 						rel="noopener noreferrer"
 						href="/"
-						className="px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-slate-900"
+						className="hover:animate-pulse px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-slate-900"
 					>
 						Back to homepage
 					</a>

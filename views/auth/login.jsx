@@ -29,13 +29,13 @@ function Login({ query }) {
 				value={query.password}
 			/>
 			<button
-				className="flex items-center justify-center h-12 px-6 min-w-[12rem] md:min-w-[16rem] bg-blue-600 mt-8 rounded font-semibold text-sm text-blue-100 hover:bg-blue-700"
+				className="flex hover:animate-pulse items-center justify-center h-12 px-6 min-w-[12rem] md:min-w-[16rem] bg-blue-600 mt-8 rounded font-semibold text-sm text-blue-100 hover:bg-blue-700"
 				type="submit"
 			>
 				Log In
 			</button>
 			<div className="flex justify-center gap-2 mt-3 text-xs">
-				<a className="text-blue-400 hover:text-blue-500" href="/auth/signup">
+				<a className="hover:animate-pulse text-blue-400 hover:text-blue-500" href="/auth/signup">
 					Sign Up
 				</a>
 			</div>
