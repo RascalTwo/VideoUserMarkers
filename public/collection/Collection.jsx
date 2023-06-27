@@ -1031,10 +1031,14 @@ export default function Collection({
 							e.preventDefault();
 							player?.seekTo(marker.when);
 						}}
-						onContextMenu={e => {
-							e.preventDefault();
-							setSelectedMarker(marker);
-						}}
+						onContextMenu={
+							canEdit
+								? e => {
+									e.preventDefault();
+									setSelectedMarker(marker);
+								  }
+								: undefined
+						}
 					>
 						<span className="text-left">{marker.title}</span>
 						<span className="font-mono text-right">
@@ -1042,12 +1046,14 @@ export default function Collection({
 								{secondsToHMS(marker.when, undefined, markerPlaces)}
 							</time>
 
-							<button
-								className="hidden pl-1 hoverless:inline group-hover:inline"
-								onClick={() => setSelectedMarker(marker)}
-							>
-								<i className="fa fa-gear" />
-							</button>
+							{canEdit ? (
+								<button
+									className="hidden pl-1 hoverless:inline group-hover:inline"
+									onClick={() => setSelectedMarker(marker)}
+								>
+									<i className="fa fa-gear" />
+								</button>
+							) : null}
 						</span>
 					</li>
 				))}

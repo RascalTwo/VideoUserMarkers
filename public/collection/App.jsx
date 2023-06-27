@@ -10,7 +10,7 @@ export default function App({ initialCollection, user, isEmbed }) {
 			collection={collection}
 			setCollection={setCollection}
 			user={user}
-			canEdit={user?.isAdmin || user?._id === collection.author._id}
+			canEdit={user && collection.author && (user.isAdmin || user._id === collection.author?._id)}
 			isEmbed={isEmbed}
 		/>
 	);
