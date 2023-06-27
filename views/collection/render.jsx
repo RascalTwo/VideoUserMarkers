@@ -4,7 +4,7 @@ import withLayout from '../layouts';
 function Render({ collection, user, NODE_ENV }) {
 	return (
 		<>
-			<div id="root" className="pl-x"></div>
+			<div id="root" className="px-2"></div>
 
 			<script src="https://player.twitch.tv/js/embed/v1.js"></script>
 			<script

@@ -286,7 +286,7 @@ export default function Collection({
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	}, [ready, entityId, type]);
 
-	const [columnCount, setColumns] = useState(2);
+	const [columnCount, setColumns] = useState(window.innerWidth >= 1024 ? 2 : 1);
 	const [markers, setMarkers] = useState(initialMarkers.sort((a, b) => a.when - b.when));
 
 	const [player, setPlayer] = useState();
@@ -379,7 +379,7 @@ export default function Collection({
 					() =>
 						document.querySelector('[data-active-marker="true"]')?.scrollIntoView({
 							behavior: 'smooth',
-							block: 'nearest',
+							block: 'center',
 						}),
 					100
 				);
