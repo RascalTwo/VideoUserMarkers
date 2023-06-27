@@ -18,6 +18,13 @@ function secondsToHMS(seconds, delimiters = '::', minimalPlaces = 1) {
 		.join('');
 }
 
+function base64encode(str) {
+	let encode = encodeURIComponent(str).replace(/%([a-f0-9]{2})/gi, (m, $1) =>
+		String.fromCharCode(parseInt($1, 16))
+	);
+	return window.btoa(encode);
+}
+
 class Player {
 	constructor(entityId) {
 		this.entityId = entityId;
@@ -489,7 +496,7 @@ export default function Collection({
 
 	const encodedCollection = useMemo(
 		() =>
-			`${window.location.origin}/v/${encodeURIComponent(entityId)}/${window.btoa(
+			`${window.location.origin}/v/${encodeURIComponent(entityId)}/${base64encode(
 				JSON.stringify({
 					_id: Date.now(),
 					entity: { _id: entityId, type, title: entity.title },
