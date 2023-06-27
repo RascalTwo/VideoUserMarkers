@@ -7,7 +7,7 @@ function Entity({ user, entity, query }) {
 	return (
 		<>
 			<h1 className="py-3 text-xl text-center">
-				{user.isAdmin ? (
+				{user?.isAdmin ? (
 					<a
 						href={`/v/${encodeURIComponent(entity._id)}?refetch`}
 						alt="Refetch Entity"

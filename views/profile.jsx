@@ -20,7 +20,7 @@ function Profile({ profiling, user, ...props }) {
 								<i className="fa fa-sign-out"></i>
 							</div>
 						</a>
-						{user.isAdmin ? (
+						{user?.isAdmin ? (
 							<a
 								href="/admin/delete-orphans"
 								className="flex items-center justify-center w-24 h-12 px-6 mt-8 text-sm font-semibold text-center text-red-100 bg-red-600 rounded md:w-32 hover:bg-red-700"
