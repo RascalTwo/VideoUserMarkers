@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { jsonStripper } = require('./helpers');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const he = require('he');
 
 const EntitySchema = new mongoose.Schema(
 	{
@@ -100,7 +101,7 @@ EntitySchema.static('fetchEntityInfo', async function (id, type) {
 		const response = await fetch(url.toString());
 		const html = await response.text();
 		return {
-			title: html.split('<meta itemprop="name" content="')[1].split('">')[0],
+			title: he.decode(html.split('<meta itemprop="name" content="')[1].split('">')[0]),
 			createdAt: new Date(html.split('<meta itemprop="datePublished" content="')[1].split('">')[0]),
 			duration: html
 				.split('<meta itemprop="duration" content="')[1]
@@ -122,7 +123,7 @@ EntitySchema.static('fetchEntityInfo', async function (id, type) {
 			html.split('<script type="application/ld+json">')[1].split('</script>')[0]
 		)[0];
 		return {
-			title: ldJSON.name,
+			title: he.decode(ldJSON.name),
 			createdAt: new Date(ldJSON.uploadDate),
 			rawThumbnail: ldJSON.thumbnailUrl[0].includes('404_processing')
 				? 'https://assets.help.twitch.tv/article/img/000002222-01a.png'
@@ -130,7 +131,7 @@ EntitySchema.static('fetchEntityInfo', async function (id, type) {
 		};
 	} else if (type === 'File')
 		return {
-			title: id.split('/').pop().split('?')[0],
+			title: he.decode(id.split('/').pop().split('?')[0]),
 		};
 	return null;
 });
