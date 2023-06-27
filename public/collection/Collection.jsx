@@ -261,7 +261,7 @@ export default function Collection({
 		_id,
 		entity: { _id: entityId, type, ...entity },
 		title,
-		description,
+		description = '',
 		markers: initialMarkers,
 		public: isPublic,
 		createdAt,
@@ -761,7 +761,7 @@ export default function Collection({
 														type="radio"
 														hidden
 														required
-														{...(entity.type === 'YouTube' ? { defaultChecked: true } : {})}
+														{...(type === 'YouTube' ? { defaultChecked: true } : {})}
 														value="YouTube"
 														id="type-youtube"
 														className="peer"
@@ -796,7 +796,7 @@ export default function Collection({
 														type="radio"
 														hidden
 														required
-														{...(entity.type === 'Twitch' ? { defaultChecked: true } : {})}
+														{...(type === 'Twitch' ? { defaultChecked: true } : {})}
 														value="Twitch"
 														id="type-twitch"
 														className="peer"
@@ -840,7 +840,7 @@ export default function Collection({
 														type="radio"
 														hidden
 														required
-														{...(entity.type === 'File' ? { defaultChecked: true } : {})}
+														{...(type === 'File' ? { defaultChecked: true } : {})}
 														value="File"
 														id="type-file"
 														className="peer"

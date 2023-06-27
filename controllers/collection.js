@@ -1,8 +1,13 @@
 const Collection = require('../models/Collection');
 const Entity = require('../models/Entity');
 const Marker = require('../models/Marker');
-const { conditionalS, getTotalMarkers, listToDescription, secondsToHMS } = require('../utils');
-const { markdownToHTML } = require('../views/helpers');
+const {
+	markdownToHTML,
+	conditionalS,
+	getTotalMarkers,
+	listToDescription,
+	secondsToHMS,
+} = require('../utils');
 
 module.exports.renderNewCollection = (_, response) =>
 	response.render('collection/new', { title: 'New Collection' });
