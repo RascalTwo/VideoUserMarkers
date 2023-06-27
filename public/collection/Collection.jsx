@@ -740,34 +740,42 @@ export default function Collection({
 			{showingKeyboardShortcuts ? (
 				<Modal defaultOpen={true} onClose={() => setShowingKeyboardShortcuts(false)}>
 					<div className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900">
-						<h2 className="text-lg">Keyboard Shortcuts</h2>
-						<ul className="mt-4">
-							{Object.entries({
-								'K / Space': 'Pause/Play',
-								'S / Ctrl + Left Arrow': 'Seek to next marker',
-								'W / Ctrl + Right Arrow': 'Seek to previous marker',
-								J: 'Seek back 10 seconds',
-								L: 'Seek forward 10 seconds',
-								'Left Arrow': 'Seek back 5 seconds',
-								'Right Arrow': 'Seek forward 5 seconds',
-								',': 'Seek back 1 frame',
-								'.': 'Seek forward 1 frame',
-								Q: 'Seek back 1 second',
-								E: 'Seek forward 1 second',
-								B: 'Add marker at current time',
-								N: 'Edit marker title',
-								T: 'Edit marker time',
-								U: 'Open menu',
-								'Shift + ?': 'Show this dialog',
-								'': '',
-								'Holding Shift + Any seek key': 'Seek & update current marker',
-							}).map(([key, value]) => (
-								<li key={key} className="flex items-center gap-2">
-									<span className="font-mono">{key}</span>
-									<span>{value}</span>
-								</li>
-							))}
-						</ul>
+						<h2 className="text-lg text-center">Keyboard Shortcuts</h2>
+						<table className="mt-4 border-spacing-4">
+							<thead>
+								<tr>
+									<th>Key</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{Object.entries({
+									'K / Space': 'Pause/Play',
+									'S / Ctrl + Left Arrow': 'Seek to next marker',
+									'W / Ctrl + Right Arrow': 'Seek to previous marker',
+									J: 'Seek back 10 seconds',
+									L: 'Seek forward 10 seconds',
+									'Left Arrow': 'Seek back 5 seconds',
+									'Right Arrow': 'Seek forward 5 seconds',
+									',': 'Seek back 1 frame',
+									'.': 'Seek forward 1 frame',
+									Q: 'Seek back 1 second',
+									E: 'Seek forward 1 second',
+									B: 'Add marker at current time',
+									N: 'Edit marker title',
+									T: 'Edit marker time',
+									U: 'Open menu',
+									'Shift + ?': 'Show this dialog',
+									'': '',
+									'Holding Shift + Any seek key': 'Seek & update current marker',
+								}).map(([key, value]) => (
+									<tr key={key}>
+										<td className="font-mono pr-2">{key}</td>
+										<td>{value}</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
 					</div>
 				</Modal>
 			) : null}
