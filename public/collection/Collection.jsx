@@ -1040,21 +1040,21 @@ export default function Collection({
 								: undefined
 						}
 					>
-						<span className="text-left">{marker.title}</span>
-						<span className="font-mono text-right">
+						<span className="text-left mr-2">{marker.title}</span>
+						<div className="font-mono text-right flex items-center">
 							<time dateTime={secondsToHMS(marker.when)}>
 								{secondsToHMS(marker.when, undefined, markerPlaces)}
 							</time>
 
 							{canEdit ? (
 								<button
-									className="hidden pl-1 hoverless:inline group-hover:inline"
+									className="invisible pl-1 hoverless:visible group-hover:visible"
 									onClick={() => setSelectedMarker(marker)}
 								>
 									<i className="fa fa-gear" />
 								</button>
 							) : null}
-						</span>
+						</div>
 					</li>
 				))}
 			</ul>
