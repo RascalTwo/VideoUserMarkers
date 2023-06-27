@@ -266,6 +266,7 @@ export default function Collection({
 		public: isPublic,
 		createdAt,
 		updatedAt,
+		author,
 	},
 	setCollection,
 	user,
@@ -285,6 +286,7 @@ export default function Collection({
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	}, [ready, entityId, type]);
 
+	const [columnCount, setColumns] = useState(2);
 	const [markers, setMarkers] = useState(initialMarkers.sort((a, b) => a.when - b.when));
 
 	const [player, setPlayer] = useState();
@@ -333,7 +335,10 @@ export default function Collection({
 
 		const resizeListener = () => {
 			if (isEmbed) return player.setDimensions(window.innerWidth, (window.innerWidth * 9) / 16);
-			const ratio = window.innerWidth < window.innerHeight ? 0.85 : 0.75;
+
+			let ratio = window.innerWidth < window.innerHeight ? 0.85 : 0.75;
+			if (columnCount === 2) ratio -= 0.1;
+
 			const maxWidth = window.innerWidth * ratio;
 			player.setDimensions(maxWidth, (maxWidth * 9) / 16);
 		};
@@ -341,7 +346,7 @@ export default function Collection({
 
 		window.addEventListener('resize', resizeListener);
 		return () => window.removeEventListener('resize', resizeListener);
-	}, [player]);
+	}, [player, columnCount]);
 
 	const [addingAt, setAddingAt] = useState(null);
 	useEffect(() => {
@@ -370,6 +375,14 @@ export default function Collection({
 
 		setMarkers(markers => {
 			setActiveMarker(activeMarker => {
+				setTimeout(
+					() =>
+						document.querySelector('[data-active-marker="true"]')?.scrollIntoView({
+							behavior: 'smooth',
+							block: 'nearest',
+						}),
+					100
+				);
 				const index = markers.findIndex(marker => marker === activeMarker);
 				if (index === -1) {
 					player.seekTo(markers[0].when);
@@ -524,219 +537,107 @@ export default function Collection({
 		return lines.join('\n');
 	}, [markers, markerPlaces]);
 
-	return (
-		<>
-			{canEdit ? (
-				<div className="flex justify-between">
-					<Modal buttonContent={<i className="fa fa-edit" alt="Update" title="Update"></i>}>
-						<form
-							className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
-							method="POST"
+	const footer = (
+		<div className="flex justify-between mt-2">
+			<Modal buttonContent={<i className="fa fa-share" alt="Export" title="Export"></i>}>
+				<div className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900 w-[75vw]">
+					<div>
+						<label className="mt-3 text-xs font-semibold">
+							Encoded URL
+							<button
+								className="float-right hover:animate-pulse"
+								onClick={() =>
+									navigator.clipboard
+										.writeText(encodedCollection)
+										.then(() => alert('Encoded URL copied to clipboard'))
+								}
+							>
+								<i
+									className="fa fa-clipboard"
+									alt="Copy Encoded URL to Clipboard"
+									title="Copy Encoded URL to Clipboard"
+								></i>
+							</button>
+						</label>
+						<a
+							href={encodedCollection}
+							target="_blank"
+							rel="noreferrer"
+							className="inline-block hover:animate-pulse w-full underline truncate underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
 						>
-							<input type="hidden" name="_method" value="PATCH" />
-							<label className="text-xs font-semibold" htmlFor="entity">
-								Video ID/URL
-							</label>
-							<input
-								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
-								type="text"
-								name="entity"
-								id="entity"
-								defaultValue={entityId}
-							/>
-							<label className="text-xs font-semibold" htmlFor="title">
-								Title
-							</label>
-							<input
-								className="flex items-center h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
-								type="text"
-								name="title"
-								id="title"
-								defaultValue={title}
-							/>
-							<div className="flex justify-between mt-3">
-								<label htmlFor="public">
-									<span className="text-xs font-semibold">Public</span>
-								</label>
-								<label className="relative flex items-center cursor-pointer select-none w-max">
-									<input
-										type="checkbox"
-										id="public"
-										defaultChecked={isPublic}
-										name="public"
-										className="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500"
-									/>
-									<span className="absolute text-xs font-medium text-white uppercase right-1">
-										No
-									</span>
-									<span className="absolute text-xs font-medium text-white uppercase right-8">
-										Yes
-									</span>
-									<span className="absolute transition-transform transform bg-gray-200 rounded-full dark:bg-gray-800 dark:bg-gray-700 w-7 h-7 right-7"></span>
-								</label>
-							</div>
-							<div className="flex justify-between gap-2 mt-3">
-								<span className="flex items-center text-xs font-semibold">Type</span>
-								<div className="flex items-center justify-center">
-									<div className="inline-flex" role="group">
-										<span>
-											<input
-												name="type"
-												type="radio"
-												hidden
-												required
-												{...(entity.type === 'YouTube' ? { defaultChecked: true } : {})}
-												value="YouTube"
-												id="type-youtube"
-												className="peer"
-											/>
-											<label
-												htmlFor="type-youtube"
-												className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 rounded-l text-gray-300/50 border-gray-300/50 peer-checked:border-red-600 peer-checked:text-red-600 hover:bg-opacity-5 focus:outline-none focus:ring-0"
-											>
-												<svg
-													viewBox="0 0 28.5 20"
-													preserveAspectRatio="xMidYMid meet"
-													className="inline w-5 h-5"
-													alt="YouTube"
-													title="YouTube"
-												>
-													<g preserveAspectRatio="xMidYMid meet">
-														<path
-															d="M27.9727 3.12324C27.6435 1.89323 26.6768 0.926623 25.4468 0.597366C23.2197 2.24288e-07 14.285 0 14.285 0C14.285 0 5.35042 2.24288e-07 3.12323 0.597366C1.89323 0.926623 0.926623 1.89323 0.597366 3.12324C2.24288e-07 5.35042 0 10 0 10C0 10 2.24288e-07 14.6496 0.597366 16.8768C0.926623 18.1068 1.89323 19.0734 3.12323 19.4026C5.35042 20 14.285 20 14.285 20C14.285 20 23.2197 20 25.4468 19.4026C26.6768 19.0734 27.6435 18.1068 27.9727 16.8768C28.5701 14.6496 28.5701 10 28.5701 10C28.5701 10 28.5677 5.35042 27.9727 3.12324Z"
-															fill="currentColor"
-														></path>
-														<path
-															d="M11.4253 14.2854L18.8477 10.0004L11.4253 5.71533V14.2854Z"
-															fill="white"
-														></path>
-													</g>
-												</svg>
-											</label>
-										</span>
-										<span>
-											<input
-												name="type"
-												type="radio"
-												hidden
-												required
-												{...(entity.type === 'Twitch' ? { defaultChecked: true } : {})}
-												value="Twitch"
-												id="type-twitch"
-												className="peer"
-											/>
-											<label
-												htmlFor="type-twitch"
-												className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 text-gray-300/50 border-gray-300/50 peer-checked:border-[#A970FF] hover:bg-opacity-5 focus:outline-none focus:ring-0 peer-checked:text-[#A970FF]"
-											>
-												<svg
-													overflow="visible"
-													width="40px"
-													height="40px"
-													version="1.1"
-													viewBox="0 0 40 40"
-													x="0px"
-													y="0px"
-													className="inline w-5 h-5"
-												>
-													<g>
-														<polygon
-															points="13 8 8 13 8 31 14 31 14 36 19 31 23 31 32 22 32 8"
-															fill="currentColor"
-														></polygon>
-														<polygon
-															points="26 25 30 21 30 10 14 10 14 25 18 25 18 29 22 25"
-															fill="white"
-														></polygon>
-													</g>
-													<g>
-														<path
-															d="M20,14 L22,14 L22,20 L20,20 L20,14 Z M27,14 L27,20 L25,20 L25,14 L27,14 Z"
-															fill="currentColor"
-														></path>
-													</g>
-												</svg>
-											</label>
-										</span>
-										<span>
-											<input
-												name="type"
-												type="radio"
-												hidden
-												required
-												{...(entity.type === 'File' ? { defaultChecked: true } : {})}
-												value="File"
-												id="type-file"
-												className="peer"
-											/>
-											<label
-												htmlFor="type-file"
-												className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 rounded-r text-gray-300/50 border-gray-300/50 peer-checked:border-green-600 peer-checked:text-green-600 hover:bg-opacity-5 focus:outline-none focus:ring-0"
-											>
-												<i className="fa fa-file-video-o" alt="File" title="File"></i>
-											</label>
-										</span>
-									</div>
-								</div>
-							</div>
-							<label className="mt-3 text-xs font-semibold" htmlFor="description">
-								Description
-								<img
-									src="https://www.markdownguide.org/favicon.ico"
-									alt="Markdown Compatible"
-									title="Markdown Compatible"
-									className="inline-block pl-1 invert dark:invert"
-								/>
-							</label>
-							<textarea
-								className="flex items-center h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
-								name="description"
-								id="description"
-								defaultValue={description}
-							/>
-							<label className="mt-3 text-xs font-semibold" htmlFor="markers">
-								Markers (H:M:S Title Description)
-							</label>
-							<textarea
-								className="flex items-center min-w-[12rem] pr-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] lg:w-80 focus:outline-none focus:ring-2"
-								name="markers"
-								id="markers"
-								defaultValue={markersAsText}
-								rows={5}
-							/>
-
-							<div className="flex justify-center gap-2 text-xs">
-								<button
-									className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
-									type="submit"
-								>
-									Update
-								</button>
-							</div>
-						</form>
-					</Modal>
-					<Modal buttonContent={<i className="fa fa-trash" alt="Delete" title="Delete"></i>}>
-						<form
-							className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
-							method="POST"
-						>
-							<input type="hidden" name="_method" value="DELETE" />
-							<h2 className="text-lg">
-								Are you SURE you want to delete the collection &quot;{title}
-								&quot; with {markers.length} markers?
-							</h2>
-							<div className="flex justify-center gap-2 text-xs">
-								<button
-									className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-red-100 bg-red-600 rounded md:min-w-[16rem] hover:bg-red-700"
-									type="submit"
-								>
-									Delete
-								</button>
-							</div>
-						</form>
-					</Modal>
+							{encodedCollection}
+						</a>
+					</div>
+					<div>
+						<label className="mt-3 text-xs font-semibold" htmlFor="markersAsCommentText">
+							Markers as Text
+							<button
+								className="float-right hover:animate-pulse"
+								onClick={() =>
+									navigator.clipboard
+										.writeText(document.querySelector('#markersAsCommentText').value)
+										.then(() => alert('Markers Text copied to clipboard'))
+								}
+							>
+								<i
+									className="fa fa-clipboard"
+									alt="Export as Textual Comment"
+									title="Export as Text"
+								></i>
+							</button>
+						</label>
+						<textarea
+							className="flex items-center w-full px-4 mt-2 bg-gray-200 rounded dark:bg-gray-800 focus:outline-none focus:ring-2"
+							id="markersAsCommentText"
+							defaultValue={markersAsCommentText}
+							rows={5}
+						/>
+					</div>
 				</div>
+			</Modal>
+			<button className="hover:animate-pulse" onClick={() => setShowingKeyboardShortcuts(true)}>
+				<i className="fa fa-keyboard-o" alt="Keyboard Shortcuts" title="Keyboard Shortcuts"></i>
+			</button>
+			{user ? (
+				<button
+					className="hover:animate-pulse"
+					onClick={() => {
+						const url = new URL(window.location.origin + '/v');
+						url.searchParams.set('entity', entityId);
+						url.searchParams.set('public', isPublic);
+						url.searchParams.set('type', type);
+						url.searchParams.set('title', title + ' (Copy)');
+						url.searchParams.set('description', description);
+						url.searchParams.set('markers', markersAsText);
+						window.location.href = url.toString();
+					}}
+				>
+					<i className="fa fa-files-o" alt="Clone Collection" title="Clone Collection"></i>
+				</button>
 			) : null}
+		</div>
+	);
+
+	const authorInfo = (
+		<h2 className="pt-3 text-xl text-center">
+			{!isPublic ? <i className="pr-1 fa fa-lock" alt="Private" title="Private"></i> : null}
+			{title}
+			{author ? (
+				<>
+					{' by '}
+					<a
+						className="underline underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
+						href={`/profile/${author.username}`}
+					>
+						{author.username}
+					</a>
+				</>
+			) : null}
+		</h2>
+	);
+
+	return (
+		<section className={`flex ${columnCount === 1 ? 'flex-col' : 'flex-row'}`}>
 			{showingKeyboardShortcuts ? (
 				<Modal defaultOpen={true} onClose={() => setShowingKeyboardShortcuts(false)}>
 					<div className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900">
@@ -779,129 +680,397 @@ export default function Collection({
 					</div>
 				</Modal>
 			) : null}
-			<div className="flex items-center justify-center">
-				<div id="player-embed"></div>
-			</div>
-			<div className="flex justify-between mt-2">
-				<span className="font-mono">
-					<time dateTime={secondsToHMS(currentTime)}>
-						{secondsToHMS(currentTime, undefined, totalPlaces)}
-					</time>
-					{' / '}
-					<time dateTime={'PT' + secondsToHMS(duration, 'HMS')}>{secondsToHMS(duration)}</time>
-				</span>
-				{activeMarker ? (
-					<span
-						onClick={e => {
-							e.preventDefault();
-							player.seekTo(activeMarker.when);
-						}}
-						onContextMenu={e => {
-							e.preventDefault();
-							setSelectedMarker(activeMarker);
-						}}
-						className="truncate max-w-[50vmin]"
+			<div>
+				<div>
+					<button
+						className="absolute left-1"
+						onClick={() => setColumns(count => (count === 1 ? 2 : 1))}
 					>
-						{activeMarker?.title}
-					</span>
-				) : null}
-
-				{canEdit ? (
-					<Modal
-						buttonContent={
-							<i
-								className="fa fa-plus"
-								alt="Add Marker"
-								title="Add Marker"
-								id="add-marker-button"
-								onClick={() => setAddingAt(currentTime)}
-							/>
-						}
-						onClose={() => setAddingAt(null)}
-					>
-						<form
-							className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
-							onSubmit={e => {
-								e.preventDefault();
-								const formData = new FormData(e.target);
-								const whenHMS = formData.get('when');
-								const [hours, minutes, seconds] = whenHMS.split(':');
-								const when = (hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0) * 1;
-								const marker = {
-									collectionRef: _id,
-									when,
-									title: formData.get('title'),
-									description: formData.get('description'),
-								};
-								return fetch('/marker', {
-									method: 'POST',
-									headers: {
-										'Content-Type': 'application/json',
-									},
-									body: JSON.stringify(marker),
-								})
-									.then(res => res.json())
-									.then(({ markerId, collectionUpdatedAt, message }) => {
-										if (message) return alert(message);
-										marker._id = markerId;
-										setMarkers(markers => {
-											const newMarkers = [...markers, marker].sort((a, b) => a.when - b.when);
-											setCollection(collection => ({
-												...collection,
-												updatedAt: collectionUpdatedAt,
-												markers: newMarkers,
-											}));
-											return newMarkers;
-										});
-										e.target.closest('[data-test-id="modal-backdrop"]').click();
-										setAddingAt(null);
-									});
-							}}
+						<i className="fa fa-columns" alt="Toggle Column View" title="Toggle Column View"></i>
+					</button>
+					<h1 className="pt-3 text-xl text-center">
+						<a
+							className="underline underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
+							href={`/v/${encodeURIComponent(entity._id)}`}
 						>
-							<label className="text-xs font-semibold" htmlFor="title">
-								Title
-							</label>
-							<input
-								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
-								type="text"
-								name="title"
-								id="title"
-							/>
-							<label className="mt-3 text-xs font-semibold" htmlFor="title">
-								When
-							</label>
-							<HMSInput
-								defaultValue={addingAt}
-								id="when"
-								name="when"
-								onValueChange={newValue => setAddingAt(newValue)}
-							/>
-							<label className="mt-3 text-xs font-semibold" htmlFor="description">
-								Description
-								<img
-									src="https://www.markdownguide.org/favicon.ico"
-									alt="Markdown Compatible"
-									title="Markdown Compatible"
-									className="inline-block pl-1 dark:invert"
-								/>
-							</label>
-							<textarea
-								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
-								name="description"
-								id="description"
-							/>
+							{entity.title}
+						</a>
+					</h1>
 
-							<div className="flex justify-center gap-2 text-xs">
-								<button
-									className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
-									type="submit"
+					{columnCount === 1 ? authorInfo : null}
+
+					{description ? <div dangerouslySetInnerHTML={{ __html: description }}></div> : null}
+				</div>
+				<div className="flex flex-col">
+					{canEdit ? (
+						<div className="flex justify-between">
+							<Modal buttonContent={<i className="fa fa-edit" alt="Update" title="Update"></i>}>
+								<form
+									className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
+									method="POST"
 								>
-									Create
-								</button>
-							</div>
-						</form>
-					</Modal>
-				) : null}
+									<input type="hidden" name="_method" value="PATCH" />
+									<label className="text-xs font-semibold" htmlFor="entity">
+										Video ID/URL
+									</label>
+									<input
+										className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
+										type="text"
+										name="entity"
+										id="entity"
+										defaultValue={entityId}
+									/>
+									<label className="text-xs font-semibold" htmlFor="title">
+										Title
+									</label>
+									<input
+										className="flex items-center h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
+										type="text"
+										name="title"
+										id="title"
+										defaultValue={title}
+									/>
+									<div className="flex justify-between mt-3">
+										<label htmlFor="public">
+											<span className="text-xs font-semibold">Public</span>
+										</label>
+										<label className="relative flex items-center cursor-pointer select-none w-max">
+											<input
+												type="checkbox"
+												id="public"
+												defaultChecked={isPublic}
+												name="public"
+												className="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500"
+											/>
+											<span className="absolute text-xs font-medium text-white uppercase right-1">
+												No
+											</span>
+											<span className="absolute text-xs font-medium text-white uppercase right-8">
+												Yes
+											</span>
+											<span className="absolute transition-transform transform bg-gray-200 rounded-full dark:bg-gray-800 dark:bg-gray-700 w-7 h-7 right-7"></span>
+										</label>
+									</div>
+									<div className="flex justify-between gap-2 mt-3">
+										<span className="flex items-center text-xs font-semibold">Type</span>
+										<div className="flex items-center justify-center">
+											<div className="inline-flex" role="group">
+												<span>
+													<input
+														name="type"
+														type="radio"
+														hidden
+														required
+														{...(entity.type === 'YouTube' ? { defaultChecked: true } : {})}
+														value="YouTube"
+														id="type-youtube"
+														className="peer"
+													/>
+													<label
+														htmlFor="type-youtube"
+														className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 rounded-l text-gray-300/50 border-gray-300/50 peer-checked:border-red-600 peer-checked:text-red-600 hover:bg-opacity-5 focus:outline-none focus:ring-0"
+													>
+														<svg
+															viewBox="0 0 28.5 20"
+															preserveAspectRatio="xMidYMid meet"
+															className="inline w-5 h-5"
+															alt="YouTube"
+															title="YouTube"
+														>
+															<g preserveAspectRatio="xMidYMid meet">
+																<path
+																	d="M27.9727 3.12324C27.6435 1.89323 26.6768 0.926623 25.4468 0.597366C23.2197 2.24288e-07 14.285 0 14.285 0C14.285 0 5.35042 2.24288e-07 3.12323 0.597366C1.89323 0.926623 0.926623 1.89323 0.597366 3.12324C2.24288e-07 5.35042 0 10 0 10C0 10 2.24288e-07 14.6496 0.597366 16.8768C0.926623 18.1068 1.89323 19.0734 3.12323 19.4026C5.35042 20 14.285 20 14.285 20C14.285 20 23.2197 20 25.4468 19.4026C26.6768 19.0734 27.6435 18.1068 27.9727 16.8768C28.5701 14.6496 28.5701 10 28.5701 10C28.5701 10 28.5677 5.35042 27.9727 3.12324Z"
+																	fill="currentColor"
+																></path>
+																<path
+																	d="M11.4253 14.2854L18.8477 10.0004L11.4253 5.71533V14.2854Z"
+																	fill="white"
+																></path>
+															</g>
+														</svg>
+													</label>
+												</span>
+												<span>
+													<input
+														name="type"
+														type="radio"
+														hidden
+														required
+														{...(entity.type === 'Twitch' ? { defaultChecked: true } : {})}
+														value="Twitch"
+														id="type-twitch"
+														className="peer"
+													/>
+													<label
+														htmlFor="type-twitch"
+														className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 text-gray-300/50 border-gray-300/50 peer-checked:border-[#A970FF] hover:bg-opacity-5 focus:outline-none focus:ring-0 peer-checked:text-[#A970FF]"
+													>
+														<svg
+															overflow="visible"
+															width="40px"
+															height="40px"
+															version="1.1"
+															viewBox="0 0 40 40"
+															x="0px"
+															y="0px"
+															className="inline w-5 h-5"
+														>
+															<g>
+																<polygon
+																	points="13 8 8 13 8 31 14 31 14 36 19 31 23 31 32 22 32 8"
+																	fill="currentColor"
+																></polygon>
+																<polygon
+																	points="26 25 30 21 30 10 14 10 14 25 18 25 18 29 22 25"
+																	fill="white"
+																></polygon>
+															</g>
+															<g>
+																<path
+																	d="M20,14 L22,14 L22,20 L20,20 L20,14 Z M27,14 L27,20 L25,20 L25,14 L27,14 Z"
+																	fill="currentColor"
+																></path>
+															</g>
+														</svg>
+													</label>
+												</span>
+												<span>
+													<input
+														name="type"
+														type="radio"
+														hidden
+														required
+														{...(entity.type === 'File' ? { defaultChecked: true } : {})}
+														value="File"
+														id="type-file"
+														className="peer"
+													/>
+													<label
+														htmlFor="type-file"
+														className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 rounded-r text-gray-300/50 border-gray-300/50 peer-checked:border-green-600 peer-checked:text-green-600 hover:bg-opacity-5 focus:outline-none focus:ring-0"
+													>
+														<i className="fa fa-file-video-o" alt="File" title="File"></i>
+													</label>
+												</span>
+											</div>
+										</div>
+									</div>
+									<label className="mt-3 text-xs font-semibold" htmlFor="description">
+										Description
+										<img
+											src="https://www.markdownguide.org/favicon.ico"
+											alt="Markdown Compatible"
+											title="Markdown Compatible"
+											className="inline-block pl-1 invert dark:invert"
+										/>
+									</label>
+									<textarea
+										className="flex items-center h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
+										name="description"
+										id="description"
+										defaultValue={description}
+									/>
+									<label className="mt-3 text-xs font-semibold" htmlFor="markers">
+										Markers (H:M:S Title Description)
+									</label>
+									<textarea
+										className="flex items-center min-w-[12rem] pr-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] lg:w-80 focus:outline-none focus:ring-2"
+										name="markers"
+										id="markers"
+										defaultValue={markersAsText}
+										rows={5}
+									/>
+
+									<div className="flex justify-center gap-2 text-xs">
+										<button
+											className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
+											type="submit"
+										>
+											Update
+										</button>
+									</div>
+								</form>
+							</Modal>
+							<Modal buttonContent={<i className="fa fa-trash" alt="Delete" title="Delete"></i>}>
+								<form
+									className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
+									method="POST"
+								>
+									<input type="hidden" name="_method" value="DELETE" />
+									<h2 className="text-lg">
+										Are you SURE you want to delete the collection &quot;{title}
+										&quot; with {markers.length} markers?
+									</h2>
+									<div className="flex justify-center gap-2 text-xs">
+										<button
+											className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-red-100 bg-red-600 rounded md:min-w-[16rem] hover:bg-red-700"
+											type="submit"
+										>
+											Delete
+										</button>
+									</div>
+								</form>
+							</Modal>
+						</div>
+					) : null}
+					<div className="flex items-center justify-center">
+						<div id="player-embed"></div>
+					</div>
+
+					<div className="flex flex-row justify-between mt-2">
+						<span className="font-mono">
+							<time dateTime={secondsToHMS(currentTime)}>
+								{secondsToHMS(currentTime, undefined, totalPlaces)}
+							</time>
+							{' / '}
+							<time dateTime={'PT' + secondsToHMS(duration, 'HMS')}>{secondsToHMS(duration)}</time>
+						</span>
+						{activeMarker ? (
+							<span
+								onClick={e => {
+									e.preventDefault();
+									player.seekTo(activeMarker.when);
+								}}
+								onContextMenu={e => {
+									e.preventDefault();
+									setSelectedMarker(activeMarker);
+								}}
+								className="truncate max-w-[50vmin]"
+							>
+								{activeMarker?.title}
+							</span>
+						) : null}
+
+						{canEdit ? (
+							<Modal
+								buttonContent={
+									<i
+										className="fa fa-plus"
+										alt="Add Marker"
+										title="Add Marker"
+										id="add-marker-button"
+										onClick={() => setAddingAt(currentTime)}
+									/>
+								}
+								onClose={() => setAddingAt(null)}
+							>
+								<form
+									className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
+									onSubmit={e => {
+										e.preventDefault();
+										const formData = new FormData(e.target);
+										const whenHMS = formData.get('when');
+										const [hours, minutes, seconds] = whenHMS.split(':');
+										const when = (hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0) * 1;
+										const marker = {
+											collectionRef: _id,
+											when,
+											title: formData.get('title'),
+											description: formData.get('description'),
+										};
+										return fetch('/marker', {
+											method: 'POST',
+											headers: {
+												'Content-Type': 'application/json',
+											},
+											body: JSON.stringify(marker),
+										})
+											.then(res => res.json())
+											.then(({ markerId, collectionUpdatedAt, message }) => {
+												if (message) return alert(message);
+												marker._id = markerId;
+												setMarkers(markers => {
+													const newMarkers = [...markers, marker].sort((a, b) => a.when - b.when);
+													setCollection(collection => ({
+														...collection,
+														updatedAt: collectionUpdatedAt,
+														markers: newMarkers,
+													}));
+													return newMarkers;
+												});
+												e.target.closest('[data-test-id="modal-backdrop"]').click();
+												setAddingAt(null);
+											});
+									}}
+								>
+									<label className="text-xs font-semibold" htmlFor="title">
+										Title
+									</label>
+									<input
+										className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
+										type="text"
+										name="title"
+										id="title"
+									/>
+									<label className="mt-3 text-xs font-semibold" htmlFor="title">
+										When
+									</label>
+									<HMSInput
+										defaultValue={addingAt}
+										id="when"
+										name="when"
+										onValueChange={newValue => setAddingAt(newValue)}
+									/>
+									<label className="mt-3 text-xs font-semibold" htmlFor="description">
+										Description
+										<img
+											src="https://www.markdownguide.org/favicon.ico"
+											alt="Markdown Compatible"
+											title="Markdown Compatible"
+											className="inline-block pl-1 dark:invert"
+										/>
+									</label>
+									<textarea
+										className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
+										name="description"
+										id="description"
+									/>
+
+									<div className="flex justify-center gap-2 text-xs">
+										<button
+											className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
+											type="submit"
+										>
+											Create
+										</button>
+									</div>
+								</form>
+							</Modal>
+						) : null}
+					</div>
+
+					<div className="flex flex-row justify-between gap-1">
+						<div className="flex gap-1">
+							<time
+								dateTime={createdAt}
+								alt={`Collection created at ${createdAt}`}
+								title={`Collection created at ${createdAt}`}
+							>
+								<i className="fa fa-calendar-o"></i>
+							</time>
+							{updatedAt !== createdAt && (
+								<time
+									dateTime={updatedAt}
+									alt={`Collection updated at ${updatedAt}`}
+									title={`Collection updated at ${updatedAt}`}
+								>
+									<i className="fa fa-calendar"></i>
+								</time>
+							)}
+						</div>
+						{entity.createdAt ? (
+							<time
+								dateTime={entity.createdAt}
+								alt={`Entity created at ${entity.createdAt}`}
+								title={`Entity created at ${entity.createdAt}`}
+							>
+								<i className="fa fa-calendar-o"></i>
+							</time>
+						) : null}
+					</div>
+
+					{columnCount === 2 ? footer : null}
+				</div>
 			</div>
 			{selectedMarker ? (
 				<Modal defaultOpen={true} onClose={() => setSelectedMarker(null)}>
@@ -959,6 +1128,7 @@ export default function Collection({
 							name="title"
 							id="title"
 							defaultValue={selectedMarker.title}
+							autoFocus
 						/>
 						<label className="mt-3 text-xs font-semibold" htmlFor="title">
 							When
@@ -997,36 +1167,12 @@ export default function Collection({
 					</form>
 				</Modal>
 			) : null}
-			<div className="flex flex-row justify-between gap-1">
-				<div className="flex gap-1">
-					<time
-						dateTime={createdAt}
-						alt={`Collection created at ${createdAt}`}
-						title={`Collection created at ${createdAt}`}
-					>
-						<i className="fa fa-calendar-o"></i>
-					</time>
-					{updatedAt !== createdAt && (
-						<time
-							dateTime={updatedAt}
-							alt={`Collection updated at ${updatedAt}`}
-							title={`Collection updated at ${updatedAt}`}
-						>
-							<i className="fa fa-calendar"></i>
-						</time>
-					)}
-				</div>
-				{entity.createdAt ? (
-					<time
-						dateTime={entity.createdAt}
-						alt={`Entity created at ${entity.createdAt}`}
-						title={`Entity created at ${entity.createdAt}`}
-					>
-						<i className="fa fa-calendar-o"></i>
-					</time>
-				) : null}
-			</div>
-			<ul className="border border-slate-900">
+			<ul
+				className={`border border-slate-900 scroll-smooth ${
+					columnCount === 2 ? 'ml-1 h-[85vh] overflow-y-scroll' : ''
+				}`}
+			>
+				{columnCount === 2 ? <li>{authorInfo}</li> : null}
 				{markers.map(marker => (
 					<li key={marker._id}>
 						<button
@@ -1035,6 +1181,7 @@ export default function Collection({
 									? 'bg-slate-900 text-slate-200 dark:bg-slate-700 dark:text-slate-400'
 									: ''
 							}`}
+							data-active-marker={activeMarker?._id === marker._id}
 							onClick={e => {
 								e.preventDefault();
 								player?.seekTo(marker.when);
@@ -1071,84 +1218,7 @@ export default function Collection({
 				))}
 			</ul>
 
-			<div className="flex justify-between mt-2">
-				<Modal buttonContent={<i className="fa fa-share" alt="Export" title="Export"></i>}>
-					<div className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900 w-[75vw]">
-						<div>
-							<label className="mt-3 text-xs font-semibold">
-								Encoded URL
-								<button
-									className="float-right hover:animate-pulse"
-									onClick={() =>
-										navigator.clipboard
-											.writeText(encodedCollection)
-											.then(() => alert('Encoded URL copied to clipboard'))
-									}
-								>
-									<i
-										className="fa fa-clipboard"
-										alt="Copy Encoded URL to Clipboard"
-										title="Copy Encoded URL to Clipboard"
-									></i>
-								</button>
-							</label>
-							<a
-								href={encodedCollection}
-								target="_blank"
-								rel="noreferrer"
-								className="inline-block hover:animate-pulse w-full underline truncate underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
-							>
-								{encodedCollection}
-							</a>
-						</div>
-						<div>
-							<label className="mt-3 text-xs font-semibold" htmlFor="markersAsCommentText">
-								Markers as Text
-								<button
-									className="float-right hover:animate-pulse"
-									onClick={() =>
-										navigator.clipboard
-											.writeText(document.querySelector('#markersAsCommentText').value)
-											.then(() => alert('Markers Text copied to clipboard'))
-									}
-								>
-									<i
-										className="fa fa-clipboard"
-										alt="Export as Textual Comment"
-										title="Export as Text"
-									></i>
-								</button>
-							</label>
-							<textarea
-								className="flex items-center w-full px-4 mt-2 bg-gray-200 rounded dark:bg-gray-800 focus:outline-none focus:ring-2"
-								id="markersAsCommentText"
-								defaultValue={markersAsCommentText}
-								rows={5}
-							/>
-						</div>
-					</div>
-				</Modal>
-				<button className="hover:animate-pulse" onClick={() => setShowingKeyboardShortcuts(true)}>
-					<i className="fa fa-keyboard-o" alt="Keyboard Shortcuts" title="Keyboard Shortcuts"></i>
-				</button>
-				{user ? (
-					<button
-						className="hover:animate-pulse"
-						onClick={() => {
-							const url = new URL(window.location.origin + '/v');
-							url.searchParams.set('entity', entityId);
-							url.searchParams.set('public', isPublic);
-							url.searchParams.set('type', type);
-							url.searchParams.set('title', title + ' (Copy)');
-							url.searchParams.set('description', description);
-							url.searchParams.set('markers', markersAsText);
-							window.location.href = url.toString();
-						}}
-					>
-						<i className="fa fa-files-o" alt="Clone Collection" title="Clone Collection"></i>
-					</button>
-				) : null}
-			</div>
-		</>
+			{columnCount === 1 ? footer : null}
+		</section>
 	);
 }

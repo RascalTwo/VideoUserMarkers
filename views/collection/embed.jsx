@@ -9,7 +9,7 @@ export default function Embed({ collection, NODE_ENV }) {
 			/>
 			<link rel="stylesheet" href="/index.css" />
 
-			<div id="root" className="px-4"></div>
+			<div id="root" className="px-2"></div>
 
 			<script src="https://player.twitch.tv/js/embed/v1.js"></script>
 			<script
