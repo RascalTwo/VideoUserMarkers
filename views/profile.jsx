@@ -31,7 +31,15 @@ function Profile({ profiling, user, ...props }) {
 					</>
 				) : null}
 			</h1>
-			<Sorting fields={{ title: 'Title', createdAt: 'Created', updatedAt: 'Updated' }} {...props} />
+			<Sorting
+				fields={{
+					title: 'Title',
+					createdAt: 'Created',
+					updatedAt: 'Updated',
+					'entity.createdAt': 'Entity Created',
+				}}
+				{...props}
+			/>
 			<Collections collections={profiling.collections} {...props} />
 		</>
 	);

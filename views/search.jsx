@@ -14,6 +14,7 @@ function Search({ matches, query }) {
 					title: 'Title',
 					createdAt: 'Created',
 					updatedAt: 'Updated',
+					'entity.createdAt': 'Entity Created',
 				}}
 				values={{ search: query.search }}
 				query={query}

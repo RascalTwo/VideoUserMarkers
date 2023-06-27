@@ -21,8 +21,19 @@ module.exports = {
 	sortArrayBy: (array, key, descending = false) => {
 		if (!key) return array;
 		const sorted = array.sort((a, b) => {
-			const aValue = a[key];
-			const bValue = b[key];
+			const path = key.split('.').reverse();
+			let aValue = a;
+			let bValue = b;
+			while (path.length) {
+				const next = path.pop();
+				if (aValue !== undefined && aValue !== null) {
+					aValue = aValue[next];
+				}
+				if (bValue !== undefined && bValue !== null) {
+					bValue = bValue[next];
+				}
+			}
+
 			const hasAValue = aValue !== undefined && aValue !== null;
 			const hasBValue = bValue !== undefined && bValue !== null;
 			if (!hasAValue && !hasBValue) return 0;
