@@ -24,7 +24,7 @@ export default function Modal({ buttonContent, defaultOpen = false, onClose, chi
 				data-test-id="modal-backdrop"
 				className={`${
 					!open ? 'hidden' : ''
-				} w-screen h-screen bg-[rgba(0,0,0,0.5)] absolute top-0 left-0 flex items-center justify-center cursor-pointer z-20`}
+				} w-screen h-screen bg-[rgba(0,0,0,0.5)] absolute top-0 left-0 flex items-center justify-center cursor-pointer z-40`}
 				onClick={e => {
 					if (e.target === e.currentTarget) close();
 				}}

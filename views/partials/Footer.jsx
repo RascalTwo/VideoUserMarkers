@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Footer({ version }) {
 	return (
-		<footer className="flex justify-between py-1 pr-1 text-right border-t dark:text-gray-300 bg-slate-100/30 dark:bg-gray-900/30 border-slate-500/50">
+		<footer className="flex z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] shadow-slate-400 dark:shadow-slate-600 justify-between pt-2 px-1 text-right dark:text-gray-300 bg-slate-100/30 dark:bg-gray-900/30">
 			<div className="theme-switch">
 				<input type="checkbox" className="theme-switch__input" id="theme-toggler" />
 				<label

@@ -41,7 +41,7 @@ export default function Main(props) {
 			</head>
 
 			<body className="flex flex-col w-screen h-screen">
-				<nav className="relative flex items-center justify-between w-full h-12 px-8 mx-auto border-b bg-slate-100/75 dark:bg-gray-900/75 dark:text-slate-50 text-slate-900 border-slate-500/50">
+				<nav className="relative z-30 flex items-center justify-between w-full h-13 px-8 mx-auto shadow-md shadow-slate-400 dark:shadow-slate-600 bg-slate-100/75 dark:bg-gray-900/75 dark:text-slate-50 text-slate-900">
 					<div className="inline-flex">
 						<a href="/">
 							<img src="/favicon.svg" alt="Logo" className="h-8" />
