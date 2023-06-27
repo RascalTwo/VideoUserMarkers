@@ -1028,41 +1028,45 @@ export default function Collection({
 			</div>
 			<ul className="border border-slate-900">
 				{markers.map(marker => (
-					<li
-						className={`flex group justify-between p-2 border-b border-gray-800 dark:border-gray-200 cursor-pointer hover:bg-gray-500 hover:text-black ${
-							activeMarker?._id === marker._id
-								? 'bg-slate-900 text-slate-200 dark:bg-slate-700 dark:text-slate-400'
-								: ''
-						}`}
-						key={marker._id}
-						onClick={e => {
-							e.preventDefault();
-							player?.seekTo(marker.when);
-						}}
-						onContextMenu={
-							canEdit
-								? e => {
-									e.preventDefault();
-									setSelectedMarker(marker);
-								  }
-								: undefined
-						}
-					>
-						<span className="text-left mr-2">{marker.title}</span>
-						<div className="font-mono text-right flex items-center">
-							<time dateTime={secondsToHMS(marker.when)}>
-								{secondsToHMS(marker.when, undefined, markerPlaces)}
-							</time>
+					<li key={marker._id}>
+						<button
+							className={`w-full flex group justify-between p-2 border-b border-gray-800 dark:border-gray-200 cursor-pointer hover:bg-gray-500 hover:text-black ${
+								activeMarker?._id === marker._id
+									? 'bg-slate-900 text-slate-200 dark:bg-slate-700 dark:text-slate-400'
+									: ''
+							}`}
+							onClick={e => {
+								e.preventDefault();
+								player?.seekTo(marker.when);
+							}}
+							onContextMenu={
+								canEdit
+									? e => {
+										e.preventDefault();
+										setSelectedMarker(marker);
+									  }
+									: undefined
+							}
+						>
+							<span className="text-left mr-2">{marker.title}</span>
+							<div className="font-mono text-right flex items-center">
+								<time dateTime={secondsToHMS(marker.when)}>
+									{secondsToHMS(marker.when, undefined, markerPlaces)}
+								</time>
 
-							{canEdit ? (
-								<button
-									className="invisible pl-1 hoverless:visible group-hover:visible hover:animate-pulse"
-									onClick={() => setSelectedMarker(marker)}
-								>
-									<i className="fa fa-gear" />
-								</button>
-							) : null}
-						</div>
+								{canEdit ? (
+									<button
+										className="invisible pl-1 hoverless:visible group-hover:visible hover:animate-pulse"
+										onClick={e => {
+											e.stopPropagation();
+											setSelectedMarker(marker);
+										}}
+									>
+										<i className="fa fa-gear" />
+									</button>
+								) : null}
+							</div>
+						</button>
 					</li>
 				))}
 			</ul>
