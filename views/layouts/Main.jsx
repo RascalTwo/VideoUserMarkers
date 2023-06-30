@@ -3,7 +3,7 @@ import Meta from '../partials/Meta.jsx';
 import Footer from '../partials/Footer.jsx';
 
 export default function Main(props) {
-	const { title, messages, meta, user, children, query } = props;
+	const { title, messages, meta, user, children, query, url } = props;
 	return (
 		<>
 			<head>
@@ -55,6 +55,11 @@ export default function Main(props) {
 									className="relative py-2 mx-auto text-gray-600 dark:text-gray-300"
 									action="/search"
 								>
+									{Object.entries(query)
+										.filter(([key]) => key !== 'search' || !url.includes(key))
+										.map(([key, value]) => (
+											<input key={key} type="hidden" name={key} defaultValue={value} />
+										))}
 									<input
 										className="h-10 px-5 pr-8 text-sm border-2 border-gray-300 rounded-lg dark:border-gray-700 bg-slate-100 dark:bg-slate-800"
 										type="search"
