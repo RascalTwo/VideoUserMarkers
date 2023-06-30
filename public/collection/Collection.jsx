@@ -740,7 +740,7 @@ export default function Collection({
 												id="public"
 												defaultChecked={isPublic}
 												name="public"
-												className="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500"
+												className="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox checked:bg-green-500 w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500"
 											/>
 											<span className="absolute text-xs font-medium text-white uppercase right-1">
 												No
