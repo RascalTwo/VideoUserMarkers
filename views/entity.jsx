@@ -3,7 +3,7 @@ import { hmsToSeconds } from './helpers';
 import withLayout from './layouts';
 import Collections from './partials/Collections';
 
-function Entity({ user, entity, query }) {
+function Entity({ user, entity, query, origin }) {
 	return (
 		<>
 			<h1 className="py-3 text-xl text-center">
@@ -48,7 +48,9 @@ function Entity({ user, entity, query }) {
 			) : entity.type === 'Twitch' ? (
 				<iframe
 					className="w-10/12 m-auto max-h-[75vh] aspect-video"
-					src={`https://player.twitch.tv/?video=${entity._id}&time=${query.t}&parent=example.com`}
+					src={`https://player.twitch.tv/?video=${entity._id}&time=${query.t}&parent=${
+						origin.split('//')[1].split('/')[0].split(':')[0]
+					}`}
 					allowFullScreen
 				></iframe>
 			) : (
