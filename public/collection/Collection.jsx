@@ -719,6 +719,7 @@ export default function Collection({
 										name="entity"
 										id="entity"
 										defaultValue={entityId}
+										required
 									/>
 									<label className="text-xs font-semibold" htmlFor="title">
 										Title
@@ -729,6 +730,7 @@ export default function Collection({
 										name="title"
 										id="title"
 										defaultValue={title}
+										required
 									/>
 									<div className="flex justify-between mt-3">
 										<label htmlFor="public">
@@ -759,12 +761,11 @@ export default function Collection({
 													<input
 														name="type"
 														type="radio"
-														hidden
 														required
 														{...(type === 'YouTube' ? { defaultChecked: true } : {})}
 														value="YouTube"
 														id="type-youtube"
-														className="peer"
+														className="peer opacity-0"
 													/>
 													<label
 														htmlFor="type-youtube"

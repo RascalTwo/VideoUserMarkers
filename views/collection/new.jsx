@@ -23,6 +23,7 @@ function New({ query }) {
 				name="entity"
 				id="entity"
 				defaultValue={query.entity}
+				required
 			/>
 			<div className="flex justify-between mt-3">
 				<label htmlFor="public">
@@ -49,12 +50,11 @@ function New({ query }) {
 							<input
 								name="type"
 								type="radio"
-								hidden
 								required
 								{...(checkedType === 'YouTube' ? { defaultChecked: true } : {})}
 								value="YouTube"
 								id="type-youtube"
-								className="peer"
+								className="peer opacity-0"
 							/>
 							<label
 								htmlFor="type-youtube"
@@ -173,6 +173,7 @@ function New({ query }) {
 				name="title"
 				id="title"
 				defaultValue={query.title}
+				required
 			/>
 			<label className="mt-3 text-xs font-semibold" htmlFor="description">
 				Description
