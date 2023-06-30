@@ -15,7 +15,7 @@ function Login({ query }) {
 				type="text"
 				name="username"
 				id="username"
-				value={query.username}
+				defaultValue={query.username}
 				autoFocus
 			/>
 			<label className="mt-3 text-xs font-semibold" htmlFor="password">
@@ -26,7 +26,7 @@ function Login({ query }) {
 				type="password"
 				name="password"
 				id="password"
-				value={query.password}
+				defaultValue={query.password}
 			/>
 			<button
 				className="flex hover:animate-pulse items-center justify-center h-12 px-6 min-w-[12rem] md:min-w-[16rem] bg-blue-600 mt-8 rounded font-semibold text-sm text-blue-100 hover:bg-blue-700"

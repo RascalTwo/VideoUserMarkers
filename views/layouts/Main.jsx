@@ -60,7 +60,7 @@ export default function Main(props) {
 										type="search"
 										name="search"
 										placeholder="Search"
-										value={query.search}
+										defaultValue={query.search}
 									/>
 									<button
 										type="submit"

@@ -22,7 +22,7 @@ function New({ query }) {
 				type="text"
 				name="entity"
 				id="entity"
-				value={query.entity}
+				defaultValue={query.entity}
 			/>
 			<div className="flex justify-between mt-3">
 				<label htmlFor="public">
@@ -172,7 +172,7 @@ function New({ query }) {
 				type="text"
 				name="title"
 				id="title"
-				value={query.title}
+				defaultValue={query.title}
 			/>
 			<label className="mt-3 text-xs font-semibold" htmlFor="description">
 				Description

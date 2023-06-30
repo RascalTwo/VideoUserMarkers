@@ -9,7 +9,7 @@ export default function Sorting({ values, fields, query }) {
 
 			<form className="flex flex-col w-56 p-6 ml-4 shadow-lg dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900 md:w-64 rounded-tr-md rounded-br-md rounded-bl-md">
 				{Object.entries(values || {}).map(([key, value]) => (
-					<input key={key} type="hidden" name={key} value={value} />
+					<input key={key} type="hidden" name={key} defaultValue={value} />
 				))}
 				<div className="flex justify-between">
 					<label htmlFor="sort">
