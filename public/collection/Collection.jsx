@@ -13,9 +13,7 @@ function secondsToHMS(seconds, delimiters = '::', minimalPlaces = 1) {
 		parts.shift();
 		delimiters.shift();
 	}
-	return parts
-		.map(part => part.toString().padStart(2, '0') + (delimiters.shift() || ''))
-		.join('');
+	return parts.map(part => part.toString().padStart(2, '0') + (delimiters.shift() || '')).join('');
 }
 
 function base64encode(str) {
@@ -294,6 +292,7 @@ export default function Collection({
 	const [duration, setDuration] = useState(0);
 	useEffect(() => {
 		if (!ready) return;
+		// prettier-ignore
 		const player =
 			type === 'YouTube'
 				? new YouTubePlayer(entityId)
@@ -1190,8 +1189,8 @@ export default function Collection({
 							onContextMenu={
 								canEdit
 									? e => {
-										e.preventDefault();
-										setSelectedMarker(marker);
+											e.preventDefault();
+											setSelectedMarker(marker);
 									  }
 									: undefined
 							}

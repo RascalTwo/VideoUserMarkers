@@ -3,12 +3,12 @@ const viewHelpers = require('../views/helpers');
 
 module.exports.requireAuth =
 	(redirectTo, errorMessage = 'You must be logged in to view this page') =>
-		(request, response, next) => {
-			if (request.isAuthenticated()) return next();
+	(request, response, next) => {
+		if (request.isAuthenticated()) return next();
 
-			if (errorMessage) request.flash('error', errorMessage);
-			return response.redirect(redirectTo);
-		};
+		if (errorMessage) request.flash('error', errorMessage);
+		return response.redirect(redirectTo);
+	};
 
 module.exports.requireAdmin = (request, response, next) => {
 	if (!request.user?.isAdmin)
@@ -60,11 +60,11 @@ module.exports.addHeroImageSrc = (_, response, next) => {
 
 module.exports.setDefaultSorting =
 	(sort = 'createdAt', descending = false) =>
-		(request, _, next) => {
-			if (request.query.sort === undefined) {
-				request.query.sort = sort;
-				// As descending can be undefined by user-choice, only change if no sorting is happening at all
-				request.query.descending = descending;
-			}
-			next();
-		};
+	(request, _, next) => {
+		if (request.query.sort === undefined) {
+			request.query.sort = sort;
+			// As descending can be undefined by user-choice, only change if no sorting is happening at all
+			request.query.descending = descending;
+		}
+		next();
+	};

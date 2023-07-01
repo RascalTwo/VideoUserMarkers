@@ -33,11 +33,11 @@ module.exports.renderEntity = async (request, response) => {
 	return refetch
 		? response.redirect(`/v/${encodeURIComponent(entityId)}`)
 		: response.render('entity', {
-			entity,
-			title: entity.title,
-			meta: {
-				image: entity.thumbnail,
-				description:
+				entity,
+				title: entity.title,
+				meta: {
+					image: entity.thumbnail,
+					description:
 						`${entity.collections.length} collection${conditionalS(
 							entity.collections
 						)} totaling ${getTotalMarkers(entity.collections)} markers` +
@@ -47,7 +47,7 @@ module.exports.renderEntity = async (request, response) => {
 							),
 							response.locals.isDiscordbot
 						),
-			},
+				},
 		  });
 };
 

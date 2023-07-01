@@ -36,7 +36,5 @@ module.exports.secondsToHMS = (seconds, delimiters = '::', minimalPlaces = 1) =>
 		parts.shift();
 		delimiters.shift();
 	}
-	return parts
-		.map(part => part.toString().padStart(2, '0') + (delimiters.shift() || ''))
-		.join('');
+	return parts.map(part => part.toString().padStart(2, '0') + (delimiters.shift() || '')).join('');
 };

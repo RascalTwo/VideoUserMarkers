@@ -1,6 +1,6 @@
 {
 	"name": "video-user-markers-backend",
-	"version": "0.37.0",
+	"version": "0.37.1",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
@@ -11,12 +11,17 @@
 		"build:react": "babel public/collection/*.jsx --out-dir public/collection",
 		"build:tailwind": "postcss index.css -o public/index.css",
 		"build:watch": "concurrently 'npm run build:react -- --watch' 'npm run build:tailwind -- --watch'",
-		"lint": "prettier . --write && eslint . --ext .js,.jsx --fix",
+		"lint": "eslint . --ext .js,.jsx",
+		"lint:fix": "npm run lint -- --fix",
+		"prettier": "prettier .",
+		"format": "npm run prettier -- --check",
+		"format:fix": "npm run prettier -- --write",
 		"check-version": "node scripts/ensure-package-json-version-updated.js"
 	},
 	"pre-commit": [
+		"check-version",
 		"lint",
-		"check-version"
+		"format"
 	],
 	"author": "",
 	"license": "ISC",

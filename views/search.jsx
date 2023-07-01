@@ -23,23 +23,23 @@ function Search({ matches, query }) {
 				{sortArrayBy(matches, query.sort, query.descending).map(match => {
 					let collection, entity, marker, badge;
 					switch (match.type) {
-					case 'collection':
-						collection = match;
-						entity = match.entity;
-						marker = null;
-						badge = <i className="fa fa-book" alt="Collection" title="Collection" />;
-						break;
-					case 'marker':
-						collection = match.collectionRef;
-						entity = match.collectionRef.entity;
-						marker = match;
-						badge = <i className="fa fa-bookmark" alt="Marker" title="Marker" />;
-						break;
-					case 'entity':
-						collection = null;
-						entity = match;
-						marker = null;
-						badge = <i className="fa fa-file" alt="Entity" title="Entity" />;
+						case 'collection':
+							collection = match;
+							entity = match.entity;
+							marker = null;
+							badge = <i className="fa fa-book" alt="Collection" title="Collection" />;
+							break;
+						case 'marker':
+							collection = match.collectionRef;
+							entity = match.collectionRef.entity;
+							marker = match;
+							badge = <i className="fa fa-bookmark" alt="Marker" title="Marker" />;
+							break;
+						case 'entity':
+							collection = null;
+							entity = match;
+							marker = null;
+							badge = <i className="fa fa-file" alt="Entity" title="Entity" />;
 					}
 					return (
 						<Card

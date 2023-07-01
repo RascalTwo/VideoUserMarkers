@@ -20,7 +20,7 @@
 	},
 	"plugins": ["react"],
 	"rules": {
-		"indent": ["error", "tab"],
+		"indent": "off",
 		"no-unused-vars": [
 			"warn",
 			{
@@ -30,7 +30,13 @@
 			}
 		],
 		"linebreak-style": ["error", "unix"],
-		"quotes": ["error", "single", { "avoidEscape": true }],
+		"quotes": [
+			"error",
+			"single",
+			{
+				"avoidEscape": true
+			}
+		],
 		"semi": ["error", "always"],
 		"arrow-parens": ["error", "as-needed"],
 		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],

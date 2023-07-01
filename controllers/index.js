@@ -79,30 +79,30 @@ module.exports.search = async (request, response) => {
 
 	const collections = filter.includes('collection')
 		? await Collection.find({
-			$or: [
-				{ title: { $regex: search, $options: 'i' } },
-				{ description: { $regex: search, $options: 'i' } },
-			],
+				$or: [
+					{ title: { $regex: search, $options: 'i' } },
+					{ description: { $regex: search, $options: 'i' } },
+				],
 		  }).populate({
-			path: 'author entity markerCount',
+				path: 'author entity markerCount',
 		  })
 		: [];
 	const markers = filter.includes('marker')
 		? await Marker.find({
-			$or: [
-				{ title: { $regex: search, $options: 'i' } },
-				{ description: { $regex: search, $options: 'i' } },
-			],
+				$or: [
+					{ title: { $regex: search, $options: 'i' } },
+					{ description: { $regex: search, $options: 'i' } },
+				],
 		  }).populate({
-			path: 'collectionRef',
-			populate: {
-				path: 'author entity markerCount',
-			},
+				path: 'collectionRef',
+				populate: {
+					path: 'author entity markerCount',
+				},
 		  })
 		: [];
 	const entities = filter.includes('entity')
 		? await Entity.find({
-			title: { $regex: search, $options: 'i' },
+				title: { $regex: search, $options: 'i' },
 		  }).populate('collectionCount')
 		: [];
 	const matches = [
