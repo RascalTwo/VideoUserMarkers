@@ -92,9 +92,13 @@ module.exports.search = async (request, response) => {
 			path: 'author entity markerCount',
 		},
 	});
+	const entities = await Entity.find({
+		title: { $regex: search, $options: 'i' },
+	}).populate('collectionCount');
 	const matches = [
 		...collections.map(e => ({ ...e.toObject(), type: 'collection' })),
 		...markers.map(e => ({ ...e.toObject(), type: 'marker' })),
+		...entities.map(e => ({ ...e.toObject(), type: 'entity' })),
 	].map(match => ({
 		...match,
 		matchRatio:
@@ -107,7 +111,7 @@ module.exports.search = async (request, response) => {
 		matches,
 		title: `Search for "${search}"`,
 		meta: {
-			description: `Found ${collections.length} collections and ${markers.length} markers searching for "${search}"`,
+			description: `Found ${collections.length} collections, ${markers.length} markers, and ${entities.length} entities searching for "${search}"`,
 		},
 	});
 };

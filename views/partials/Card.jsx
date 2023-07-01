@@ -3,8 +3,10 @@ import { secondsToHMS, secondsToHuman, secondsToPTDuration } from '../helpers';
 
 export default function Card({ collection, entity, marker, type, badge }) {
 	const urlSuffix = type === 'marker' ? `?t=${secondsToHMS(marker.when, 'hms')}` : '';
-	const directURL = `/v/${encodeURIComponent(entity._id)}/${collection._id}${urlSuffix}`;
 	const entityURL = `/v/${encodeURIComponent(entity._id)}${urlSuffix}`;
+	const directURL = `/v/${encodeURIComponent(entity._id)}${
+		collection ? '/' + collection._id : ''
+	}${urlSuffix}`;
 	const ThumbnailElement = entity.type === 'File' ? 'video' : 'img';
 	return (
 		<div className="w-full px-1 my-1 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 xl:w-1/4">
@@ -73,7 +75,7 @@ export default function Card({ collection, entity, marker, type, badge }) {
 								href={entityURL}
 								className="inline-block w-full underline truncate underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
 							>
-								{!collection.public ? (
+								{collection && !collection.public ? (
 									<i className="pr-1 fa fa-lock" alt="Private" title="Private"></i>
 								) : null}
 								{entity.title}
@@ -100,21 +102,26 @@ export default function Card({ collection, entity, marker, type, badge }) {
 					) : null}
 				</header>
 
-				<footer className="flex items-center justify-between p-2 leading-none underline underline-offset-2 hover:underline-offset-1">
-					<a href={`/profile/${collection.author.username}`} className="hover:animate-pulse w-1/6">
-						<img alt="" className="block rounded-full" src={collection.author.avatarURL} />
-					</a>
+				{collection ? (
+					<footer className="flex items-center justify-between p-2 leading-none underline underline-offset-2 hover:underline-offset-1">
+						<a
+							href={`/profile/${collection.author.username}`}
+							className="hover:animate-pulse w-1/6"
+						>
+							<img alt="" className="block rounded-full" src={collection.author.avatarURL} />
+						</a>
 
-					<a
-						href={directURL}
-						className="relative hover:animate-pulse inline-flex items-center p-3 text-sm font-medium text-center"
-					>
-						{collection.title}
-						<div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white border-2 rounded-full border-slate-200 dark:border-slate-800 bg-amber-700 -top-1 -right-1">
-							{collection.markerCount ?? collection.markers.length}
-						</div>
-					</a>
-				</footer>
+						<a
+							href={directURL}
+							className="relative hover:animate-pulse inline-flex items-center p-3 text-sm font-medium text-center"
+						>
+							{collection.title}
+							<div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white border-2 rounded-full border-slate-200 dark:border-slate-800 bg-amber-700 -top-1 -right-1">
+								{collection.markerCount ?? collection.markers.length}
+							</div>
+						</a>
+					</footer>
+				) : null}
 			</article>
 		</div>
 	);
