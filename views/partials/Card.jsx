@@ -1,7 +1,25 @@
 import React from 'react';
 import { secondsToHMS, secondsToHuman, secondsToPTDuration } from '../helpers';
 
-export default function Card({ collection, entity, marker, type, badge }) {
+function HighlightedText({ text, highlightText }) {
+	if (!highlightText) return text;
+
+	return (
+		<>
+			{text
+				.split(new RegExp(`(${highlightText})`, 'gi'))
+				.map((part, index) =>
+					part.toLowerCase() === highlightText.toLowerCase() ? (
+						<mark key={index}>{part}</mark>
+					) : (
+						part
+					)
+				)}
+		</>
+	);
+}
+
+export default function Card({ collection, entity, marker, type, badge, highlightText }) {
 	const urlSuffix = type === 'marker' ? `?t=${secondsToHMS(marker.when, 'hms')}` : '';
 	const entityURL = `/v/${encodeURIComponent(entity._id)}${urlSuffix}`;
 	const directURL = `/v/${encodeURIComponent(entity._id)}${
@@ -78,10 +96,10 @@ export default function Card({ collection, entity, marker, type, badge }) {
 								{collection && !collection.public ? (
 									<i className="pr-1 fa fa-lock" alt="Private" title="Private"></i>
 								) : null}
-								{entity.title}
+								<HighlightedText text={entity.title} highlightText={highlightText} />
 							</a>
 							<span className="group-hover:inline-block bg-gray-800 border border-slate-200 px-1 z-20 text-sm  rounded-md absolute left-1/2 -translate-x-1/2 -translate-y-[calc(100%+4rem)] m-4 mx-auto text-center w-full hidden">
-								{entity.title}
+								<HighlightedText text={entity.title} highlightText={highlightText} />
 							</span>
 						</div>
 					</h1>
@@ -92,10 +110,10 @@ export default function Card({ collection, entity, marker, type, badge }) {
 									href={entityURL}
 									className="inline-block w-full underline truncate underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
 								>
-									{marker.title}
+									<HighlightedText text={marker.title} highlightText={highlightText} />
 								</a>
 								<span className="group-hover:inline-block bg-gray-800 border border-slate-200 px-1 z-20 text-sm rounded-md absolute left-1/2 -translate-x-1/2 -translate-y-[calc(100%+5.75rem)] m-4 mx-auto text-center w-full hidden">
-									{marker.title}
+									<HighlightedText text={marker.title} highlightText={highlightText} />
 								</span>
 							</div>
 						</h2>
@@ -115,7 +133,7 @@ export default function Card({ collection, entity, marker, type, badge }) {
 							href={directURL}
 							className="relative hover:animate-pulse inline-flex items-center p-3 text-sm font-medium text-center"
 						>
-							{collection.title}
+							<HighlightedText text={collection.title} highlightText={highlightText} />
 							<div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white border-2 rounded-full border-slate-200 dark:border-slate-800 bg-amber-700 -top-1 -right-1">
 								{collection.markerCount ?? collection.markers.length}
 							</div>

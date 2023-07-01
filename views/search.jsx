@@ -49,6 +49,7 @@ function Search({ matches, query }) {
 							entity={entity}
 							marker={marker}
 							badge={badge}
+							highlightText={query.search}
 						/>
 					);
 				})}
