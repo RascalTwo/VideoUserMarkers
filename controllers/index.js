@@ -98,9 +98,9 @@ module.exports.search = async (request, response) => {
 	].map(match => ({
 		...match,
 		matchRatio:
-			((match.title.match(new RegExp(search, 'gi'))?.length || 0) +
-				(match.description?.match(new RegExp(search, 'gi'))?.length || 0)) /
-			(match.title.length + match.description?.length ?? 0),
+			((match.title.match(new RegExp(search, 'gi'))?.join('').length || 0) +
+				(match.description?.match(new RegExp(search, 'gi'))?.join('').length || 0)) /
+			(match.title.length + (match.description?.length ?? 0)),
 	}));
 	response.render('search', {
 		search,
