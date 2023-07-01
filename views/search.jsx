@@ -16,7 +16,7 @@ function Search({ matches, query }) {
 					updatedAt: 'Updated Time',
 					'entity.createdAt': 'Entity Created Time',
 				}}
-				values={{ search: query.search }}
+				values={{ search: query.search, filter: query.filter }}
 				query={query}
 			/>
 			<CardContainer>

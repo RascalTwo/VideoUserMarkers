@@ -72,33 +72,45 @@ module.exports.deleteOrphans = async (request, response) => {
 };
 
 module.exports.search = async (request, response) => {
-	const search = request.query.search;
-	const collections = await Collection.find({
-		$or: [
-			{ title: { $regex: search, $options: 'i' } },
-			{ description: { $regex: search, $options: 'i' } },
-		],
-	}).populate({
-		path: 'author entity markerCount',
-	});
-	const markers = await Marker.find({
-		$or: [
-			{ title: { $regex: search, $options: 'i' } },
-			{ description: { $regex: search, $options: 'i' } },
-		],
-	}).populate({
-		path: 'collectionRef',
-		populate: {
+	if (!('filter' in request.query)) request.query.filter = ['collection', 'marker', 'entity'];
+	if (!Array.isArray(request.query.filter)) request.query.filter = request.query.filter.split(',');
+
+	const { search, filter } = request.query;
+
+	const collections = filter.includes('collection')
+		? await Collection.find({
+			$or: [
+				{ title: { $regex: search, $options: 'i' } },
+				{ description: { $regex: search, $options: 'i' } },
+			],
+		  }).populate({
 			path: 'author entity markerCount',
-		},
-	});
-	const entities = await Entity.find({
-		title: { $regex: search, $options: 'i' },
-	}).populate('collectionCount');
+		  })
+		: [];
+	const markers = filter.includes('marker')
+		? await Marker.find({
+			$or: [
+				{ title: { $regex: search, $options: 'i' } },
+				{ description: { $regex: search, $options: 'i' } },
+			],
+		  }).populate({
+			path: 'collectionRef',
+			populate: {
+				path: 'author entity markerCount',
+			},
+		  })
+		: [];
+	const entities = filter.includes('entity')
+		? await Entity.find({
+			title: { $regex: search, $options: 'i' },
+		  }).populate('collectionCount')
+		: [];
 	const matches = [
 		...collections.map(e => ({ ...e.toObject(), type: 'collection' })),
 		...markers.map(e => ({ ...e.toObject(), type: 'marker' })),
-		...entities.map(e => ({ ...e.toObject(), type: 'entity' })),
+		...entities
+			.map(e => e.toObject())
+			.map(e => ({ ...e, entity: { createdAt: e.createdAt }, type: 'entity' })),
 	].map(match => ({
 		...match,
 		matchRatio:
