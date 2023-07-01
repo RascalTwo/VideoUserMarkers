@@ -122,12 +122,16 @@ EntitySchema.static('fetchEntityInfo', async function (id, type) {
 		const ldJSON = JSON.parse(
 			html.split('<script type="application/ld+json">')[1].split('</script>')[0]
 		)[0];
+		const duration = Number(
+			html.split('<meta property="og:video:duration" content="')[1]?.split('"')[0] ?? '0'
+		);
 		return {
 			title: he.decode(ldJSON.name),
 			createdAt: new Date(ldJSON.uploadDate),
 			rawThumbnail: ldJSON.thumbnailUrl[0].includes('404_processing')
 				? 'https://assets.help.twitch.tv/article/img/000002222-01a.png'
 				: ldJSON.thumbnailUrl[0],
+			duration: duration ? duration : undefined,
 		};
 	} else if (type === 'File')
 		return {
