@@ -34,9 +34,9 @@ function Profile({ profiling, user, ...props }) {
 			<Sorting
 				fields={{
 					title: 'Title',
-					createdAt: 'Created',
-					updatedAt: 'Updated',
-					'entity.createdAt': 'Entity Created',
+					createdAt: 'Created Time',
+					updatedAt: 'Updated Time',
+					'entity.createdAt': 'Entity Created Time',
 				}}
 				{...props}
 			/>

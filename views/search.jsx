@@ -10,11 +10,11 @@ function Search({ matches, query }) {
 		<>
 			<Sorting
 				fields={{
-					matchRatio: 'Total Match',
+					matchRatio: 'Text Match Ratio',
 					title: 'Title',
-					createdAt: 'Created',
-					updatedAt: 'Updated',
-					'entity.createdAt': 'Entity Created',
+					createdAt: 'Created Time',
+					updatedAt: 'Updated Time',
+					'entity.createdAt': 'Entity Created Time',
 				}}
 				values={{ search: query.search }}
 				query={query}

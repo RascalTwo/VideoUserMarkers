@@ -163,18 +163,18 @@ function Index({ user, collections, heroImageSrc, ...props }) {
 					</div>
 				</div>
 			</div>
+
 			<div className="relative self-start">
 				<Sorting
 					fields={{
 						title: 'Title',
-						createdAt: 'Created',
-						updatedAt: 'Updated',
-						'entity.createdAt': 'Entity Created',
+						createdAt: 'Created Time',
+						updatedAt: 'Updated Time',
+						'entity.createdAt': 'Entity Created Date',
 					}}
 					{...props}
 				/>
 			</div>
-			<h1 className="pt-4 text-2xl">Latest Collections</h1>
 
 			<Collections collections={collections} {...props} />
 		</>
