@@ -1,14 +1,19 @@
 import React from 'react';
 import { secondsToHMS, secondsToHuman, secondsToPTDuration } from '../helpers';
 
-export default function Card({ collection, entity, marker, type }) {
+export default function Card({ collection, entity, marker, type, badge }) {
 	const urlSuffix = type === 'marker' ? `?t=${secondsToHMS(marker.when, 'hms')}` : '';
 	const directURL = `/v/${encodeURIComponent(entity._id)}/${collection._id}${urlSuffix}`;
 	const entityURL = `/v/${encodeURIComponent(entity._id)}${urlSuffix}`;
 	const ThumbnailElement = entity.type === 'File' ? 'video' : 'img';
 	return (
 		<div className="w-full px-1 my-1 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 xl:w-1/4">
-			<article className="overflow-hidden rounded-lg shadow-lg dark:shadow-slate-600 bg-slate-200 hover:bg-slate-400 outline-1 outline-slate-400 outline hover:outline-slate-900 dark:bg-slate-800 dark:hover:outline-slate-100 dark:hover:bg-slate-600 dark:text-slate-50">
+			<article className="relative marker:overflow-hidden rounded-lg shadow-lg dark:shadow-slate-600 bg-slate-200 hover:bg-slate-400 outline-1 outline-slate-400 outline hover:outline-slate-900 dark:bg-slate-800 dark:hover:outline-slate-100 dark:hover:bg-slate-600 dark:text-slate-50">
+				{badge ? (
+					<div className="absolute z-10 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white border-2 rounded-full border-slate-200 dark:border-slate-800 bg-violet-700 -top-2 -left-2">
+						{badge}
+					</div>
+				) : null}
 				<div className="relative group">
 					<a href={directURL} className="hover:animate-pulse">
 						<ThumbnailElement

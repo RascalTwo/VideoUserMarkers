@@ -27,6 +27,13 @@ function Search({ matches, query }) {
 						collection={match.type === 'collection' ? match : match.collectionRef}
 						entity={match.type === 'collection' ? match.entity : match.collectionRef.entity}
 						marker={match.type === 'marker' ? match : null}
+						badge={
+							match.type === 'marker' ? (
+								<i className="fa fa-bookmark" alt="Marker" title="Marker" />
+							) : (
+								<i className="fa fa-book" alt="Collection" title="Collection" />
+							)
+						}
 					/>
 				))}
 			</CardContainer>
