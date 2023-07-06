@@ -49,7 +49,7 @@ EntitySchema.virtual('collectionCount', {
 	count: true,
 });
 EntitySchema.virtual('thumbnail').get(function () {
-	if (this.type === 'YouTube') return `https://img.youtube.com/vi/${this._id}/maxresdefault.jpg`;
+	if (this.type === 'YouTube') return `https://img.youtube.com/vi/${this._id}/hqdefault.jpg`;
 	if (this.type === 'File') return this.id;
 	return this.rawThumbnail || null;
 });
