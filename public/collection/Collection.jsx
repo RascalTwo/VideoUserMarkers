@@ -330,22 +330,37 @@ export default function Collection({
 	}, [player, currentTime]);
 
 	useEffect(() => {
-		if (!player) return;
+		const calculateDimensions = () => {
+			if (isEmbed) return [window.innerWidth, (window.innerWidth * 9) / 16];
+
+			if (columnCount === 2) {
+				let ratio = window.innerWidth < window.innerHeight ? 0.85 : 0.75;
+				if (columnCount === 2) ratio -= 0.1;
+
+				const maxWidth = window.innerWidth * ratio;
+				return [maxWidth, (maxWidth * 9) / 16];
+			} else {
+				const maxHeight = window.innerHeight * 0.75;
+				return [(maxHeight * 16) / 9, maxHeight];
+			}
+		};
 
 		const resizeListener = () => {
-			if (isEmbed) return player.setDimensions(window.innerWidth, (window.innerWidth * 9) / 16);
+			const [width, height] = calculateDimensions();
 
-			let ratio = window.innerWidth < window.innerHeight ? 0.85 : 0.75;
-			if (columnCount === 2) ratio -= 0.1;
-
-			const maxWidth = window.innerWidth * ratio;
-			player.setDimensions(maxWidth, (maxWidth * 9) / 16);
+			if (player) {
+				player.setDimensions(width, height);
+			} else {
+				const embed = document.querySelector('#player-embed');
+				embed.style.width = `${width}px`;
+				embed.style.height = `${height}px`;
+			}
 		};
 		resizeListener();
 
 		window.addEventListener('resize', resizeListener);
 		return () => window.removeEventListener('resize', resizeListener);
-	}, [player, columnCount]);
+	}, [player, columnCount, isEmbed]);
 
 	const [addingAt, setAddingAt] = useState(null);
 	useEffect(() => {
@@ -536,107 +551,37 @@ export default function Collection({
 		return lines.join('\n');
 	}, [markers, markerPlaces]);
 
-	const footer = (
-		<div className="flex justify-between mt-2">
-			<Modal buttonContent={<i className="fa fa-share" alt="Export" title="Export"></i>}>
-				<div className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900 w-[75vw]">
-					<div>
-						<label className="mt-3 text-xs font-semibold">
-							Encoded URL
-							<button
-								className="float-right hover:animate-pulse"
-								onClick={() =>
-									navigator.clipboard
-										.writeText(encodedCollection)
-										.then(() => alert('Encoded URL copied to clipboard'))
-								}
-							>
-								<i
-									className="fa fa-clipboard"
-									alt="Copy Encoded URL to Clipboard"
-									title="Copy Encoded URL to Clipboard"
-								></i>
-							</button>
-						</label>
-						<a
-							href={encodedCollection}
-							target="_blank"
-							rel="noreferrer"
-							className="inline-block hover:animate-pulse w-full underline truncate underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
-						>
-							{encodedCollection}
-						</a>
-					</div>
-					<div>
-						<label className="mt-3 text-xs font-semibold" htmlFor="markersAsCommentText">
-							Markers as Text
-							<button
-								className="float-right hover:animate-pulse"
-								onClick={() =>
-									navigator.clipboard
-										.writeText(document.querySelector('#markersAsCommentText').value)
-										.then(() => alert('Markers Text copied to clipboard'))
-								}
-							>
-								<i
-									className="fa fa-clipboard"
-									alt="Export as Textual Comment"
-									title="Export as Text"
-								></i>
-							</button>
-						</label>
-						<textarea
-							className="flex items-center w-full px-4 mt-2 bg-gray-200 rounded dark:bg-gray-800 focus:outline-none focus:ring-2"
-							id="markersAsCommentText"
-							defaultValue={markersAsCommentText}
-							rows={5}
-						/>
-					</div>
-				</div>
-			</Modal>
-			<button className="hover:animate-pulse" onClick={() => setShowingKeyboardShortcuts(true)}>
-				<i className="fa fa-keyboard-o" alt="Keyboard Shortcuts" title="Keyboard Shortcuts"></i>
-			</button>
-			{user ? (
-				<button
-					className="hover:animate-pulse"
-					onClick={() => {
-						const url = new URL(window.location.origin + '/v');
-						url.searchParams.set('entity', entityId);
-						url.searchParams.set('public', isPublic);
-						url.searchParams.set('type', type);
-						url.searchParams.set('title', title + ' (Copy)');
-						url.searchParams.set('description', description);
-						url.searchParams.set('markers', markersAsText);
-						window.location.href = url.toString();
-					}}
-				>
-					<i className="fa fa-files-o" alt="Clone Collection" title="Clone Collection"></i>
-				</button>
-			) : null}
-		</div>
-	);
-
 	const authorInfo = (
-		<h2 className="pt-3 text-xl text-center">
-			{!isPublic ? <i className="pr-1 fa fa-lock" alt="Private" title="Private"></i> : null}
-			{title}
-			{author ? (
-				<>
-					{' by '}
-					<a
-						className="underline underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
-						href={`/profile/${author.username}`}
-					>
-						{author.username}
-					</a>
-				</>
-			) : null}
-		</h2>
+		<>
+			<h1 className="pt-3 text-xl text-center">
+				<a
+					className="underline underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
+					href={`/v/${encodeURIComponent(entityId)}`}
+				>
+					{entity.title}
+				</a>
+			</h1>
+
+			<h2 className="pt-3 text-xl text-center">
+				{!isPublic ? <i className="pr-1 fa fa-lock" alt="Private" title="Private"></i> : null}
+				{title}
+				{author ? (
+					<>
+						{' by '}
+						<a
+							className="underline underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
+							href={`/profile/${author.username}`}
+						>
+							{author.username}
+						</a>
+					</>
+				) : null}
+			</h2>
+		</>
 	);
 
 	return (
-		<section className={`flex ${columnCount === 1 ? 'flex-col' : 'flex-row'}`}>
+		<section className={`flex ${columnCount === 1 ? 'flex-col' : 'flex-row gap-1'}`}>
 			{showingKeyboardShortcuts ? (
 				<Modal defaultOpen={true} onClose={() => setShowingKeyboardShortcuts(false)}>
 					<div className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900">
@@ -682,19 +627,11 @@ export default function Collection({
 			<div>
 				<div>
 					<button
-						className="absolute left-1"
+						className="absolute left-1 top-8 z-40"
 						onClick={() => setColumns(count => (count === 1 ? 2 : 1))}
 					>
 						<i className="fa fa-columns" alt="Toggle Column View" title="Toggle Column View"></i>
 					</button>
-					<h1 className="pt-3 text-xl text-center">
-						<a
-							className="underline underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
-							href={`/v/${encodeURIComponent(entityId)}`}
-						>
-							{entity.title}
-						</a>
-					</h1>
 
 					{columnCount === 1 ? authorInfo : null}
 
@@ -1068,8 +1005,6 @@ export default function Collection({
 							</time>
 						) : null}
 					</div>
-
-					{columnCount === 2 ? footer : null}
 				</div>
 			</div>
 			{selectedMarker ? (
@@ -1169,7 +1104,7 @@ export default function Collection({
 			) : null}
 			<ul
 				className={`border border-slate-900 scroll-smooth ${
-					columnCount === 2 ? 'ml-1 h-[85vh] overflow-y-scroll' : ''
+					columnCount === 2 ? 'h-[85vh] overflow-y-scroll' : ''
 				}`}
 			>
 				{columnCount === 2 ? <li>{authorInfo}</li> : null}
@@ -1218,7 +1153,84 @@ export default function Collection({
 				))}
 			</ul>
 
-			{columnCount === 1 ? footer : null}
+			<div className={`flex justify-between mt-2 ${columnCount === 1 ? '' : 'flex-col'}`}>
+				<Modal buttonContent={<i className="fa fa-share" alt="Export" title="Export"></i>}>
+					<div className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900 w-[75vw]">
+						<div>
+							<label className="mt-3 text-xs font-semibold">
+								Encoded URL
+								<button
+									className="float-right hover:animate-pulse"
+									onClick={() =>
+										navigator.clipboard
+											.writeText(encodedCollection)
+											.then(() => alert('Encoded URL copied to clipboard'))
+									}
+								>
+									<i
+										className="fa fa-clipboard"
+										alt="Copy Encoded URL to Clipboard"
+										title="Copy Encoded URL to Clipboard"
+									></i>
+								</button>
+							</label>
+							<a
+								href={encodedCollection}
+								target="_blank"
+								rel="noreferrer"
+								className="inline-block hover:animate-pulse w-full underline truncate underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
+							>
+								{encodedCollection}
+							</a>
+						</div>
+						<div>
+							<label className="mt-3 text-xs font-semibold" htmlFor="markersAsCommentText">
+								Markers as Text
+								<button
+									className="float-right hover:animate-pulse"
+									onClick={() =>
+										navigator.clipboard
+											.writeText(document.querySelector('#markersAsCommentText').value)
+											.then(() => alert('Markers Text copied to clipboard'))
+									}
+								>
+									<i
+										className="fa fa-clipboard"
+										alt="Export as Textual Comment"
+										title="Export as Text"
+									></i>
+								</button>
+							</label>
+							<textarea
+								className="flex items-center w-full px-4 mt-2 bg-gray-200 rounded dark:bg-gray-800 focus:outline-none focus:ring-2"
+								id="markersAsCommentText"
+								defaultValue={markersAsCommentText}
+								rows={5}
+							/>
+						</div>
+					</div>
+				</Modal>
+				<button className="hover:animate-pulse" onClick={() => setShowingKeyboardShortcuts(true)}>
+					<i className="fa fa-keyboard-o" alt="Keyboard Shortcuts" title="Keyboard Shortcuts"></i>
+				</button>
+				{user ? (
+					<button
+						className="hover:animate-pulse"
+						onClick={() => {
+							const url = new URL(window.location.origin + '/v');
+							url.searchParams.set('entity', entityId);
+							url.searchParams.set('public', isPublic);
+							url.searchParams.set('type', type);
+							url.searchParams.set('title', title + ' (Copy)');
+							url.searchParams.set('description', description);
+							url.searchParams.set('markers', markersAsText);
+							window.location.href = url.toString();
+						}}
+					>
+						<i className="fa fa-files-o" alt="Clone Collection" title="Clone Collection"></i>
+					</button>
+				) : null}
+			</div>
 		</section>
 	);
 }
