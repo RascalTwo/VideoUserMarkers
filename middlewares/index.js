@@ -58,13 +58,11 @@ module.exports.addHeroImageSrc = (_, response, next) => {
 	next();
 };
 
-module.exports.setDefaultSorting =
-	(sort = 'createdAt', descending = false) =>
-	(request, _, next) => {
-		if (request.query.sort === undefined) {
-			request.query.sort = sort;
-			// As descending can be undefined by user-choice, only change if no sorting is happening at all
-			request.query.descending = descending;
-		}
-		next();
-	};
+module.exports.setDefaultSorting = (sort, descending) => (request, _, next) => {
+	if (request.query.sort === undefined) {
+		request.query.sort = sort;
+		// As descending can be undefined by user-choice, only change if no sorting is happening at all
+		request.query.descending = descending;
+	}
+	next();
+};

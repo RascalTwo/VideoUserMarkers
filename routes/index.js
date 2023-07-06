@@ -2,7 +2,7 @@ const router = require('express-promise-router')();
 const controller = require('../controllers/index');
 const { requireAdmin, setDefaultSorting } = require('../middlewares/index');
 
-router.get('/', setDefaultSorting('createdAt', true), controller.renderHomepage);
+router.get('/', setDefaultSorting('entity.createdAt', true), controller.renderHomepage);
 
 router.get('/profile/:username?', setDefaultSorting('updatedAt', true), controller.renderProfile);
 
