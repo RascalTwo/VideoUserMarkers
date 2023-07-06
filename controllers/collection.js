@@ -156,9 +156,9 @@ async function renderCollection(request, response, view) {
 		meta: {
 			image: collection.entity.thumbnail,
 			description:
-				`${collection.description} \n\n ${collection.markers.length} marker${conditionalS(
-					collection.markers
-				)}` +
+				`${collection.description ? collection.description + '\n\n' : ''}${
+					collection.markers.length
+				} marker${conditionalS(collection.markers)}` +
 				listToDescription(
 					collection.markers.map(
 						marker => `${marker.title}\t@\t${secondsToHMS(marker.when, undefined, places)}`
