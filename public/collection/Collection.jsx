@@ -690,7 +690,7 @@ export default function Collection({
 					<h1 className="pt-3 text-xl text-center">
 						<a
 							className="underline underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
-							href={`/v/${encodeURIComponent(entity._id)}`}
+							href={`/v/${encodeURIComponent(entityId)}`}
 						>
 							{entity.title}
 						</a>
