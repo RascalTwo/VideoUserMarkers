@@ -938,6 +938,7 @@ export default function Collection({
 										type="text"
 										name="title"
 										id="title"
+										autoFocus
 									/>
 									<label className="mt-3 text-xs font-semibold" htmlFor="title">
 										When
