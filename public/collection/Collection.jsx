@@ -362,13 +362,8 @@ export default function Collection({
 		return () => window.removeEventListener('resize', resizeListener);
 	}, [player, columnCount, isEmbed]);
 
+	const [playWhenModalClose, setPlayWhenModalClose] = useState(false);
 	const [addingAt, setAddingAt] = useState(null);
-	useEffect(() => {
-		if (!player) return;
-
-		if (player.isPlaying() && addingAt) player.pause();
-		else if (!player.isPlaying() && !addingAt) player.play();
-	}, [player, addingAt, setAddingAt]);
 
 	const [selectedMarker, setSelectedMarker] = useState(null);
 
@@ -886,10 +881,19 @@ export default function Collection({
 										alt="Add Marker"
 										title="Add Marker"
 										id="add-marker-button"
-										onClick={() => setAddingAt(currentTime)}
+										onClick={() => {
+											setAddingAt(currentTime);
+
+											const isPlaying = player.isPlaying();
+											setPlayWhenModalClose(isPlaying);
+											if (isPlaying) player.pause();
+										}}
 									/>
 								}
-								onClose={() => setAddingAt(null)}
+								onClose={() => {
+									setAddingAt(null);
+									if (playWhenModalClose) player.play();
+								}}
 							>
 								<form
 									className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
@@ -927,6 +931,7 @@ export default function Collection({
 												});
 												e.target.closest('[data-test-id="modal-backdrop"]').click();
 												setAddingAt(null);
+												if (playWhenModalClose) player.play();
 											});
 									}}
 								>
