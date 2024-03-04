@@ -1,6 +1,6 @@
 {
 	"name": "video-user-markers-backend",
-	"version": "0.37.8",
+	"version": "0.37.9",
 	"description": "",
 	"main": "index.js",
 	"scripts": {

@@ -25,4 +25,24 @@ simpleGit('.')
 				shouldBeZero = true;
 			}
 		}
+
+		return newM.slice(3, 6);
+	})
+	.then(newVersion => {
+		return simpleGit('.')
+			.diff(['--cached', 'package-lock.json'])
+			.then(diff => {
+				const [_, lockVersion] = diff.matchAll(
+					/.*("version":)([ ])?"([\d]*)\.([\d]*)\.([\d]*)".*/g
+				);
+				if (!lockVersion) {
+					console.log('package-lock.json version was not updated');
+					process.exit(1);
+				}
+
+				if (JSON.stringify(lockVersion.slice(3, 6)) !== JSON.stringify(newVersion)) {
+					console.log('package-lock.json version does not match package.json version');
+					process.exit(1);
+				}
+			});
 	});
