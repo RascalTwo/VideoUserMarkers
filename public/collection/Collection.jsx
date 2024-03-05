@@ -330,6 +330,8 @@ export default function Collection({
 	}, [player, currentTime]);
 
 	useEffect(() => {
+		document.querySelector('#root').style.overflow = columnCount === 2 ? 'hidden' : 'scroll';
+
 		const calculateDimensions = () => {
 			if (isEmbed) return [window.innerWidth, (window.innerWidth * 9) / 16];
 
