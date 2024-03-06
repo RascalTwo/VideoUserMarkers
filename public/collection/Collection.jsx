@@ -574,6 +574,219 @@ export default function Collection({
 					</>
 				) : null}
 			</h2>
+
+			{canEdit ? (
+				<div className="flex justify-between">
+					<Modal buttonContent={<i className="fa fa-edit" alt="Update" title="Update"></i>}>
+						<form
+							className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
+							method="POST"
+						>
+							<input type="hidden" name="_method" value="PATCH" />
+							<label className="text-xs font-semibold" htmlFor="entity">
+								Video ID/URL
+							</label>
+							<input
+								className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
+								type="text"
+								name="entity"
+								id="entity"
+								defaultValue={entityId}
+								required
+							/>
+							<label className="text-xs font-semibold" htmlFor="title">
+								Title
+							</label>
+							<input
+								className="flex items-center h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
+								type="text"
+								name="title"
+								id="title"
+								defaultValue={title}
+								required
+							/>
+							<div className="flex justify-between mt-3">
+								<label htmlFor="public">
+									<span className="text-xs font-semibold">Public</span>
+								</label>
+								<label className="relative flex items-center cursor-pointer select-none w-max">
+									<input
+										type="checkbox"
+										id="public"
+										defaultChecked={isPublic}
+										name="public"
+										className="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox checked:bg-green-500 w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500"
+									/>
+									<span className="absolute text-xs font-medium text-white uppercase right-1">
+										No
+									</span>
+									<span className="absolute text-xs font-medium text-white uppercase right-8">
+										Yes
+									</span>
+									<span className="absolute transition-transform transform bg-gray-200 rounded-full dark:bg-gray-800 dark:bg-gray-700 w-7 h-7 right-7"></span>
+								</label>
+							</div>
+							<div className="flex justify-between gap-2 mt-3">
+								<span className="flex items-center text-xs font-semibold">Type</span>
+								<div className="flex items-center justify-center">
+									<div className="inline-flex" role="group">
+										<span>
+											<input
+												name="type"
+												type="radio"
+												required
+												{...(type === 'YouTube' ? { defaultChecked: true } : {})}
+												value="YouTube"
+												id="type-youtube"
+												className="peer opacity-0"
+											/>
+											<label
+												htmlFor="type-youtube"
+												className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 rounded-l text-gray-300/50 border-gray-300/50 peer-checked:border-red-600 peer-checked:text-red-600 hover:bg-opacity-5 focus:outline-none focus:ring-0"
+											>
+												<svg
+													viewBox="0 0 28.5 20"
+													preserveAspectRatio="xMidYMid meet"
+													className="inline w-5 h-5"
+													alt="YouTube"
+													title="YouTube"
+												>
+													<g preserveAspectRatio="xMidYMid meet">
+														<path
+															d="M27.9727 3.12324C27.6435 1.89323 26.6768 0.926623 25.4468 0.597366C23.2197 2.24288e-07 14.285 0 14.285 0C14.285 0 5.35042 2.24288e-07 3.12323 0.597366C1.89323 0.926623 0.926623 1.89323 0.597366 3.12324C2.24288e-07 5.35042 0 10 0 10C0 10 2.24288e-07 14.6496 0.597366 16.8768C0.926623 18.1068 1.89323 19.0734 3.12323 19.4026C5.35042 20 14.285 20 14.285 20C14.285 20 23.2197 20 25.4468 19.4026C26.6768 19.0734 27.6435 18.1068 27.9727 16.8768C28.5701 14.6496 28.5701 10 28.5701 10C28.5701 10 28.5677 5.35042 27.9727 3.12324Z"
+															fill="currentColor"
+														></path>
+														<path
+															d="M11.4253 14.2854L18.8477 10.0004L11.4253 5.71533V14.2854Z"
+															fill="white"
+														></path>
+													</g>
+												</svg>
+											</label>
+										</span>
+										<span>
+											<input
+												name="type"
+												type="radio"
+												hidden
+												required
+												{...(type === 'Twitch' ? { defaultChecked: true } : {})}
+												value="Twitch"
+												id="type-twitch"
+												className="peer"
+											/>
+											<label
+												htmlFor="type-twitch"
+												className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 text-gray-300/50 border-gray-300/50 peer-checked:border-[#A970FF] hover:bg-opacity-5 focus:outline-none focus:ring-0 peer-checked:text-[#A970FF]"
+											>
+												<svg
+													overflow="visible"
+													width="40px"
+													height="40px"
+													version="1.1"
+													viewBox="0 0 40 40"
+													x="0px"
+													y="0px"
+													className="inline w-5 h-5"
+												>
+													<g>
+														<polygon
+															points="13 8 8 13 8 31 14 31 14 36 19 31 23 31 32 22 32 8"
+															fill="currentColor"
+														></polygon>
+														<polygon
+															points="26 25 30 21 30 10 14 10 14 25 18 25 18 29 22 25"
+															fill="white"
+														></polygon>
+													</g>
+													<g>
+														<path
+															d="M20,14 L22,14 L22,20 L20,20 L20,14 Z M27,14 L27,20 L25,20 L25,14 L27,14 Z"
+															fill="currentColor"
+														></path>
+													</g>
+												</svg>
+											</label>
+										</span>
+										<span>
+											<input
+												name="type"
+												type="radio"
+												hidden
+												required
+												{...(type === 'File' ? { defaultChecked: true } : {})}
+												value="File"
+												id="type-file"
+												className="peer"
+											/>
+											<label
+												htmlFor="type-file"
+												className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 rounded-r text-gray-300/50 border-gray-300/50 peer-checked:border-green-600 peer-checked:text-green-600 hover:bg-opacity-5 focus:outline-none focus:ring-0"
+											>
+												<i className="fa fa-file-video-o" alt="File" title="File"></i>
+											</label>
+										</span>
+									</div>
+								</div>
+							</div>
+							<label className="mt-3 text-xs font-semibold" htmlFor="description">
+								Description
+								<img
+									src="https://www.markdownguide.org/favicon.ico"
+									alt="Markdown Compatible"
+									title="Markdown Compatible"
+									className="inline-block pl-1 invert dark:invert"
+								/>
+							</label>
+							<textarea
+								className="flex items-center h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
+								name="description"
+								id="description"
+								defaultValue={description}
+							/>
+							<label className="mt-3 text-xs font-semibold" htmlFor="markers">
+								Markers (H:M:S Title Description)
+							</label>
+							<textarea
+								className="flex items-center min-w-[12rem] pr-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] lg:w-80 focus:outline-none focus:ring-2"
+								name="markers"
+								id="markers"
+								defaultValue={markersAsText}
+								rows={5}
+							/>
+
+							<div className="flex justify-center gap-2 text-xs">
+								<button
+									className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
+									type="submit"
+								>
+									Update
+								</button>
+							</div>
+						</form>
+					</Modal>
+					<Modal buttonContent={<i className="fa fa-trash" alt="Delete" title="Delete"></i>}>
+						<form
+							className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
+							method="POST"
+						>
+							<input type="hidden" name="_method" value="DELETE" />
+							<h2 className="text-lg">
+								Are you SURE you want to delete the collection &quot;{title}
+								&quot; with {markers.length} markers?
+							</h2>
+							<div className="flex justify-center gap-2 text-xs">
+								<button
+									className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-red-100 bg-red-600 rounded md:min-w-[16rem] hover:bg-red-700"
+									type="submit"
+								>
+									Delete
+								</button>
+							</div>
+						</form>
+					</Modal>
+				</div>
+			) : null}
 		</>
 	);
 
@@ -635,218 +848,6 @@ export default function Collection({
 					{description ? <div dangerouslySetInnerHTML={{ __html: description }}></div> : null}
 				</div>
 				<div className="flex flex-col">
-					{canEdit ? (
-						<div className="flex justify-between">
-							<Modal buttonContent={<i className="fa fa-edit" alt="Update" title="Update"></i>}>
-								<form
-									className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
-									method="POST"
-								>
-									<input type="hidden" name="_method" value="PATCH" />
-									<label className="text-xs font-semibold" htmlFor="entity">
-										Video ID/URL
-									</label>
-									<input
-										className="flex items-center min-w-[12rem] h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] focus:outline-none focus:ring-2"
-										type="text"
-										name="entity"
-										id="entity"
-										defaultValue={entityId}
-										required
-									/>
-									<label className="text-xs font-semibold" htmlFor="title">
-										Title
-									</label>
-									<input
-										className="flex items-center h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
-										type="text"
-										name="title"
-										id="title"
-										defaultValue={title}
-										required
-									/>
-									<div className="flex justify-between mt-3">
-										<label htmlFor="public">
-											<span className="text-xs font-semibold">Public</span>
-										</label>
-										<label className="relative flex items-center cursor-pointer select-none w-max">
-											<input
-												type="checkbox"
-												id="public"
-												defaultChecked={isPublic}
-												name="public"
-												className="transition-colors bg-red-500 rounded-full appearance-none cursor-pointer toggle-checkbox checked:bg-green-500 w-14 h-7 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500"
-											/>
-											<span className="absolute text-xs font-medium text-white uppercase right-1">
-												No
-											</span>
-											<span className="absolute text-xs font-medium text-white uppercase right-8">
-												Yes
-											</span>
-											<span className="absolute transition-transform transform bg-gray-200 rounded-full dark:bg-gray-800 dark:bg-gray-700 w-7 h-7 right-7"></span>
-										</label>
-									</div>
-									<div className="flex justify-between gap-2 mt-3">
-										<span className="flex items-center text-xs font-semibold">Type</span>
-										<div className="flex items-center justify-center">
-											<div className="inline-flex" role="group">
-												<span>
-													<input
-														name="type"
-														type="radio"
-														required
-														{...(type === 'YouTube' ? { defaultChecked: true } : {})}
-														value="YouTube"
-														id="type-youtube"
-														className="peer opacity-0"
-													/>
-													<label
-														htmlFor="type-youtube"
-														className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 rounded-l text-gray-300/50 border-gray-300/50 peer-checked:border-red-600 peer-checked:text-red-600 hover:bg-opacity-5 focus:outline-none focus:ring-0"
-													>
-														<svg
-															viewBox="0 0 28.5 20"
-															preserveAspectRatio="xMidYMid meet"
-															className="inline w-5 h-5"
-															alt="YouTube"
-															title="YouTube"
-														>
-															<g preserveAspectRatio="xMidYMid meet">
-																<path
-																	d="M27.9727 3.12324C27.6435 1.89323 26.6768 0.926623 25.4468 0.597366C23.2197 2.24288e-07 14.285 0 14.285 0C14.285 0 5.35042 2.24288e-07 3.12323 0.597366C1.89323 0.926623 0.926623 1.89323 0.597366 3.12324C2.24288e-07 5.35042 0 10 0 10C0 10 2.24288e-07 14.6496 0.597366 16.8768C0.926623 18.1068 1.89323 19.0734 3.12323 19.4026C5.35042 20 14.285 20 14.285 20C14.285 20 23.2197 20 25.4468 19.4026C26.6768 19.0734 27.6435 18.1068 27.9727 16.8768C28.5701 14.6496 28.5701 10 28.5701 10C28.5701 10 28.5677 5.35042 27.9727 3.12324Z"
-																	fill="currentColor"
-																></path>
-																<path
-																	d="M11.4253 14.2854L18.8477 10.0004L11.4253 5.71533V14.2854Z"
-																	fill="white"
-																></path>
-															</g>
-														</svg>
-													</label>
-												</span>
-												<span>
-													<input
-														name="type"
-														type="radio"
-														hidden
-														required
-														{...(type === 'Twitch' ? { defaultChecked: true } : {})}
-														value="Twitch"
-														id="type-twitch"
-														className="peer"
-													/>
-													<label
-														htmlFor="type-twitch"
-														className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 text-gray-300/50 border-gray-300/50 peer-checked:border-[#A970FF] hover:bg-opacity-5 focus:outline-none focus:ring-0 peer-checked:text-[#A970FF]"
-													>
-														<svg
-															overflow="visible"
-															width="40px"
-															height="40px"
-															version="1.1"
-															viewBox="0 0 40 40"
-															x="0px"
-															y="0px"
-															className="inline w-5 h-5"
-														>
-															<g>
-																<polygon
-																	points="13 8 8 13 8 31 14 31 14 36 19 31 23 31 32 22 32 8"
-																	fill="currentColor"
-																></polygon>
-																<polygon
-																	points="26 25 30 21 30 10 14 10 14 25 18 25 18 29 22 25"
-																	fill="white"
-																></polygon>
-															</g>
-															<g>
-																<path
-																	d="M20,14 L22,14 L22,20 L20,20 L20,14 Z M27,14 L27,20 L25,20 L25,14 L27,14 Z"
-																	fill="currentColor"
-																></path>
-															</g>
-														</svg>
-													</label>
-												</span>
-												<span>
-													<input
-														name="type"
-														type="radio"
-														hidden
-														required
-														{...(type === 'File' ? { defaultChecked: true } : {})}
-														value="File"
-														id="type-file"
-														className="peer"
-													/>
-													<label
-														htmlFor="type-file"
-														className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 rounded-r text-gray-300/50 border-gray-300/50 peer-checked:border-green-600 peer-checked:text-green-600 hover:bg-opacity-5 focus:outline-none focus:ring-0"
-													>
-														<i className="fa fa-file-video-o" alt="File" title="File"></i>
-													</label>
-												</span>
-											</div>
-										</div>
-									</div>
-									<label className="mt-3 text-xs font-semibold" htmlFor="description">
-										Description
-										<img
-											src="https://www.markdownguide.org/favicon.ico"
-											alt="Markdown Compatible"
-											title="Markdown Compatible"
-											className="inline-block pl-1 invert dark:invert"
-										/>
-									</label>
-									<textarea
-										className="flex items-center h-12 px-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded min-w-[12rem] md:min-w-[16rem] focus:outline-none focus:ring-2"
-										name="description"
-										id="description"
-										defaultValue={description}
-									/>
-									<label className="mt-3 text-xs font-semibold" htmlFor="markers">
-										Markers (H:M:S Title Description)
-									</label>
-									<textarea
-										className="flex items-center min-w-[12rem] pr-4 mt-2 bg-gray-200 dark:bg-gray-800 rounded md:min-w-[16rem] lg:w-80 focus:outline-none focus:ring-2"
-										name="markers"
-										id="markers"
-										defaultValue={markersAsText}
-										rows={5}
-									/>
-
-									<div className="flex justify-center gap-2 text-xs">
-										<button
-											className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-blue-100 bg-blue-600 rounded md:min-w-[16rem] hover:bg-blue-700"
-											type="submit"
-										>
-											Update
-										</button>
-									</div>
-								</form>
-							</Modal>
-							<Modal buttonContent={<i className="fa fa-trash" alt="Delete" title="Delete"></i>}>
-								<form
-									className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
-									method="POST"
-								>
-									<input type="hidden" name="_method" value="DELETE" />
-									<h2 className="text-lg">
-										Are you SURE you want to delete the collection &quot;{title}
-										&quot; with {markers.length} markers?
-									</h2>
-									<div className="flex justify-center gap-2 text-xs">
-										<button
-											className="flex hover:animate-pulse items-center justify-center min-w-[12rem] h-12 px-6 mt-8 text-sm font-semibold text-red-100 bg-red-600 rounded md:min-w-[16rem] hover:bg-red-700"
-											type="submit"
-										>
-											Delete
-										</button>
-									</div>
-								</form>
-							</Modal>
-						</div>
-					) : null}
 					<div className="flex items-center justify-center">
 						<div id="player-embed"></div>
 					</div>
