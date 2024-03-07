@@ -3,3 +3,4 @@ config/.env
 public/index.css
 public/*/*.js
 public/*/*.js.map
+backup

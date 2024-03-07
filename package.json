@@ -1,6 +1,6 @@
 {
 	"name": "video-user-markers-backend",
-	"version": "0.37.11",
+	"version": "0.37.12",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
@@ -16,7 +16,9 @@
 		"prettier": "prettier .",
 		"format": "npm run prettier -- --check",
 		"format:fix": "npm run prettier -- --write",
-		"check-version": "node scripts/ensure-package-json-version-updated.js"
+		"check-version": "node scripts/ensure-package-json-version-updated.js",
+		"data:backup": "node scripts/data/backup.js",
+		"data:restore": "node scripts/data/restore.js"
 	},
 	"pre-commit": [
 		"check-version",
