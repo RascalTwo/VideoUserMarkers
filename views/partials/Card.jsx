@@ -60,7 +60,7 @@ export default function Card({ collection, entity, marker, type, badge, highligh
 								alt={`Created at ${collection.createdAt}`}
 								title={`Created at ${collection.createdAt}`}
 							>
-								<i className="fa fa-calendar-o"></i>
+								<i className="fa fa-calendar-o" />
 							</time>
 							{collection.updatedAt !== collection.createdAt && (
 								<time
@@ -68,7 +68,7 @@ export default function Card({ collection, entity, marker, type, badge, highligh
 									alt={`Updated at ${collection.updatedAt}`}
 									title={`Updated at ${collection.updatedAt}`}
 								>
-									<i className="fa fa-calendar"></i>
+									<i className="fa fa-calendar" />
 								</time>
 							)}
 						</div>
@@ -94,7 +94,7 @@ export default function Card({ collection, entity, marker, type, badge, highligh
 								className="inline-block w-full underline truncate underline-offset-2 hover:underline-offset-1 hover:animate-pulse"
 							>
 								{collection && !collection.public ? (
-									<i className="pr-1 fa fa-lock" alt="Private" title="Private"></i>
+									<i className="pr-1 fa fa-lock" alt="Private" title="Private" />
 								) : null}
 								<HighlightedText text={entity.title} highlightText={highlightText} />
 							</a>

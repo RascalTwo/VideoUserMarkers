@@ -17,11 +17,11 @@ export default function Sorting({ values, fields, query }) {
 					className={`block text-center fa fa-sort-${query.descending ? 'desc' : 'asc'}`}
 					alt={query.descending ? 'Descending' : 'Ascending'}
 					title={query.descending ? 'Descending' : 'Ascending'}
-				></i>
+				/>
 			</div>
 			<details>
 				<summary className="inline-block hover:animate-pulse p-1 list-none cursor-pointer bg-slate-50 dark:bg-slate-900 w-max rounded-br-md group-open:rounded-br-none">
-					<i className="fa fa-random" alt="Sorting" title="Sorting"></i>
+					<i className="fa fa-random" alt="Sorting" title="Sorting" />
 				</summary>
 
 				<form className="flex flex-col w-56 p-6 ml-4 shadow-lg dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900 md:w-64 rounded-tr-md rounded-br-md rounded-bl-md">

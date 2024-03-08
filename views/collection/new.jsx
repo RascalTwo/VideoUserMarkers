@@ -139,7 +139,7 @@ function New({ query }) {
 								htmlFor="type-file"
 								className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 rounded-r text-gray-300/50 border-gray-300/50 peer-checked:border-green-600 peer-checked:text-green-600 hover:bg-opacity-5 focus:outline-none focus:ring-0"
 							>
-								<i className="fa fa-file-video-o" alt="File" title="File"></i>
+								<i className="fa fa-file-video-o" alt="File" title="File" />
 							</label>
 						</span>
 					</div>

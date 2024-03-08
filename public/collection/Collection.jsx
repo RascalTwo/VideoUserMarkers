@@ -560,7 +560,7 @@ export default function Collection({
 			</h1>
 
 			<h2 className="pt-3 text-xl text-center">
-				{!isPublic ? <i className="pr-1 fa fa-lock" alt="Private" title="Private"></i> : null}
+				{!isPublic ? <i className="pr-1 fa fa-lock" alt="Private" title="Private" /> : null}
 				{title}
 				{author ? (
 					<>
@@ -577,7 +577,7 @@ export default function Collection({
 
 			{canEdit ? (
 				<div className="flex justify-between">
-					<Modal buttonContent={<i className="fa fa-edit" alt="Update" title="Update"></i>}>
+					<Modal buttonContent={<i className="fa fa-edit" alt="Update" title="Update" />}>
 						<form
 							className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
 							method="POST"
@@ -723,7 +723,7 @@ export default function Collection({
 												htmlFor="type-file"
 												className="p-2 text-xs font-medium leading-tight uppercase transition duration-150 ease-in-out border-2 rounded-r text-gray-300/50 border-gray-300/50 peer-checked:border-green-600 peer-checked:text-green-600 hover:bg-opacity-5 focus:outline-none focus:ring-0"
 											>
-												<i className="fa fa-file-video-o" alt="File" title="File"></i>
+												<i className="fa fa-file-video-o" alt="File" title="File" />
 											</label>
 										</span>
 									</div>
@@ -765,7 +765,7 @@ export default function Collection({
 							</div>
 						</form>
 					</Modal>
-					<Modal buttonContent={<i className="fa fa-trash" alt="Delete" title="Delete"></i>}>
+					<Modal buttonContent={<i className="fa fa-trash" alt="Delete" title="Delete" />}>
 						<form
 							className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900"
 							method="POST"
@@ -840,7 +840,7 @@ export default function Collection({
 						className="absolute left-1 top-8 z-40"
 						onClick={() => setColumns(count => (count === 1 ? 2 : 1))}
 					>
-						<i className="fa fa-columns" alt="Toggle Column View" title="Toggle Column View"></i>
+						<i className="fa fa-columns" alt="Toggle Column View" title="Toggle Column View" />
 					</button>
 
 					{columnCount === 1 ? authorInfo : null}
@@ -992,7 +992,7 @@ export default function Collection({
 								alt={`Collection created at ${createdAt}`}
 								title={`Collection created at ${createdAt}`}
 							>
-								<i className="fa fa-calendar-o"></i>
+								<i className="fa fa-calendar-o" />
 							</time>
 							{updatedAt !== createdAt && (
 								<time
@@ -1000,7 +1000,7 @@ export default function Collection({
 									alt={`Collection updated at ${updatedAt}`}
 									title={`Collection updated at ${updatedAt}`}
 								>
-									<i className="fa fa-calendar"></i>
+									<i className="fa fa-calendar" />
 								</time>
 							)}
 						</div>
@@ -1010,7 +1010,7 @@ export default function Collection({
 								alt={`Entity created at ${entity.createdAt}`}
 								title={`Entity created at ${entity.createdAt}`}
 							>
-								<i className="fa fa-calendar-o"></i>
+								<i className="fa fa-calendar-o"/>
 							</time>
 						) : null}
 					</div>
@@ -1163,7 +1163,7 @@ export default function Collection({
 			</ul>
 
 			<div className={`flex justify-between mt-2 ${columnCount === 1 ? '' : 'flex-col'}`}>
-				<Modal buttonContent={<i className="fa fa-share" alt="Export" title="Export"></i>}>
+				<Modal buttonContent={<i className="fa fa-share" alt="Export" title="Export" />}>
 					<div className="flex flex-col p-6 rounded shadow-lg cursor-default dark:shadow-slate-600 bg-slate-50 dark:bg-slate-900 w-[75vw]">
 						<div>
 							<label className="mt-3 text-xs font-semibold">
@@ -1180,7 +1180,7 @@ export default function Collection({
 										className="fa fa-clipboard"
 										alt="Copy Encoded URL to Clipboard"
 										title="Copy Encoded URL to Clipboard"
-									></i>
+									/>
 								</button>
 							</label>
 							<a
@@ -1207,7 +1207,7 @@ export default function Collection({
 										className="fa fa-clipboard"
 										alt="Export as Textual Comment"
 										title="Export as Text"
-									></i>
+									/>
 								</button>
 							</label>
 							<textarea
@@ -1220,7 +1220,7 @@ export default function Collection({
 					</div>
 				</Modal>
 				<button className="hover:animate-pulse" onClick={() => setShowingKeyboardShortcuts(true)}>
-					<i className="fa fa-keyboard-o" alt="Keyboard Shortcuts" title="Keyboard Shortcuts"></i>
+					<i className="fa fa-keyboard-o" alt="Keyboard Shortcuts" title="Keyboard Shortcuts" />
 				</button>
 				{user ? (
 					<button
@@ -1236,7 +1236,7 @@ export default function Collection({
 							window.location.href = url.toString();
 						}}
 					>
-						<i className="fa fa-files-o" alt="Clone Collection" title="Clone Collection"></i>
+						<i className="fa fa-files-o" alt="Clone Collection" title="Clone Collection" />
 					</button>
 				) : null}
 			</div>

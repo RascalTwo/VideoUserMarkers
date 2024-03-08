@@ -35,7 +35,7 @@ export default function Modal({ buttonContent, defaultOpen = false, onClose, chi
 			>
 				<div className="relative">
 					<button className="absolute top-2 right-2 hover:animate-pulse" onClick={() => close()}>
-						<i className="fa fa-times-circle" alt="Close Modal" title="Close Modal"></i>
+						<i className="fa fa-times-circle" alt="Close Modal" title="Close Modal" />
 					</button>
 					{open ? children : null}
 				</div>

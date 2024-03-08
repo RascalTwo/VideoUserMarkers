@@ -91,7 +91,7 @@ export default function Main(props) {
 									</button>
 									<details>
 										<summary className="absolute top-0 -right-1 mt-4 mr-2 inline-block list-none cursor-pointer hover:animate-pulse w-4 h-4">
-											<i className="fa fa-filter" alt="Filter" title="Filter"></i>
+											<i className="fa fa-filter" alt="Filter" title="Filter" />
 										</summary>
 										<select
 											multiple
@@ -122,7 +122,7 @@ export default function Main(props) {
 										className="relative hover:animate-pulse inline-flex items-center px-2 border rounded-full hover:shadow-lg dark:border-slate-700 dark:hover:shadow-slate-700"
 									>
 										<div className="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer">
-											<i className="fa fa-plus"></i>
+											<i className="fa fa-plus" />
 										</div>
 									</a>
 									<a

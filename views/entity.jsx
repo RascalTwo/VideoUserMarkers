@@ -15,7 +15,7 @@ function Entity({ user, entity, query, origin }) {
 						className="relative hover:animate-pulse inline-flex items-center px-2 mr-1 border rounded-full dark:bg-slate-900 bg-slate-50 hover:shadow-lg dark:hover:shadow-slate-700 dark:border-slate-700"
 					>
 						<div className="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer hover:animate-pulse">
-							<i className="fa fa-refresh"></i>
+							<i className="fa fa-refresh" />
 						</div>
 					</a>
 				) : null}
@@ -28,7 +28,7 @@ function Entity({ user, entity, query, origin }) {
 						className="relative hover:animate-pulse inline-flex items-center px-2 ml-1 border rounded-full dark:border-slate-700 bg-slate-50 dark:bg-slate-900 hover:shadow-lg dark:hover:shadow-slate-700"
 					>
 						<div className="flex items-center flex-grow-0 flex-shrink-0 h-10 cursor-pointer hover:animate-pulse">
-							<i className="fa fa-plus"></i>
+							<i className="fa fa-plus" />
 						</div>
 					</a>
 				) : null}
@@ -59,7 +59,7 @@ function Entity({ user, entity, query, origin }) {
 			{entity.createdAt ? (
 				<div className="flex flex-row w-8/12 max-h-[75vh] gap-1">
 					<time dateTime={entity.createdAt} alt={entity.createdAt} title={entity.createdAt}>
-						<i className="fa fa-calendar-o"></i>
+						<i className="fa fa-calendar-o" />
 					</time>
 				</div>
 			) : null}
